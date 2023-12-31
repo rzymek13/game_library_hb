@@ -1,11 +1,9 @@
 package com.prtech.game_library_hb.controller;
 
-import com.prtech.game_library_hb.model.Team;
 import com.prtech.game_library_hb.repository.TeamRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/teams")
@@ -16,7 +14,7 @@ public class TeamController {
         this.teamRepository = teamRepository;
     }
 
-    public List<Team> findAll() {
-        return teamRepository.findAll();
-    }
+//    public List<Team> findAll() {
+//        return teamRepository.findAll();
+//    }
 }
