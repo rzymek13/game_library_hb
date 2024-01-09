@@ -2,12 +2,12 @@ package com.prtech.game_library_hb.controller;
 
 import com.prtech.game_library_hb.repository.TeamRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
-@RepositoryRestController
+@RestController
 @Slf4j
 public class TeamController {
     private final TeamRepository teamRepository;
