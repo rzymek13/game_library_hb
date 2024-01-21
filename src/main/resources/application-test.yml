@@ -1,0 +1,11 @@
+spring:
+  h2.console:
+    enabled: true
+    path: '/console'
+  datasource:
+    url: 'jdbc:h2:file:./demodb'
+    name: game_library
+  jpa:
+    hibernate:
+      ddl-auto: update
+

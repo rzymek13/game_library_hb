@@ -12,10 +12,10 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-//    private Integer matches;
-//    private Integer points;
-//    private Integer goalsScored;
-//    private Integer goalsConceded;
+    private Integer matches;
+    private Integer points;
+    private Integer goalsScored;
+    private Integer goalsConceded;
     public Team() {}
 
     public Team(String teamName) {
