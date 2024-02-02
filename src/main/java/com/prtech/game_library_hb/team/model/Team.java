@@ -9,7 +9,7 @@ import org.springframework.lang.Nullable;
 @Table(name="teams")
 public class Team {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
     private Integer matches;

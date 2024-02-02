@@ -1,5 +1,6 @@
 package com.prtech.game_library_hb.team.controller;
 
+import com.prtech.game_library_hb.exceptions.ResourceNotFoundException;
 import com.prtech.game_library_hb.team.model.Team;
 import com.prtech.game_library_hb.team.repository.TeamRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -37,13 +38,19 @@ public class TeamController {
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
-//    @PutMapping("/teams/{id}")
-//    ResponseEntity<?> updateTeam(@PathVariable int id, @RequestBody Team team) {
-//        if(!repository.existsById(id)) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        team.setId(id);
-//        teamRepository.saveTeam(team);
-//        return ResponseEntity.noContent().build();
-//    }
+    @PutMapping("/teams/{id}")
+    ResponseEntity<?> updateTeam(@PathVariable int id, @RequestBody Team team) {
+        Team updateTeam = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id: " + id));
+
+        updateTeam.setName(team.getName());
+        updateTeam.setPoints(team.getPoints());
+        updateTeam.setMatches(team.getMatches());
+        updateTeam.setGoalsScored(team.getGoalsScored());
+        updateTeam.setGoalsConceded(team.getGoalsConceded());
+
+        repository.save(updateTeam);
+
+        return ResponseEntity.ok(updateTeam);
+    }
 }
