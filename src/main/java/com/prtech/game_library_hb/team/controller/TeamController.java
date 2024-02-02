@@ -43,14 +43,29 @@ public class TeamController {
         Team updateTeam = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id: " + id));
 
-        updateTeam.setName(team.getName());
-        updateTeam.setPoints(team.getPoints());
-        updateTeam.setMatches(team.getMatches());
-        updateTeam.setGoalsScored(team.getGoalsScored());
-        updateTeam.setGoalsConceded(team.getGoalsConceded());
+        if (team.getName() != null) {
+            updateTeam.setName(team.getName());
+        }
+        if (team.getPoints()!= null) {
+            updateTeam.setPoints(team.getPoints());
+        }
+        if (team.getMatches()!=null) {
+            updateTeam.setMatches(team.getMatches());
+        }
+        if (team.getGoalsScored() != null) {
+            updateTeam.setGoalsScored(team.getGoalsScored());
+        }
+        if (team.getGoalsConceded()!= null) {
+            updateTeam.setGoalsConceded(team.getGoalsConceded());
+        }
 
         repository.save(updateTeam);
 
         return ResponseEntity.ok(updateTeam);
+    }
+    @DeleteMapping("/teams/{id}")
+    ResponseEntity<?> deleteTeam(@PathVariable int id) {
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

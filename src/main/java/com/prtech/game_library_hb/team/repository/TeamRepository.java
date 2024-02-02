@@ -10,5 +10,6 @@ public interface TeamRepository {
     List<Team> findAll();
     Optional<Team> findById(Integer id);
     Team save(Team entity);
+    void deleteById(Integer id);
 
 }
