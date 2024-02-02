@@ -1,8 +1,10 @@
 package com.prtech.game_library_hb.team.controller;
 
+
 import com.prtech.game_library_hb.team.model.Team;
 import com.prtech.game_library_hb.team.repository.TeamRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,9 +33,11 @@ public class TeamController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/teams")
-    ResponseEntity<Team> createTeam(@RequestBody Team toCreate) {
-        Team result = repository.save(toCreate);
+    @PostMapping(path = "/teams",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE )
+    ResponseEntity<Team> createTeam(@RequestBody Team newTeam) {
+        Team result = repository.save(newTeam);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
