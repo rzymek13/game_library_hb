@@ -2018,3 +2018,8 @@ Wrong user name or password [28000-224]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:522)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	... 58 more
+2024-04-05 14:31:22.099035+02:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "select * from teams\000d\000aDELETE [*]FROM teams WHERE name='asdasd2323'"
+Syntax error in SQL statement "select * from teams\000d\000aDELETE [*]FROM teams WHERE name='asdasd2323'"; SQL statement:
+select * from teams
+DELETE FROM teams WHERE name='asdasd2323' [42000-224]
