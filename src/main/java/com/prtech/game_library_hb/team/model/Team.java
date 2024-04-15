@@ -2,7 +2,6 @@ package com.prtech.game_library_hb.team.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.lang.Nullable;
 
 @Data
 @Entity

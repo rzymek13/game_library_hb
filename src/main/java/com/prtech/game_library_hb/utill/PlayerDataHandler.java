@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class PlayerDataHandler {
     private static final String MAIN_URL = "https://rozgrywki.zprp.pl/?Sezon=192&Rozgrywki=10948&Zespoly=1";
     private final ObjectMapper objectMapper;
-    private WebDriver driver;
+    private final WebDriver driver;
 
 
     public PlayerDataHandler() {
@@ -38,7 +38,7 @@ public class PlayerDataHandler {
             driver.switchTo().window(tabs.get(1));
             getJSONOfTeams();
             driver.close();
-            driver.switchTo().window(tabs.get(0));
+//            driver.switchTo().window(tabs.get(0));
         }
         driver.quit();
     }
