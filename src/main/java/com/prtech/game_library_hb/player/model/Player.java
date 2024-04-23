@@ -5,14 +5,18 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "players")
+@Table(name="players")
 public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-//    private Team teamId;
     private String name;
-    private Integer mathcesPlayed;
-    private Integer goalsScored;
+
+    public Player() {
+    }
+
+    public Player(String name) {
+        this.name = name;
+    }
 }
