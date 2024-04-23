@@ -1,5 +1,6 @@
 package com.prtech.game_library_hb.player.model;
 
+import com.prtech.game_library_hb.team.model.Team;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,6 +13,9 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
+    private Integer matchesPlayed;
+    private Integer goalsScored;
+    private Team team;
 
     public Player() {
     }
