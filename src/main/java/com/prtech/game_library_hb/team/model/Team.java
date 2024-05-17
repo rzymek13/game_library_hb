@@ -8,16 +8,11 @@ import lombok.Data;
 @Table(name="teams")
 public class Team {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer teamId;
     private String name;
     private Integer matches;
     private Integer points;
-    private Integer goalsScored;
-    private Integer goalsConceded;
     public Team() {}
 
-    public Team(String teamName) {
-        this.name = teamName;
-    }
 }

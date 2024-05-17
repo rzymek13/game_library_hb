@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 
 @RestController
@@ -35,13 +36,17 @@ public class TeamController {
     @PostMapping("/teams")
     ResponseEntity<Team> createTeam(@RequestBody Team toCreate) {
         Team result = repository.save(toCreate);
-        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
+        return ResponseEntity.created(URI.create("/" + result.getTeamId())).body(result);
     }
+
 
     @PutMapping("/teams/{id}")
     ResponseEntity<?> updateTeam(@PathVariable int id, @RequestBody Team team) {
         Team updateTeam = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("team not exist with id: " + id));
+        if (team.getTeamId() != null){
+            updateTeam.setTeamId(team.getTeamId());
+        }
 
         if (team.getName() != null) {
             updateTeam.setName(team.getName());
@@ -51,12 +56,6 @@ public class TeamController {
         }
         if (team.getMatches()!=null) {
             updateTeam.setMatches(team.getMatches());
-        }
-        if (team.getGoalsScored() != null) {
-            updateTeam.setGoalsScored(team.getGoalsScored());
-        }
-        if (team.getGoalsConceded()!= null) {
-            updateTeam.setGoalsConceded(team.getGoalsConceded());
         }
 
         repository.save(updateTeam);
