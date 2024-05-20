@@ -6,9 +6,7 @@ import com.prtech.game_library_hb.team.repository.TeamRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
-import java.util.List;
 
 
 @RestController
@@ -44,9 +42,6 @@ public class TeamController {
     ResponseEntity<?> updateTeam(@PathVariable int id, @RequestBody Team team) {
         Team updateTeam = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("team not exist with id: " + id));
-        if (team.getTeamId() != null){
-            updateTeam.setTeamId(team.getTeamId());
-        }
 
         if (team.getName() != null) {
             updateTeam.setName(team.getName());

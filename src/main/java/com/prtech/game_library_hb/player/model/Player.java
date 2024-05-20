@@ -1,8 +1,8 @@
 package com.prtech.game_library_hb.player.model;
 
+import com.prtech.game_library_hb.team.model.Team;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.checkerframework.checker.units.qual.C;
 
 @Data
 @Entity
@@ -11,7 +11,7 @@ public class Player {
 
     @Id
     @Column(name = "PLAYER ID")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer playerId;
     @Column(name = "PLAYER NAME")
     private String name;
@@ -19,4 +19,7 @@ public class Player {
     private Integer matchesPlayed;
     @Column(name = "GOALS SCORED")
     private Integer goalsScored;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team teamId;
 }

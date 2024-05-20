@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface PlayerRepository {
     List<Player> findAll();
 //    Optional<Player> findById(Integer id);
-//    Team save(Player entity);
+    Player save(Player entity);
 //    void deleteById(Integer id);
 }
