@@ -1,8 +1,12 @@
 package com.prtech.game_library_hb.player.model;
 
+import com.prtech.game_library_hb.match_player.model.MatchPlayer;
 import com.prtech.game_library_hb.team.model.Team;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -10,16 +14,14 @@ import lombok.Data;
 public class Player {
 
     @Id
-    @Column(name = "PLAYER ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer playerId;
-    @Column(name = "PLAYER NAME")
     private String name;
-    @Column(name = "MATCHES PLAYED")
     private Integer matchesPlayed;
-    @Column(name = "GOALS SCORED")
     private Integer goalsScored;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id")
+    @JoinColumn(name = "teamId")
     private Team teamId;
+    @OneToMany(mappedBy="playerId")
+    private List<MatchPlayer> matchList = new ArrayList<>();
 }
