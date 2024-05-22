@@ -5,10 +5,7 @@ import com.prtech.game_library_hb.player.repository.PlayerRepository;
 import com.prtech.game_library_hb.team.model.Team;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -27,10 +24,28 @@ class PlayerController {
         log.info("All the players");
         return ResponseEntity.ok(repository.findAll());
     }
+    @GetMapping("/players/{id}")
+    ResponseEntity<Player> readPlayer(@PathVariable int id) {
+        log.info("Player with id: " + id);
+        return repository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
     @PostMapping("/players")
     ResponseEntity<Player> createPlayer(@RequestBody Player toCreate) {
         Player player = repository.save(toCreate);
         return ResponseEntity.created(URI.create("/" + player.getPlayerId())).body(player);
+    }
+
+    @DeleteMapping("/players/{id}")
+    ResponseEntity<?> deletePlayer(@PathVariable int id) {
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+    @DeleteMapping("players/deleteAll")
+    ResponseEntity<?> deleteAllPlayers() {
+        repository.deleteAll();
+        return ResponseEntity.noContent().build();
     }
 
 }

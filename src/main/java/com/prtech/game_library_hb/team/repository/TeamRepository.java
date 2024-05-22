@@ -13,5 +13,5 @@ public interface TeamRepository {
     Optional<Team> findById(Integer id);
     Team save(Team entity);
     void deleteById(Integer id);
-
+    void deleteAll();
 }

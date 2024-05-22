@@ -1,12 +1,13 @@
 package com.prtech.game_library_hb.team.controller;
 
 import com.prtech.game_library_hb.exceptions.ResourceNotFoundException;
+import com.prtech.game_library_hb.player.model.Player;
 import com.prtech.game_library_hb.team.model.Team;
 import com.prtech.game_library_hb.team.repository.TeamRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.net.URI;
+
 
 
 @RestController
@@ -23,6 +24,7 @@ public class TeamController {
         log.info("All the teams");
         return ResponseEntity.ok(repository.findAll());
     }
+
     @GetMapping("/teams/{id}")
     ResponseEntity<Team> readTeam(@PathVariable int id) {
         log.info("Team with id: " + id);
@@ -32,9 +34,14 @@ public class TeamController {
     }
 
     @PostMapping("/teams")
-    ResponseEntity<Team> createTeam(@RequestBody Team toCreate) {
-        Team result = repository.save(toCreate);
-        return ResponseEntity.created(URI.create("/" + result.getTeamId())).body(result);
+    public Team createTeam(@RequestBody Team team) {
+        log.info(String.valueOf(team.getTeamId()));
+        if (team.getPlayerList() != null) {
+            for (Player player : team.getPlayerList()) {
+                player.setTeam(team);
+            }
+        }
+        return repository.save(team);
     }
 
 
@@ -46,10 +53,10 @@ public class TeamController {
         if (team.getName() != null) {
             updateTeam.setName(team.getName());
         }
-        if (team.getPoints()!= null) {
+        if (team.getPoints() != null) {
             updateTeam.setPoints(team.getPoints());
         }
-        if (team.getMatches()!=null) {
+        if (team.getMatches() != null) {
             updateTeam.setMatches(team.getMatches());
         }
 
@@ -57,9 +64,16 @@ public class TeamController {
 
         return ResponseEntity.ok(updateTeam);
     }
+
     @DeleteMapping("/teams/{id}")
     ResponseEntity<?> deleteTeam(@PathVariable int id) {
         repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/teams/deleteAll")
+    ResponseEntity<?> deleteAllTeams() {
+        repository.deleteAll();
         return ResponseEntity.noContent().build();
     }
 }
