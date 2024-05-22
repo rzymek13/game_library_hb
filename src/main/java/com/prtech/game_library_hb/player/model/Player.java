@@ -1,12 +1,9 @@
 package com.prtech.game_library_hb.player.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.prtech.game_library_hb.team.model.Team;
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.io.Serializable;
 
 @Data
 @Entity
@@ -25,4 +22,12 @@ public class Player {
     private Team team;
 //    @OneToMany(mappedBy="playerId")
 //    private List<MatchPlayer> matchList;
+
+    public Player() {
+    }
+
+    public String getTeam() {
+        return team.getName();
+    }
+
 }

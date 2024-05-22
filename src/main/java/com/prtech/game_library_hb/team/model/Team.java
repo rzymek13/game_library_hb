@@ -24,6 +24,7 @@ public class Team {
     private Integer goalScored;
 
     private Integer goalConceded;
+
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnoreProperties("team")
     private List<Player> playerList;
