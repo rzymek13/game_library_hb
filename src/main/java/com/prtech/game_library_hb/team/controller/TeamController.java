@@ -36,11 +36,11 @@ public class TeamController {
     @PostMapping("/teams")
     public Team createTeam(@RequestBody Team team) {
         log.info(String.valueOf(team.getTeamId()));
-        if (team.getPlayerList() != null) {
-            for (Player player : team.getPlayerList()) {
-                player.setTeam(team);
-            }
-        }
+//        if (team.getPlayerList() != null) {
+//            for (Player player : team.getPlayerList()) {
+//                player.setTeam(team);
+//            }
+//        }
         return repository.save(team);
     }
 

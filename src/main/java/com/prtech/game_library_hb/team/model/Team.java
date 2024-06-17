@@ -1,5 +1,6 @@
 package com.prtech.game_library_hb.team.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.prtech.game_library_hb.player.model.Player;
@@ -25,9 +26,10 @@ public class Team {
 
     private Integer goalConceded;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("team")
-    private List<Player> playerList;
+//    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+////    @JsonIgnoreProperties("team")
+//    @JsonIgnore
+//    private List<Player> playerList;
 
     //    @OneToMany(mappedBy = "homeTeamId", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<MatchTeam> homeMatchList;
