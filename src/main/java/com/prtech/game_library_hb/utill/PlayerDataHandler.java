@@ -36,20 +36,20 @@ public class PlayerDataHandler {
             driver.findElement(By.xpath(xpath)).click();
             ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
             driver.switchTo().window(tabs.get(1));
-            getJSONOfTeams();
+            getListOfPlayers();
             driver.close();
-//            driver.switchTo().window(tabs.get(0));
+            driver.switchTo().window(tabs.get(0));
         }
         driver.quit();
     }
 
-    private void getJSONOfTeams() {
+    private void getListOfPlayers() {
         String teamName = driver.findElement(By.xpath("//h3")).getText();
-        HashMap<Integer, String> players = new HashMap<>();
+        ArrayList<String> players = new ArrayList<>();
         for (int i = 1; i < getNumberOfPlayers() + 1; i++) {
             String xpath = String.format("//div[@id='ListaZawodnikow']//tr[%d]/td[3]", i);
             String player = driver.findElement(By.xpath(xpath)).getText();
-            players.put(i, player);
+            players.add(player);
         }
         try (FileWriter file = new FileWriter("src/main/resources/data/players/" +System.currentTimeMillis() + teamName + ".json")) {
             file.write(objectMapper.writeValueAsString(players));

@@ -21,7 +21,6 @@ public class Player {
     @ManyToOne()
     @JoinColumn(name = "team_id")
     @JsonIgnoreProperties("team")
-    
     private Team team;
 //    @OneToMany(mappedBy="playerId")
 //    private List<MatchPlayer> matchList;

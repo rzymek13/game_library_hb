@@ -32,10 +32,12 @@ class PlayerController {
                 .orElse(ResponseEntity.notFound().build());
     }
     @PostMapping("/players")
-    ResponseEntity<Player> createPlayer(@RequestBody Player toCreate) {
+    ResponseEntity<Player> createPlayer(@PathVariable int teamId, @RequestBody Player toCreate) {
         Player player = repository.save(toCreate);
+        player.setTeam(repository.findById(teamId).get().getTeam());
         return ResponseEntity.created(URI.create("/" + player.getPlayerId())).body(player);
     }
+//    ResponseEntity<Player> allAllPlayer()
 
     @DeleteMapping("/players/{id}")
     ResponseEntity<?> deletePlayer(@PathVariable int id) {
