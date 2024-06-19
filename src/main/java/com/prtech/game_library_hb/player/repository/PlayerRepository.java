@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface PlayerRepository {
     List<Player> findAll();
-    Optional<Player> findById(Integer id);
+    Optional<Player> findById(Long id);
     Player save(Player entity);
 //    void saveAll(Integer id,List<Player> players);
-    void deleteById(Integer id);
+    void deleteById(Long id);
     void deleteAll();
 }

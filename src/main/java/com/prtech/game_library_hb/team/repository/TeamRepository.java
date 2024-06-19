@@ -10,8 +10,8 @@ import java.util.Optional;
 
 public interface TeamRepository {
     List<Team> findAll();
-    Optional<Team> findById(Integer id);
+    Optional<Team> findById(Long id);
     Team save(Team entity);
-    void deleteById(Integer id);
+    void deleteById(Long id);
     void deleteAll();
 }

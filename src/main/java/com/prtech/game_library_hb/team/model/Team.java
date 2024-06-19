@@ -1,21 +1,15 @@
 package com.prtech.game_library_hb.team.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.prtech.game_library_hb.player.model.Player;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.io.Serializable;
-import java.util.List;
 
 @Data
 @Entity
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer teamId;
+    private Long id;
     private String name;
 
     private Integer matches;

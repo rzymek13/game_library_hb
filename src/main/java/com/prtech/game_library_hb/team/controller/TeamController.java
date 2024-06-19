@@ -1,7 +1,5 @@
 package com.prtech.game_library_hb.team.controller;
 
-import com.prtech.game_library_hb.exceptions.ResourceNotFoundException;
-import com.prtech.game_library_hb.player.model.Player;
 import com.prtech.game_library_hb.team.model.Team;
 import com.prtech.game_library_hb.team.repository.TeamRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +24,7 @@ public class TeamController {
     }
 
     @GetMapping("/teams/{id}")
-    ResponseEntity<Team> readTeam(@PathVariable int id) {
+    ResponseEntity<Team> readTeam(@PathVariable Long id) {
         log.info("Team with id: " + id);
         return repository.findById(id)
                 .map(ResponseEntity::ok)
@@ -35,20 +33,15 @@ public class TeamController {
 
     @PostMapping("/teams")
     public Team createTeam(@RequestBody Team team) {
-        log.info(String.valueOf(team.getTeamId()));
-//        if (team.getPlayerList() != null) {
-//            for (Player player : team.getPlayerList()) {
-//                player.setTeam(team);
-//            }
-//        }
+        log.info(String.valueOf(team.getId()));
         return repository.save(team);
     }
 
 
     @PutMapping("/teams/{id}")
-    ResponseEntity<?> updateTeam(@PathVariable int id, @RequestBody Team team) {
+    ResponseEntity<?> updateTeam(@PathVariable Long id, @RequestBody Team team) {
         Team updateTeam = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("team not exist with id: " + id));
+                .orElseThrow(() -> new RuntimeException("team not exist with id: " + id));
 
         if (team.getName() != null) {
             updateTeam.setName(team.getName());
@@ -66,7 +59,7 @@ public class TeamController {
     }
 
     @DeleteMapping("/teams/{id}")
-    ResponseEntity<?> deleteTeam(@PathVariable int id) {
+    ResponseEntity<?> deleteTeam(@PathVariable Long id) {
         repository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
