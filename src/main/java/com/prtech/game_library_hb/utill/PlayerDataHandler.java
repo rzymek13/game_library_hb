@@ -1,6 +1,7 @@
 package com.prtech.game_library_hb.utill;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.prtech.game_library_hb.player.model.Player;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -52,7 +53,7 @@ public class PlayerDataHandler {
             players.add(player);
         }
         try (FileWriter file = new FileWriter("src/main/resources/data/players/" +System.currentTimeMillis() + teamName + ".json")) {
-            file.write(objectMapper.writeValueAsString(players));
+            file.write((convertToPrettyList(players)));
             log.info(teamName + players);
         } catch (IOException e) {
             log.info("Error occurred while saving player data for team: {}", teamName, e);
@@ -69,6 +70,15 @@ public class PlayerDataHandler {
         String text = driver.findElement(By.xpath("//table[@id='klubSzczegoly']//tr[last()]/td[1]")).getText();
         String sub = text.substring(0, text.length() - 1);
         return Integer.parseInt(sub);
+    }
+    private String convertToPrettyList(ArrayList<String> list) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (String player : list) {
+            sb.append(" {" + "\"name\": " + "\"" + player +"\"},");
+        }
+        sb.append("]");
+        return sb.toString();
     }
 
 

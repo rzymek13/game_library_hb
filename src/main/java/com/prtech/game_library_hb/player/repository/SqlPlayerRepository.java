@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-interface SqlPlayerRepository extends PlayerRepository, JpaRepository<Player,Integer> {
+interface SqlPlayerRepository extends PlayerRepository, JpaRepository<Player,Long> {
 }

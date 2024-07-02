@@ -3,6 +3,7 @@ package com.prtech.game_library_hb.player.controller;
 import com.prtech.game_library_hb.player.model.Player;
 import com.prtech.game_library_hb.player.model.PlayerDTO;
 import com.prtech.game_library_hb.player.repository.PlayerRepository;
+import com.prtech.game_library_hb.team.model.Team;
 import com.prtech.game_library_hb.team.model.TeamNameDTO;
 
 import com.prtech.game_library_hb.team.repository.TeamRepository;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -52,6 +54,19 @@ class PlayerController {
             return playerRepository.save(player);
         }).orElseThrow(() -> new RuntimeException("Team not found"));
     }
+    @PostMapping("/players/addAll/{teamId}")
+    public List<Player> addAllPlayers(@PathVariable Long teamId, @RequestBody List<Player> listOfPlayers) {
+        Optional<Team> team = teamRepository.findById(teamId);
+        if (team.isPresent()) {
+            for (Player player : listOfPlayers) {
+                player.setTeam(team.get());
+                playerRepository.save(player);
+            }
+            return listOfPlayers;
+        } else {
+            throw new RuntimeException("Team not found");
+        }
+    }
 
 
     @DeleteMapping("/players/{id}")
@@ -65,5 +80,15 @@ class PlayerController {
         playerRepository.deleteAll();
         return ResponseEntity.noContent().build();
     }
+    @DeleteMapping("players/delete/{teamId}")
+    ResponseEntity<?> deletePlayersByTeamId(@PathVariable Long teamId) {
+//        if (playerRepository.)
+        playerRepository.findAll().stream()
+                .filter(player -> player.getTeam().getId().equals(teamId))
+                .forEach(player -> playerRepository.deleteById(player.getId()));
+        log.info("Deleted players");
+        return ResponseEntity.noContent().build();
+    }
+
 
 }

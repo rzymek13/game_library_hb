@@ -9,7 +9,7 @@ public interface PlayerRepository {
     List<Player> findAll();
     Optional<Player> findById(Long id);
     Player save(Player entity);
-//    void saveAll(Integer id,List<Player> players);
+    List<Player> findByTeamId(Long teamId);
     void deleteById(Long id);
     void deleteAll();
 }
