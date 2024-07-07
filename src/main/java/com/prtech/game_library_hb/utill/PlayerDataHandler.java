@@ -1,7 +1,5 @@
 package com.prtech.game_library_hb.utill;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.prtech.game_library_hb.player.model.Player;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -16,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class PlayerDataHandler {
     private static final String MAIN_URL = "https://rozgrywki.zprp.pl/?Sezon=192&Rozgrywki=10948&Zespoly=1";
-    private final ObjectMapper objectMapper;
     private final WebDriver driver;
 
 
@@ -24,7 +21,6 @@ public class PlayerDataHandler {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().window().maximize();
-        objectMapper = new ObjectMapper();
     }
 
     private void runApp() {
@@ -52,7 +48,7 @@ public class PlayerDataHandler {
             String player = driver.findElement(By.xpath(xpath)).getText();
             players.add(player);
         }
-        try (FileWriter file = new FileWriter("src/main/resources/data/players/" +System.currentTimeMillis() + teamName + ".json")) {
+        try (FileWriter file = new FileWriter("src/main/resources/data/players/" + System.currentTimeMillis() + teamName + ".json")) {
             file.write((convertToPrettyList(players)));
             log.info(teamName + players);
         } catch (IOException e) {
@@ -71,11 +67,14 @@ public class PlayerDataHandler {
         String sub = text.substring(0, text.length() - 1);
         return Integer.parseInt(sub);
     }
+
     private String convertToPrettyList(ArrayList<String> list) {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (String player : list) {
-            sb.append(" {" + "\"name\": " + "\"" + player +"\"},");
+            sb.append(" {" + "\"name\": " + "\"")
+                    .append(player)
+                    .append("\"},");
         }
         sb.append("]");
         return sb.toString();
