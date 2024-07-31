@@ -1,12 +1,12 @@
-package com.prtech.game_library_hb.player.controller;
+package com.prtech.game_library_hb.controller;
 
-import com.prtech.game_library_hb.player.model.Player;
-import com.prtech.game_library_hb.player.model.PlayerDTO;
-import com.prtech.game_library_hb.player.repository.PlayerRepository;
-import com.prtech.game_library_hb.team.model.Team;
-import com.prtech.game_library_hb.team.model.TeamNameDTO;
+import com.prtech.game_library_hb.model.Player;
+import com.prtech.game_library_hb.model.PlayerDTO;
+import com.prtech.game_library_hb.repository.PlayerRepository;
+import com.prtech.game_library_hb.model.Team;
+import com.prtech.game_library_hb.model.TeamDTO;
 
-import com.prtech.game_library_hb.team.repository.TeamRepository;
+import com.prtech.game_library_hb.repository.TeamRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +34,7 @@ class PlayerController {
                         player.getName(),
                         player.getMatchesPlayed(),
                         player.getGoalsScored(),
-                        new TeamNameDTO(player.getTeam().getName())
+                        new TeamDTO(player.getTeam().getName())
                 )
         ).collect(Collectors.toList());
     }
@@ -45,6 +45,17 @@ class PlayerController {
         return playerRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+    @GetMapping("/playersTeam/{id}")
+    ResponseEntity<List<Player>> readPlayersTeam(@PathVariable Long id) {
+        log.info("Players in team with id: " + id);
+        List<Player> playersInTeam = playerRepository.findAll().stream()
+                .filter(player -> player.getTeam().getId().equals(id))
+                .collect(Collectors.toList());
+        if (playersInTeam.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(playersInTeam);
     }
 
     @PostMapping("/players/{teamId}")
@@ -58,14 +69,13 @@ class PlayerController {
     public List<Player> addAllPlayers(@PathVariable Long teamId, @RequestBody List<Player> listOfPlayers) {
         Optional<Team> team = teamRepository.findById(teamId);
         if (team.isPresent()) {
-            for (Player player : listOfPlayers) {
-                player.setTeam(team.get());
-                playerRepository.save(player);
-            }
-            return listOfPlayers;
-        } else {
-            throw new RuntimeException("Team not found");
-        }
+            return listOfPlayers.stream()
+                    .map(player -> {
+                        player.setTeam(team.get());
+                        return playerRepository.save(player);
+                    })
+                    .collect(Collectors.toList());
+        } else throw new RuntimeException("Team not found");
     }
 
 
@@ -87,7 +97,7 @@ class PlayerController {
                 .filter(player -> player.getTeam().getId().equals(teamId))
                 .forEach(player -> playerRepository.deleteById(player.getId()));
         log.info("Deleted players");
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
 

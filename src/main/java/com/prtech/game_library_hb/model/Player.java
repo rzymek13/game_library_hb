@@ -1,11 +1,11 @@
-package com.prtech.game_library_hb.player.model;
+package com.prtech.game_library_hb.model;
 
-import com.prtech.game_library_hb.team.model.Team;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "players")
 public class Player {
 
     @Id
@@ -19,9 +19,6 @@ public class Player {
     @JoinColumn(name = "team_id")
     private Team team;
 
-
     public Player() {
     }
-
-
 }

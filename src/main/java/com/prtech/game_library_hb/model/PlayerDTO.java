@@ -1,6 +1,5 @@
-package com.prtech.game_library_hb.player.model;
+package com.prtech.game_library_hb.model;
 
-import com.prtech.game_library_hb.team.model.TeamNameDTO;
 import lombok.Data;
 
 @Data
@@ -9,9 +8,9 @@ public class PlayerDTO {
     private String name;
     private Integer matchesPlayed;
     private Integer goalsScored;
-    private TeamNameDTO team;
+    private TeamDTO team;
 
-    public PlayerDTO(Long id, String name, Integer matchesPlayed, Integer goalsScored, TeamNameDTO team) {
+    public PlayerDTO(Long id, String name, Integer matchesPlayed, Integer goalsScored, TeamDTO team) {
         this.id = id;
         this.name = name;
         this.matchesPlayed = matchesPlayed;

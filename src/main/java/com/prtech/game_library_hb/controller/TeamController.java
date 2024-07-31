@@ -1,14 +1,18 @@
-package com.prtech.game_library_hb.team.controller;
+package com.prtech.game_library_hb.controller;
 
-import com.prtech.game_library_hb.team.model.Team;
-import com.prtech.game_library_hb.team.repository.TeamRepository;
+import com.prtech.game_library_hb.model.Team;
+import com.prtech.game_library_hb.repository.TeamRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
 @Slf4j
+@Transactional
 public class TeamController {
     private final TeamRepository repository;
 
@@ -44,17 +48,12 @@ public class TeamController {
 
         if (team.getName() != null) {
             updateTeam.setName(team.getName());
-        }
-        if (team.getPoints() != null) {
-            updateTeam.setPoints(team.getPoints());
-        }
-        if (team.getMatches() != null) {
-            updateTeam.setMatches(team.getMatches());
-        }
 
-        repository.save(updateTeam);
 
+            repository.save(updateTeam);
+        }
         return ResponseEntity.ok(updateTeam);
+
     }
 
     @DeleteMapping("/teams/{id}")
@@ -68,4 +67,16 @@ public class TeamController {
         repository.deleteAll();
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/teams/deleteAllTestTeams")
+    ResponseEntity<?> deleteAllTestTeams() {
+        List<Team> teamsToDelete = repository.findAll().stream()
+                .filter(team -> team.getId() > 8)
+                .toList();
+
+        teamsToDelete.forEach(team -> repository.deleteById(team.getId()));
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

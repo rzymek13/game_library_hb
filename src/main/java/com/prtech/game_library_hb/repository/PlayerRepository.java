@@ -1,6 +1,6 @@
-package com.prtech.game_library_hb.player.repository;
+package com.prtech.game_library_hb.repository;
 
-import com.prtech.game_library_hb.player.model.Player;
+import com.prtech.game_library_hb.model.Player;
 
 import java.util.List;
 import java.util.Optional;
