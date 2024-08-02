@@ -4,7 +4,8 @@ package com.prtech.game_library_hb.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Data
@@ -15,10 +16,10 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne()
-    @JoinColumn(name = "home_team_id")
+    @JoinColumn(name = "home_team_id", insertable = false, updatable = false)
     private Team homeTeam;
     @ManyToOne()
-    @JoinColumn(name = "away_team_id")
+    @JoinColumn(name = "away_team_id", insertable = false, updatable = false)
     private Team awayTeam;
     private Integer homeTeamGoals;
     private Integer awayTeamGoals;
@@ -26,8 +27,8 @@ public class Match {
     private Integer homeTeamPenaltyGoals;
     private Integer awayTeamPenaltyGoals;
 
-//        @OneToMany(mappedBy = "matchTeamId")
-//    private List<MatchPlayer> matchPlayerList = new ArrayList<>();
+    @OneToMany(mappedBy = "match")
+    private List<MatchPlayer> matchPlayerList = new ArrayList<>();
 
 
 

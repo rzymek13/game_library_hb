@@ -1,8 +1,8 @@
 package com.prtech.game_library_hb.controller;
 
-import com.prtech.game_library_hb.model.Match;
-import com.prtech.game_library_hb.model.MatchDTO;
-import com.prtech.game_library_hb.model.TeamDTO;
+import com.prtech.game_library_hb.model.*;
+
+import com.prtech.game_library_hb.repository.MatchPlayerRepository;
 import com.prtech.game_library_hb.repository.MatchRepository;
 import com.prtech.game_library_hb.repository.PlayerRepository;
 import com.prtech.game_library_hb.repository.TeamRepository;
@@ -12,25 +12,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
-public class MatchController {
+class MatchController {
 
     @Autowired
-    private MatchRepository matchTeamRepository;
+    private MatchRepository matchRepository;
     @Autowired
     private PlayerRepository playerRepository;
     @Autowired
     private TeamRepository teamRepository;
+    @Autowired
+    private MatchPlayerRepository matchPlayerRepository;
 
 
 
 
     @GetMapping("/matches")
     List<MatchDTO> readAllMatches() {
-        return matchTeamRepository.findAll().stream().map(matchTeam ->
+        return matchRepository.findAll().stream().map(matchTeam ->
                 new MatchDTO(
                         matchTeam.getId(),
                         new TeamDTO(matchTeam.getHomeTeam().getName()),
@@ -39,28 +42,50 @@ public class MatchController {
                         matchTeam.getAwayTeamGoals(),
                         matchTeam.getResult(),
                         matchTeam.getHomeTeamPenaltyGoals(),
-                        matchTeam.getAwayTeamPenaltyGoals()))
+                        matchTeam.getAwayTeamPenaltyGoals(),
+                        matchTeam.getMatchPlayerList()))
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/matches/{id}")
     ResponseEntity<Match> readMatch(@PathVariable Long id) {
         log.info("Match with id: " + id);
-        return matchTeamRepository.findById(id)
+        return matchRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/matches")
     public Match createMatch(@RequestBody Match match) {
-        log.info(String.valueOf(match.getId()));
-        log.info(match.toString());
-        return matchTeamRepository.save(match);
+        //zapisuje drużyny jako nowe
+
+        List<MatchPlayer> matchPlayers = match.getMatchPlayerList();
+
+        for (MatchPlayer matchPlayer : matchPlayers) {
+
+//            Team homeTeam = match.getHomeTeam();
+//            Team awayTeam = match.getAwayTeam();
+//            if (homeTeam == null || awayTeam == null) {
+//                throw new RuntimeException("Invalid team IDs");
+//            }
+//            Player player = playerRepository.findById(matchPlayer.getPlayer().getId()).orElse(null);
+//            if (player == null) {
+//                throw new RuntimeException("Invalid player ID");
+//            }
+//
+//            match.getMatchPlayerList().get(0).setPlayer(player);
+//            match.setHomeTeam(homeTeam);
+//            match.setAwayTeam(awayTeam);
+
+
+            matchPlayerRepository.save(match.getMatchPlayerList().getFirst());
+        }
+        return matchRepository.save(match);
     }
 
     @PutMapping("/matches/{id}")
     ResponseEntity<?> updateMatch(@PathVariable Long id, @RequestBody Match match) {
-        Match updateMatch = matchTeamRepository.findById(id)
+        Match updateMatch = matchRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("match not exist with id: " + id));
 
 //        if (match.getOpponent() != null) {
@@ -73,20 +98,20 @@ public class MatchController {
 //            updateMatch.setId(id); // Preventing id overriding when updating.
 //        }
 
-        matchTeamRepository.save(updateMatch);
+        matchRepository.save(updateMatch);
 
         return ResponseEntity.ok(updateMatch);
     }
 
     @DeleteMapping("/matches/{id}")
     ResponseEntity<?> deleteMatch(@PathVariable Long id) {
-        matchTeamRepository.deleteById(id);
+        matchRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/matches/deleteAll")
     ResponseEntity<?> deleteAllMatches() {
-        matchTeamRepository.deleteAll();
+        matchRepository.deleteAll();
         return ResponseEntity.noContent().build();
     }
 }
