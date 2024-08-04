@@ -31,21 +31,23 @@ class MatchController {
 
 
 
-    @GetMapping("/matches")
-    List<MatchDTO> readAllMatches() {
-        return matchRepository.findAll().stream().map(matchTeam ->
-                new MatchDTO(
-                        matchTeam.getId(),
-                        new TeamDTO(matchTeam.getHomeTeam().getName()),
-                        new TeamDTO(matchTeam.getAwayTeam().getName()),
-                        matchTeam.getHomeTeamGoals(),
-                        matchTeam.getAwayTeamGoals(),
-                        matchTeam.getResult(),
-                        matchTeam.getHomeTeamPenaltyGoals(),
-                        matchTeam.getAwayTeamPenaltyGoals(),
-                        matchTeam.getMatchPlayerList()))
-                .collect(Collectors.toList());
-    }
+//    @GetMapping("/matches")
+//    ResponseEntity<List<MatchDTO>> readAllMatches() {
+//        return matchRepository.findAll()
+//                .stream().map(matchTeam ->
+//                new MatchDTO(
+//                        matchTeam.getId(),
+//                        new TeamDTO(matchTeam.getHomeTeam().getName()),
+//                        new TeamDTO(matchTeam.getAwayTeam().getName()),
+//                        matchTeam.getHomeTeamGoals(),
+//                        matchTeam.getAwayTeamGoals(),
+//                        matchTeam.getResult(),
+//                        matchTeam.getHomeTeamPenaltyGoals(),
+//                        matchTeam.getAwayTeamPenaltyGoals(),
+//                        matchTeam.getMatchPlayerList()))
+//                .collect(Collectors.toList());
+
+//    }
 
     @GetMapping("/matches/{id}")
     ResponseEntity<Match> readMatch(@PathVariable Long id) {
@@ -57,25 +59,33 @@ class MatchController {
 
     @PostMapping("/matches")
     public Match createMatch(@RequestBody Match match) {
-        //zapisuje drużyny jako nowe
+        //do zrobienia:
+        // teamy jako nulle dodaje
+        //nie dodaje matchPlayer list
+
+//        Optional<TeamDTO> homeTeam = teamRepository.findById(match.getHomeTeam().getId());
+//        Optional<TeamDTO> awayTeam = teamRepository.findById(match.getAwayTeam().getId());
+        Match matchToSave = new Match();
+        matchToSave.setHomeTeam(match.getHomeTeam());
+        matchToSave.setAwayTeam(match.getAwayTeam());
 
         List<MatchPlayer> matchPlayers = match.getMatchPlayerList();
 
         for (MatchPlayer matchPlayer : matchPlayers) {
 
-//            Team homeTeam = match.getHomeTeam();
-//            Team awayTeam = match.getAwayTeam();
-//            if (homeTeam == null || awayTeam == null) {
-//                throw new RuntimeException("Invalid team IDs");
-//            }
-//            Player player = playerRepository.findById(matchPlayer.getPlayer().getId()).orElse(null);
-//            if (player == null) {
-//                throw new RuntimeException("Invalid player ID");
-//            }
-//
-//            match.getMatchPlayerList().get(0).setPlayer(player);
-//            match.setHomeTeam(homeTeam);
-//            match.setAwayTeam(awayTeam);
+            Team homeTeam = match.getHomeTeam();
+            Team awayTeam = match.getAwayTeam();
+            if (homeTeam == null || awayTeam == null) {
+                throw new RuntimeException("Invalid team IDs");
+            }
+            Player player = playerRepository.findById(matchPlayer.getPlayer().getId()).orElse(null);
+            if (player == null) {
+                throw new RuntimeException("Invalid player ID");
+            }
+
+            match.getMatchPlayerList().get(0).setPlayer(player);
+            match.setHomeTeam(homeTeam);
+            match.setAwayTeam(awayTeam);
 
 
             matchPlayerRepository.save(match.getMatchPlayerList().getFirst());

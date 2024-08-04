@@ -15,7 +15,7 @@ public class Player {
     private Integer matchesPlayed;
     private Integer goalsScored;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 
