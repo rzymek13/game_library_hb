@@ -1,5 +1,6 @@
-package com.prtech.game_library_hb.model;
+package com.prtech.game_library_hb.model.dto;
 
+import com.prtech.game_library_hb.model.MatchPlayer;
 import lombok.Data;
 
 import java.util.List;
@@ -8,8 +9,8 @@ import java.util.List;
 public class MatchDTO {
 
     private Long id;
-    private TeamDTO homeTeam;
-    private TeamDTO awayTeam;
+    private TeamNameDTO homeTeam;
+    private TeamNameDTO awayTeam;
     private Integer homeTeamGoals;
     private Integer awayTeamGoals;
     private Integer result;
@@ -17,7 +18,7 @@ public class MatchDTO {
     private Integer awayTeamPenaltyGoals;
     private List<MatchPlayer> listOfScorePlayers;
 
-    public MatchDTO(Long id, TeamDTO homeTeam, TeamDTO awayTeam, Integer homeTeamGoals, Integer awayTeamGoals, Integer result, Integer homeTeamPenaltyGoals, Integer awayTeamPenaltyGoals, List<MatchPlayer> listOfScorePlayers) {
+    public MatchDTO(Long id, TeamNameDTO homeTeam, TeamNameDTO awayTeam, Integer homeTeamGoals, Integer awayTeamGoals, Integer result, Integer homeTeamPenaltyGoals, Integer awayTeamPenaltyGoals, List<MatchPlayer> listOfScorePlayers) {
         this.id = id;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;

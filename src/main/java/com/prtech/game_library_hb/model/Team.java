@@ -16,17 +16,16 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "team_name")
     private String name;
 
     @OneToMany(mappedBy = "team")
-    private List<Player> players = new ArrayList<>();
+    private List<Player> players;
 
     @OneToMany(mappedBy = "homeTeam")
-    private List<Match> homeMatches = new ArrayList<>();
+    private List<Match> homeMatches;
 
     @OneToMany(mappedBy = "awayTeam")
-    private List<Match> awayMatches = new ArrayList<>();
+    private List<Match> awayMatches;
 
     public Team() {
     }
