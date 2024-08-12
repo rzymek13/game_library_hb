@@ -2,10 +2,7 @@ package com.prtech.game_library_hb.controller;
 
 import com.prtech.game_library_hb.exceptions.ResourceNotFoundException;
 import com.prtech.game_library_hb.model.Team;
-import com.prtech.game_library_hb.model.dto.PlayerNameDTO;
-import com.prtech.game_library_hb.model.dto.TeamDTO;
-import com.prtech.game_library_hb.model.dto.TeamNameDTO;
-import com.prtech.game_library_hb.model.dto.TeamWithPlayersDTO;
+import com.prtech.game_library_hb.model.dto.*;
 import com.prtech.game_library_hb.repository.TeamRepository;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +27,7 @@ public class TeamController {
     @GetMapping(value = "/teams", params = {"!sort", "!page", "!size"})
     List<TeamDTO> readAllTeams() {
         log.info("All the teams");
-        return repository.findAll().stream().map(team -> 
+        return repository.findAll().stream().map(team ->
                 new TeamDTO(team.getId(), team.getName())).collect(Collectors.toList());
     }
 
@@ -40,6 +37,12 @@ public class TeamController {
         return repository.findById(id).stream().map(team -> 
                 new TeamDTO(team.getId(), team.getName())).findFirst().orElseThrow(() -> new RuntimeException("Team not found"));
     }
+    @GetMapping("/team_by_name/{name}")
+    Team readTeamByName(TeamNameDTO name) {
+    return repository.findAll().stream().filter(team -> team.getName().equals(name)).findFirst().get();
+    }
+
+
     @GetMapping("/teams_with_players/{id}")
     TeamWithPlayersDTO readTeamWithPlayersById(@PathVariable Long id) {
         return repository.findById(id).stream().map(team -> 

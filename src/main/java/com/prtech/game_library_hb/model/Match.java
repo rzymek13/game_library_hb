@@ -2,6 +2,7 @@ package com.prtech.game_library_hb.model;
 
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;

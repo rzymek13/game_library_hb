@@ -10,6 +10,8 @@ public interface TeamRepository {
 
     Optional<Team> findById(Long id);
 
+    Team findByName(String name);
+
     Team save(Team entity);
 
     void deleteById(Long id);

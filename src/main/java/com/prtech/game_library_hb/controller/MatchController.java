@@ -2,6 +2,9 @@ package com.prtech.game_library_hb.controller;
 
 import com.prtech.game_library_hb.model.*;
 
+import com.prtech.game_library_hb.model.dto.CreateMatchDTO;
+import com.prtech.game_library_hb.model.dto.TeamDTO;
+import com.prtech.game_library_hb.model.dto.TeamNameDTO;
 import com.prtech.game_library_hb.repository.MatchPlayerRepository;
 import com.prtech.game_library_hb.repository.MatchRepository;
 import com.prtech.game_library_hb.repository.PlayerRepository;
@@ -27,8 +30,6 @@ class MatchController {
     private TeamRepository teamRepository;
     @Autowired
     private MatchPlayerRepository matchPlayerRepository;
-
-
 
 
 //    @GetMapping("/matches")
@@ -57,41 +58,38 @@ class MatchController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/matches")
-    public Match createMatch(@RequestBody Match match) {
-        //do zrobienia:
-        // teamy jako nulle dodaje
-        //nie dodaje matchPlayer list
+@PostMapping("/matches")
+    public CreateMatchDTO createMatch(@RequestBody CreateMatchDTO matchDTO) {
 
-//        Optional<TeamDTO> homeTeam = teamRepository.findById(match.getHomeTeam().getId());
-//        Optional<TeamDTO> awayTeam = teamRepository.findById(match.getAwayTeam().getId());
-        Match matchToSave = new Match();
-        matchToSave.setHomeTeam(match.getHomeTeam());
-        matchToSave.setAwayTeam(match.getAwayTeam());
+    Match match = new Match();
 
-        List<MatchPlayer> matchPlayers = match.getMatchPlayerList();
-
-        for (MatchPlayer matchPlayer : matchPlayers) {
-
-            Team homeTeam = match.getHomeTeam();
-            Team awayTeam = match.getAwayTeam();
-            if (homeTeam == null || awayTeam == null) {
-                throw new RuntimeException("Invalid team IDs");
-            }
-            Player player = playerRepository.findById(matchPlayer.getPlayer().getId()).orElse(null);
-            if (player == null) {
-                throw new RuntimeException("Invalid player ID");
-            }
-
-            match.getMatchPlayerList().get(0).setPlayer(player);
-            match.setHomeTeam(homeTeam);
-            match.setAwayTeam(awayTeam);
+    Team homeTeam = teamRepository.findById(matchDTO.homeTeam().id()).get();
+    Team awayTeam = teamRepository.findById(matchDTO.awayTeam().id()).get();
 
 
-            matchPlayerRepository.save(match.getMatchPlayerList().getFirst());
-        }
-        return matchRepository.save(match);
-    }
+        match.setHomeTeam(homeTeam);
+        match.setAwayTeam(awayTeam);
+        match.setHomeTeamGoals(matchDTO.homeTeamGoals());
+        match.setAwayTeamGoals(matchDTO.awayTeamGoals());
+        match.setResult(matchDTO.result());
+
+//    List<MatchPlayer> matchPlayers = matchDTO.createMatchPlayers().stream()
+//            .map(matchPlayer -> {
+//                var list = match.getMatchPlayerList();
+//                list.add(matchPlayer);
+//                return matchPlayer;
+//            })
+//            .collect(Collectors.toList());
+//
+//    match.setMatchPlayerList(matchPlayers);
+
+
+    matchRepository.save(match);
+    log.info(match.getId().toString());
+    return matchDTO;
+}
+
+
 
     @PutMapping("/matches/{id}")
     ResponseEntity<?> updateMatch(@PathVariable Long id, @RequestBody Match match) {
