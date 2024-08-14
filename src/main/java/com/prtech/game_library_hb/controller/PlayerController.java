@@ -1,8 +1,8 @@
 package com.prtech.game_library_hb.controller;
 
 import com.prtech.game_library_hb.model.Player;
-import com.prtech.game_library_hb.model.dto.PlayerDto;
-import com.prtech.game_library_hb.model.dto.PlayerMapper;
+import com.prtech.game_library_hb.controller.dto.PlayerDto;
+import com.prtech.game_library_hb.controller.dto.PlayerMapper;
 import com.prtech.game_library_hb.service.PlayerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.prtech.game_library_hb.model.dto.PlayerMapper.mapPlayerToDto;
+import static com.prtech.game_library_hb.controller.dto.PlayerMapper.mapPlayerToDto;
 
 
 @Slf4j

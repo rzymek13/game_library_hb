@@ -17,10 +17,8 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "home_team_id", insertable = false, updatable = false)
     private Team homeTeam;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "away_team_id", insertable = false, updatable = false)
     private Team awayTeam;
     private Integer homeTeamGoals;
     private Integer awayTeamGoals;
@@ -28,9 +26,8 @@ public class Match {
     private Integer homeTeamPenaltyGoals;
     private Integer awayTeamPenaltyGoals;
 
-    @OneToMany(mappedBy = "match")
-    private List<MatchPlayer> matchPlayerList = new ArrayList<>();
-
+//    @OneToMany(mappedBy = "match")
+//    private List<MatchPlayer> matchPlayerList = new ArrayList<>();
 
 
     public Match() {

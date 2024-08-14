@@ -2,7 +2,7 @@ package com.prtech.game_library_hb.service;
 
 import com.prtech.game_library_hb.model.Player;
 import com.prtech.game_library_hb.model.Team;
-import com.prtech.game_library_hb.model.dto.PlayerDto;
+import com.prtech.game_library_hb.controller.dto.PlayerDto;
 import com.prtech.game_library_hb.repository.PlayerRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;

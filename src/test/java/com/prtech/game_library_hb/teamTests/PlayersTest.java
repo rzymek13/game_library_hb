@@ -1,9 +1,7 @@
 package com.prtech.game_library_hb.teamTests;
 
 import com.prtech.game_library_hb.controller.PlayerController;
-import com.prtech.game_library_hb.model.Player;
-import com.prtech.game_library_hb.model.dto.PlayerDto;
-import com.prtech.game_library_hb.model.dto.TeamNameDTO;
+import com.prtech.game_library_hb.controller.dto.PlayerDto;
 import com.prtech.game_library_hb.repository.PlayerRepository;
 import com.prtech.game_library_hb.service.PlayerService;
 import io.restassured.RestAssured;
@@ -14,14 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import java.util.Optional;
 
 import static io.restassured.path.json.JsonPath.from;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Slf4j

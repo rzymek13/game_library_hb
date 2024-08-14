@@ -1,7 +1,7 @@
 package com.prtech.game_library_hb.controller;
 
+import com.prtech.game_library_hb.controller.dto.TeamNameDto;
 import com.prtech.game_library_hb.model.Team;
-import com.prtech.game_library_hb.model.dto.*;
 import com.prtech.game_library_hb.service.TeamService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-import static com.prtech.game_library_hb.model.dto.TeamMapper.mapDtoToTeam;
+import static com.prtech.game_library_hb.controller.dto.TeamMapper.mapDtoToTeam;
 
 
 @RestController
@@ -37,15 +37,15 @@ public class TeamController {
     }
 
     @PostMapping("/teams")
-    Team createTeam(@RequestBody @Valid TeamNameDTO teamNameDTO) {
-        return teamService.saveTeam(mapDtoToTeam(teamNameDTO));
+    Team createTeam(@RequestBody @Valid TeamNameDto string) {
+        return teamService.saveTeam(mapDtoToTeam(string));
     }
 
     @PutMapping("/teams/{id}")
-    public void updateTeamName(@PathVariable Long id, @RequestBody @Valid TeamNameDTO teamNameDTO) {
+    public void updateTeamName(@PathVariable Long id, @RequestBody @Valid TeamNameDto string) {
         Team team = new Team();
         team.setId(id);
-        team.setName(teamNameDTO.name());
+        team.setName(string.name());
         teamService.saveTeam(team);
     }
 
