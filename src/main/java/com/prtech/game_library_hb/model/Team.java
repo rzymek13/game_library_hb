@@ -18,10 +18,6 @@ public class Team {
 
     private String name;
 
-    @OneToMany(mappedBy = "team")
-    private List<Player> players;
-
-
     public Team() {
     }
 

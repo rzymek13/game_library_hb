@@ -14,7 +14,6 @@ public class Player {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id")
     private Team team;
 
     public Player() {

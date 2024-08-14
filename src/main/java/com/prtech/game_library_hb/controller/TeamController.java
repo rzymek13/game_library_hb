@@ -1,98 +1,64 @@
 package com.prtech.game_library_hb.controller;
 
-import com.prtech.game_library_hb.exceptions.ResourceNotFoundException;
 import com.prtech.game_library_hb.model.Team;
 import com.prtech.game_library_hb.model.dto.*;
-import com.prtech.game_library_hb.repository.TeamRepository;
+import com.prtech.game_library_hb.service.TeamService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static com.prtech.game_library_hb.model.dto.TeamMapper.mapDtoToTeam;
 
 
 @RestController
 @Slf4j
 @Transactional
 public class TeamController {
-    private final TeamRepository repository;
+    private final TeamService teamService;
 
-    public TeamController(final TeamRepository repository) {
-        this.repository = repository;
+    public TeamController(final TeamService teamService) {
+        this.teamService = teamService;
     }
 
-    @GetMapping(value = "/teams", params = {"!sort", "!page", "!size"})
-    List<TeamDTO> readAllTeams() {
+    @GetMapping(value = "/teams")
+    List<Team> readAllTeams() {
         log.info("All the teams");
-        return repository.findAll().stream().map(team ->
-                new TeamDTO(team.getId(), team.getName())).collect(Collectors.toList());
+        return teamService.getAllTeams();
     }
 
     @GetMapping("/teams/{id}")
-    TeamDTO readTeam(@PathVariable Long id) {
+    Team readTeam(@PathVariable Long id) {
         log.info("Team with id: " + id);
-        return repository.findById(id).stream().map(team -> 
-                new TeamDTO(team.getId(), team.getName())).findFirst().orElseThrow(() -> new RuntimeException("Team not found"));
-    }
-    @GetMapping("/team_by_name/{name}")
-    Team readTeamByName(TeamNameDTO name) {
-    return repository.findAll().stream().filter(team -> team.getName().equals(name)).findFirst().get();
-    }
+        return teamService.getTeamById(id);
 
-
-    @GetMapping("/teams_with_players/{id}")
-    TeamWithPlayersDTO readTeamWithPlayersById(@PathVariable Long id) {
-        return repository.findById(id).stream().map(team -> 
-                new TeamWithPlayersDTO(
-                        team.getId(),
-                        team.getName(),
-                        team.getPlayers().stream().map(player ->
-                                new PlayerNameDTO(player.getName())).collect(Collectors.toList())))
-                .findFirst().orElseThrow(() -> new RuntimeException(""));
     }
 
     @PostMapping("/teams")
     Team createTeam(@RequestBody @Valid TeamNameDTO teamNameDTO) {
-        Team team = new Team();
-        team.setName(teamNameDTO.name());
-        log.info(String.valueOf(team.getId()));
-        return repository.save(team);
+        return teamService.saveTeam(mapDtoToTeam(teamNameDTO));
     }
-
 
     @PutMapping("/teams/{id}")
     public void updateTeamName(@PathVariable Long id, @RequestBody @Valid TeamNameDTO teamNameDTO) {
         Team team = new Team();
         team.setId(id);
         team.setName(teamNameDTO.name());
-        repository.save(team);
+        teamService.saveTeam(team);
     }
 
     @DeleteMapping("/teams/{id}")
     ResponseEntity<?> deleteTeam(@PathVariable Long id) {
         log.info("Team with id: " + id + " deleted");
-        repository.deleteById(id);
+        teamService.deleteTeamById(id);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/teams/deleteAll")
     ResponseEntity<?> deleteAllTeams() {
-        repository.deleteAll();
+        teamService.deleteAllTeams();
         return ResponseEntity.noContent().build();
     }
-
-    @DeleteMapping("/teams/deleteAllTestTeams")
-    ResponseEntity<?> deleteAllTestTeams() {
-        List<Team> teamsToDelete = repository.findAll().stream()
-                .filter(team -> team.getId() > 8)
-                .toList();
-
-        teamsToDelete.forEach(team -> repository.deleteById(team.getId()));
-
-        return ResponseEntity.noContent().build();
-    }
-
 }

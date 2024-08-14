@@ -7,8 +7,8 @@ import java.util.List;
 
 
 public record CreateMatchDTO(
-     TeamDTO homeTeam,
-     TeamDTO awayTeam,
+     TeamNameDTO homeTeam,
+     TeamNameDTO awayTeam,
      Integer homeTeamGoals,
      Integer awayTeamGoals,
      Integer result,
