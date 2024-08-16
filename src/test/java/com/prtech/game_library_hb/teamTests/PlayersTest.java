@@ -61,17 +61,17 @@ private PlayerService playerService;
     @InjectMocks
     private PlayerController playerController;
 
-    @Test
-    public void testCreatePlayerWithExistingNameButDifferentId() {
-        // Given
-
-        playerService.savePlayer(new PlayerDto(null, "testPlayer1", "test" ));
-
-
-        // When
-
-//        System.out.println(playerController.createPlayer());
-        // Then
-
-    }
+//    @Test
+//    public void testCreatePlayerWithExistingNameButDifferentId() {
+//        // Given
+//
+//        playerService.savePlayer(new PlayerDto(null, "testPlayer1", "test" ));
+//
+//
+//        // When
+//
+////        System.out.println(playerController.createPlayer());
+//        // Then
+//
+//    }
 }

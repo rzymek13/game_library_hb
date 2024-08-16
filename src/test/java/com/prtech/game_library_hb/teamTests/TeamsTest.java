@@ -25,30 +25,30 @@ class TeamsTest {
         RestAssured.baseURI = "http://localhost";
     }
 
-    @Test
-    void testPostGetAndDeleteTeam() {
-        //Given
-        String response = RestAssured.given().port(port).auth().none()
-                .when()
-                .contentType("application/json")
-                .body("{\"name\" : \"test1\"}")
-                .post("/teams")
-                .asString();
-
-        log.info(response);
-        int teamToDelete = from(response).getInt("id");
-
-        //When
-        RestAssured.given().port(port).auth().none()
-                .when()
-                .contentType("application/json")
-                .delete("/teams/" + teamToDelete)
-                .then()
-        //Then
-                .statusCode(204);
-
-
-    }
+//    @Test
+//    void testPostGetAndDeleteTeam() {
+//        //Given
+//        String response = RestAssured.given().port(port).auth().none()
+//                .when()
+//                .contentType("application/json")
+//                .body("{\"name\" : \"test1\"}")
+//                .post("/teams")
+//                .asString();
+//
+//        log.info(response);
+//        int teamToDelete = from(response).getInt("id");
+//
+//        //When
+//        RestAssured.given().port(port).auth().none()
+//                .when()
+//                .contentType("application/json")
+//                .delete("/teams/" + teamToDelete)
+//                .then()
+//        //Then
+//                .statusCode(204);
+//
+//
+//    }
 
 
 

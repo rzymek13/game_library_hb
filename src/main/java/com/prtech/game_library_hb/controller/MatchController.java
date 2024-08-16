@@ -3,14 +3,8 @@ package com.prtech.game_library_hb.controller;
 import com.prtech.game_library_hb.controller.dto.MatchDto;
 import com.prtech.game_library_hb.model.*;
 
-import com.prtech.game_library_hb.repository.MatchPlayerRepository;
-import com.prtech.game_library_hb.repository.MatchRepository;
-import com.prtech.game_library_hb.repository.PlayerRepository;
-import com.prtech.game_library_hb.repository.TeamRepository;
 import com.prtech.game_library_hb.service.MatchService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static com.prtech.game_library_hb.controller.dto.MatchMapper.mapMatchToDto;
@@ -42,11 +36,11 @@ class MatchController {
 
 //    }
 
-    @GetMapping("/matches/{id}")
-    MatchDto readMatch(@PathVariable Long id) {
-        log.info("Match with id: " + id);
-        return mapMatchToDto(matchService.getMatchById(id));
-    }
+//    @GetMapping("/matches/{id}")
+//    MatchDto readMatch(@PathVariable Long id) {
+//        log.info("Match with id: " + id);
+//        return mapMatchToDto(matchService.getMatchById(id));
+//    }
 
 @PostMapping("/matches")
     public Match createMatch(@RequestBody MatchDto matchDTO) {

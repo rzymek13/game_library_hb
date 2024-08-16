@@ -2,11 +2,11 @@ package com.prtech.game_library_hb.model;
 
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 
 @Data
@@ -25,10 +25,6 @@ public class Match {
     private Integer result;
     private Integer homeTeamPenaltyGoals;
     private Integer awayTeamPenaltyGoals;
-
-//    @OneToMany(mappedBy = "match")
-//    private List<MatchPlayer> matchPlayerList = new ArrayList<>();
-
 
     public Match() {
     }

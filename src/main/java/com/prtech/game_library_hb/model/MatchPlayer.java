@@ -1,25 +1,19 @@
 package com.prtech.game_library_hb.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Entity
+@Table(name="playerMatches")
 public class MatchPlayer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne()
-    @JoinColumn(name = "match_id")
-    private Match match;
-    @ManyToOne()
-    @JoinColumn(name = "player_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+
     private Player player;
+
     private Integer goals;
-
-
-    public MatchPlayer() {
-    }
 }
