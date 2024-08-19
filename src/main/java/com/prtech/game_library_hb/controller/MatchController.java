@@ -1,11 +1,15 @@
 package com.prtech.game_library_hb.controller;
 
 import com.prtech.game_library_hb.controller.dto.MatchDto;
+import com.prtech.game_library_hb.controller.dto.ReadMatchDto;
 import com.prtech.game_library_hb.model.*;
 
 import com.prtech.game_library_hb.service.MatchService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.prtech.game_library_hb.controller.dto.MatchMapper.mapMatchToDto;
 
@@ -18,23 +22,13 @@ class MatchController {
     public MatchController(MatchService matchService) {
         this.matchService = matchService;
     }
-    //    @GetMapping("/matches")
-//    ResponseEntity<List<MatchDTO>> readAllMatches() {
-//        return matchRepository.findAll()
-//                .stream().map(matchTeam ->
-//                new MatchDTO(
-//                        matchTeam.getId(),
-//                        new TeamDTO(matchTeam.getHomeTeam().getName()),
-//                        new TeamDTO(matchTeam.getAwayTeam().getName()),
-//                        matchTeam.getHomeTeamGoals(),
-//                        matchTeam.getAwayTeamGoals(),
-//                        matchTeam.getResult(),
-//                        matchTeam.getHomeTeamPenaltyGoals(),
-//                        matchTeam.getAwayTeamPenaltyGoals(),
-//                        matchTeam.getMatchPlayerList()))
-//                .collect(Collectors.toList());
 
-//    }
+
+    @GetMapping("/matches")
+    List<ReadMatchDto> readAllMatches() {
+        return matchService.getAllMatches();
+    }
+
 
 //    @GetMapping("/matches/{id}")
 //    MatchDto readMatch(@PathVariable Long id) {
@@ -42,13 +36,13 @@ class MatchController {
 //        return mapMatchToDto(matchService.getMatchById(id));
 //    }
 
-@PostMapping("/matches")
+    @PostMapping("/matches")
     public Match createMatch(@RequestBody MatchDto matchDTO) {
-    return matchService.saveMatch(matchDTO);
-}
+        return matchService.saveMatch(matchDTO);
+    }
 
 
-//
+    //
 //    @PutMapping("/matches/{id}")
 //    ResponseEntity<?> updateMatch(@PathVariable Long id, @RequestBody Match match) {
 //        Match updateMatch = matchRepository.findById(id)
@@ -69,15 +63,9 @@ class MatchController {
 //        return ResponseEntity.ok(updateMatch);
 //    }
 //
-//    @DeleteMapping("/matches/{id}")
-//    ResponseEntity<?> deleteMatch(@PathVariable Long id) {
-//        matchRepository.deleteById(id);
-//        return ResponseEntity.noContent().build();
-//    }
-//
-//    @DeleteMapping("/matches/deleteAll")
-//    ResponseEntity<?> deleteAllMatches() {
-//        matchRepository.deleteAll();
-//        return ResponseEntity.noContent().build();
-//    }
+    @DeleteMapping("/matches/deleteAll")
+    ResponseEntity<?> deleteAllMatches() {
+        matchService.deleteAllMatches();
+        return ResponseEntity.noContent().build();
+    }
 }

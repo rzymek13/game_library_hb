@@ -26,6 +26,7 @@ public class Match {
     private Integer homeTeamPenaltyGoals;
     private Integer awayTeamPenaltyGoals;
 
+
     public Match() {
     }
 }

@@ -12,8 +12,9 @@ public class MatchPlayer {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-
     private Player player;
 
     private Integer goals;
+
+    private Long matchId;
 }

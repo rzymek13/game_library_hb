@@ -1,13 +1,15 @@
 package com.prtech.game_library_hb.repository;
 
+import com.prtech.game_library_hb.controller.dto.MatchDto;
 import com.prtech.game_library_hb.model.Match;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface MatchRepository {
     List<Match> findAll();
     Match save(Match entity);
     void deleteById(Long id);
     void deleteAll();
+
 }
