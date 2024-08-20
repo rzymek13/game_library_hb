@@ -5,8 +5,8 @@ package com.prtech.game_library_hb.controller.dto;
 import java.util.Set;
 
 public record MatchDto(Long id,
-                       String homeTeam,
-                       String awayTeam,
+                       TeamNameDto homeTeam,
+                       TeamNameDto awayTeam,
                        Integer homeTeamGoals,
                        Integer awayTeamGoals,
                        Integer result,

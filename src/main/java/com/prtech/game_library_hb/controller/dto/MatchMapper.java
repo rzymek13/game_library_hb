@@ -26,8 +26,8 @@ public class MatchMapper {
 
     private static MatchDto mapMatchToDto(Match match) {
         return new MatchDto(match.getId(),
-                match.getHomeTeam().getName(),
-                match.getAwayTeam().getName(),
+                TeamMapper.mapToTeamDto(match.getHomeTeam()),
+                TeamMapper.mapToTeamDto(match.getAwayTeam()),
                 match.getHomeTeamGoals(),
                 match.getAwayTeamGoals(),
                 match.getResult(),

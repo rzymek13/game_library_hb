@@ -8,6 +8,7 @@ import java.util.List;
 
 @Service
 public class TeamService {
+
 private TeamRepository teamRepository;
 
     public TeamService(TeamRepository teamRepository) {

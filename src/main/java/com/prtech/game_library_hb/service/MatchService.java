@@ -2,6 +2,7 @@ package com.prtech.game_library_hb.service;
 
 import com.prtech.game_library_hb.controller.dto.MatchDto;
 import com.prtech.game_library_hb.controller.dto.MatchMapper;
+import com.prtech.game_library_hb.controller.dto.TeamMapper;
 import com.prtech.game_library_hb.model.Match;
 import com.prtech.game_library_hb.model.MatchPlayer;
 import com.prtech.game_library_hb.model.Player;
@@ -35,12 +36,11 @@ public class MatchService {
     }
 
     public List<MatchDto> readAllMatches() {
-
         return matchRepository.findAll().stream()
                 .map(match -> new MatchDto(
                         match.getId(),
-                        match.getHomeTeam().getName(),
-                        match.getAwayTeam().getName(),
+                        TeamMapper.mapToTeamDto(match.getHomeTeam()),
+                        TeamMapper.mapToTeamDto(match.getAwayTeam()),
                         match.getHomeTeamGoals(),
                         match.getAwayTeamGoals(),
                         match.getResult(),
@@ -53,8 +53,8 @@ public class MatchService {
 
 
     public MatchDto saveMatch(MatchDto matchDto) {
-        Team homeTeam = teamService.getTeamByName(matchDto.homeTeam());
-        Team awayTeam = teamService.getTeamByName(matchDto.awayTeam());
+        Team homeTeam = teamService.getTeamByName(matchDto.homeTeam().name());
+        Team awayTeam = teamService.getTeamByName(matchDto.awayTeam().name());
 
         Match match = new Match();
         match.setHomeTeam(homeTeam);
