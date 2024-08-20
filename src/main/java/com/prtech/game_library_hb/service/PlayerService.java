@@ -24,14 +24,20 @@ public class PlayerService {
     }
 
     public Player getById(Long id) {
-        return playerRepository.findAll().stream().filter(player -> player.getId() == id).findFirst().get();
+        return playerRepository.findAll().stream()
+                .filter(player -> player.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("nie znaleziono takiego zawonika"));
+    }
+    public Player getPlayerByName(String name) {
+        return playerRepository.findAll().stream()
+                .filter(player -> player.getName().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("nie znaleziono takiego zawonika"));
     }
 
     public Player savePlayer(PlayerDto playerDto) {
-        Team team = teamService.getAllTeams().stream()
-                .filter(t -> t.getName().equals(playerDto.teamName()))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Team nie może być nullem")); // or handle the case when team is not found
+        Team team = teamService.getTeamByName(playerDto.teamName()); // or handle the case when team is not found
 
         Player player = new Player();
         player.setName(playerDto.name());

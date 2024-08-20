@@ -8,7 +8,23 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class MatchMapper {
-    public static MatchDto mapMatchToDto(Match match, Set<MatchPlayer> scorers) {
+
+
+
+    public static MatchPlayerDto mapPlayerMatchToDto(MatchPlayer matchPlayer) {
+        return new MatchPlayerDto(
+                matchPlayer.getPlayer().getName(),
+                matchPlayer.getGoals()
+        );
+    }
+
+    public static List<MatchDto> mapMatchesToDtos(List<Match> matches) {
+        return matches.stream()
+                .map(MatchMapper::mapMatchToDto)
+                .collect(Collectors.toList());
+    }
+
+    private static MatchDto mapMatchToDto(Match match) {
         return new MatchDto(match.getId(),
                 match.getHomeTeam().getName(),
                 match.getAwayTeam().getName(),
@@ -17,39 +33,8 @@ public class MatchMapper {
                 match.getResult(),
                 match.getHomeTeamPenaltyGoals(),
                 match.getAwayTeamPenaltyGoals(),
-                mapPlayerMatchToDtos(scorers)
-        );
-    }
-
-    private static Set<MatchPlayerDto> mapPlayerMatchToDtos(Set<MatchPlayer> scores) {
-        return scores.stream().map(MatchMapper::mapPlayerMatchToDto)
-                .collect(Collectors.toSet());
-
-    }
-
-    private static MatchPlayerDto mapPlayerMatchToDto(MatchPlayer matchPlayer) {
-        return new MatchPlayerDto(
-                matchPlayer.getId(),
-                matchPlayer.getPlayer().getName(),
-                matchPlayer.getGoals(),
-                null
-        );
-    }
-
-    public static List<ReadMatchDto> mapMatchesToDtos(List<Match> matches) {
-        return matches.stream()
-                .map(MatchMapper::mapMatchToReadMatchDto)
-                .collect(Collectors.toList());
-    }
-
-    private static ReadMatchDto mapMatchToReadMatchDto(Match match) {
-        return new ReadMatchDto(match.getId(),
-                match.getHomeTeam().getName(),
-                match.getAwayTeam().getName(),
-                match.getHomeTeamGoals(),
-                match.getAwayTeamGoals(),
-                match.getResult(),
-                match.getHomeTeamPenaltyGoals(),
-                match.getAwayTeamPenaltyGoals());
+                match.getMatchPlayerSet().stream()
+                        .map(MatchMapper::mapPlayerMatchToDto)
+                        .collect(Collectors.toSet()));
     }
 }
