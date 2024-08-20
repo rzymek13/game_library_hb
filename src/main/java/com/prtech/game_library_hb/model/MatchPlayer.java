@@ -16,5 +16,7 @@ public class MatchPlayer {
 
     private Integer goals;
 
-    private Long matchId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Match match;
+
 }

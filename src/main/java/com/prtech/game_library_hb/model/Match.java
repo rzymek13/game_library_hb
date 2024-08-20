@@ -16,9 +16,9 @@ public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private Team homeTeam;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private Team awayTeam;
     private Integer homeTeamGoals;
     private Integer awayTeamGoals;
@@ -26,8 +26,25 @@ public class Match {
     private Integer homeTeamPenaltyGoals;
     private Integer awayTeamPenaltyGoals;
 
+    @OneToMany(mappedBy = "match")
+    private Set<MatchPlayer> matchPlayerSet;
 
     public Match() {
+    }
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "id=" + id +
+                ", homeTeam=" + homeTeam +
+                ", awayTeam=" + awayTeam +
+                ", homeTeamGoals=" + homeTeamGoals +
+                ", awayTeamGoals=" + awayTeamGoals +
+                ", result=" + result +
+                ", homeTeamPenaltyGoals=" + homeTeamPenaltyGoals +
+                ", awayTeamPenaltyGoals=" + awayTeamPenaltyGoals +
+                ", matchPlayerSet=" + matchPlayerSet +
+                '}';
     }
 }
 

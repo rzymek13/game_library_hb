@@ -1,8 +1,8 @@
 package com.prtech.game_library_hb.controller.dto;
 
-public record MatchPlayerDto (Long id,
+public record MatchPlayerDto (
                                String playerName,
-                               Integer goals,
-                                Integer matchId)
+                               Integer goals
+                              )
 {
 }

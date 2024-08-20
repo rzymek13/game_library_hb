@@ -20,6 +20,12 @@ private TeamRepository teamRepository;
     public Team getTeamById(Long id) {
         return teamRepository.findAll().stream().filter(team -> team.getId().equals(id)).findFirst().get();
     }
+    public Team getTeamByName(String name) {
+        return teamRepository.findAll().stream()
+                .filter(team -> team.getName().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("HomeTeam nie może być nullem"));
+    }
     public Team saveTeam(Team team) {
         return teamRepository.save(team);
     }
