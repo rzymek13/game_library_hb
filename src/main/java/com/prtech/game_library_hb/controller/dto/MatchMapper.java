@@ -24,7 +24,7 @@ public class MatchMapper {
                 .collect(Collectors.toList());
     }
 
-    private static MatchDto mapMatchToDto(Match match) {
+    public static MatchDto mapMatchToDto(Match match) {
         return new MatchDto(match.getId(),
                 TeamMapper.mapToTeamDto(match.getHomeTeam()),
                 TeamMapper.mapToTeamDto(match.getAwayTeam()),

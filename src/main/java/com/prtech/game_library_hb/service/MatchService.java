@@ -8,6 +8,7 @@ import com.prtech.game_library_hb.model.MatchPlayer;
 import com.prtech.game_library_hb.model.Player;
 import com.prtech.game_library_hb.model.Team;
 import com.prtech.game_library_hb.repository.MatchRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -16,6 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
+@Slf4j
 @Service
 public class MatchService {
     private final MatchRepository matchRepository;
@@ -47,7 +49,7 @@ public class MatchService {
                         match.getHomeTeamPenaltyGoals(),
                         match.getAwayTeamPenaltyGoals(),
                         matchPlayerService.findAllByMatchId(match.getId())
-                        ))
+                ))
                 .collect(Collectors.toList());
     }
 
@@ -65,6 +67,7 @@ public class MatchService {
         match.setHomeTeamPenaltyGoals(matchDto.homeTeamPenaltyGoals());
         match.setAwayTeamPenaltyGoals(matchDto.awayTeamPenaltyGoals());
         matchRepository.save(match);
+
         Set<MatchPlayer> matchPlayers = new HashSet<>();
         matchDto.matchPlayers().forEach(matchPlayerDto -> {
             Player player = playerService.getPlayerByName(matchPlayerDto.playerName());
@@ -76,9 +79,9 @@ public class MatchService {
             matchPlayerService.save(matchPlayer);
             matchPlayers.add(matchPlayer);
         });
+        log.info(match.getId().toString());
         match.setMatchPlayerSet(matchPlayers);
 
-
-        return matchDto;
+        return MatchMapper.mapMatchToDto(match);
     }
 }
