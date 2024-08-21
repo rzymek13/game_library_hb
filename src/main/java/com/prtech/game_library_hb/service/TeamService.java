@@ -2,6 +2,7 @@ package com.prtech.game_library_hb.service;
 
 import com.prtech.game_library_hb.model.Team;
 import com.prtech.game_library_hb.repository.TeamRepository;
+import org.openqa.selenium.json.Json;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,5 +36,10 @@ private TeamRepository teamRepository;
     }
     public void deleteAllTeams() {
         teamRepository.deleteAll();
+    }
+
+    public static void main(String[] args) {
+        // This is just a test method. You can add your own test cases here.
+        Json json = new Json();
     }
 }
