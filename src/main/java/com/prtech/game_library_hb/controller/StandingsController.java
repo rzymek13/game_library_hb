@@ -3,9 +3,7 @@ package com.prtech.game_library_hb.controller;
 import com.prtech.game_library_hb.model.Standings;
 import com.prtech.game_library_hb.service.StandingsService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,7 +17,6 @@ public class StandingsController {
     }
     @GetMapping("/standings")
     public List<Standings> readAllStandings() {
-        standingsService.deleteAllStandings();
         log.info("All the standings");
         return standingsService.findAllStandings();
     }
@@ -29,4 +26,20 @@ public class StandingsController {
         log.info("Creating a new standings");
         return standingsService.saveStandings();
     }
+    @DeleteMapping("/standings")
+    public void deleteAllStandings() {
+        log.info("Deleting all the standings");
+        standingsService.deleteAllStandings();
+    }
+    @DeleteMapping("/standings/{id}")
+    public void deteteStandingsById(@PathVariable Long id) {
+        /*
+        nie dziala usuwanie standings, przez drop table dziala
+
+
+
+         */
+        standingsService.delteById(id);
+    }
+
 }

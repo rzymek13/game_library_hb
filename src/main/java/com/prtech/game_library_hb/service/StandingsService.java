@@ -1,6 +1,5 @@
 package com.prtech.game_library_hb.service;
 
-import com.prtech.game_library_hb.controller.dto.MatchDto;
 import com.prtech.game_library_hb.model.Standings;
 import com.prtech.game_library_hb.repository.StandingsRepository;
 import org.springframework.stereotype.Service;
@@ -21,20 +20,14 @@ public class StandingsService {
     }
 
     public List<Standings> findAllStandings() {
+        resetStandings();
         matchService.readAllMatches()
                 .forEach(match -> resultsCreator(match.result()));
         return standingsRepository.findAll();
     }
 
-    public List<MatchDto> getEventsByTeam(String teamName) {
-        return matchService.readAllMatches().stream()
-                .filter(team -> team.homeTeam().name().equals(teamName))
-                .filter(team -> team.awayTeam().name().equals(teamName))
-                .toList();
-    }
 
     public List<Standings> saveStandings() {
-
         return teamService.getAllTeams().stream()
                 .map(team -> standingsRepository.save(new Standings(
                         null,
@@ -50,7 +43,6 @@ public class StandingsService {
                 .toList();
     }
     private void resultsCreator(Integer result){
-        resetStandings();
     switch (result) {
         case 1:
             matchService.getAllMatches().stream()
@@ -59,6 +51,9 @@ public class StandingsService {
                         Standings homeTeamStandings = getStandingsByName(match.homeTeam().name());
                         homeTeamStandings.setWins(homeTeamStandings.getWins()+1);
                         standingsRepository.save(homeTeamStandings);
+                        Standings awayTeamStandings = getStandingsByName(match.awayTeam().name());
+                        awayTeamStandings.setLoses(awayTeamStandings.getLoses()+1);
+                        standingsRepository.save(awayTeamStandings);
                     });
             break;
         case 2:
@@ -68,6 +63,9 @@ public class StandingsService {
                         Standings awayTeamStandings = getStandingsByName(match.awayTeam().name());
                         awayTeamStandings.setWins(awayTeamStandings.getWins()+1);
                         standingsRepository.save(awayTeamStandings);
+                        Standings homeTeamStandings = getStandingsByName(match.homeTeam().name());
+                        homeTeamStandings.setLoses(homeTeamStandings.getWins()+1);
+                        standingsRepository.save(homeTeamStandings);
                     });
             break;
         case 3:
@@ -107,10 +105,23 @@ public class StandingsService {
                 .get();
     }
     private void resetStandings() {
-        saveStandings();
+        standingsRepository.findAll().forEach(standings -> {
+            standings.setPoints(0);
+            standings.setMatchesPlayed(0);
+            standings.setGoalsScored(0);
+            standings.setGoalsConceded(0);
+            standings.setWins(0);
+            standings.setLoses(0);
+            standings.setWinsAfterPenalty(0);
+            standings.setLosesAfterPenalty(0);
+                }
+        );
     }
 
     public void deleteAllStandings() {
-        standingsRepository.deleteAll();
+        standingsRepository.findAll().forEach(standings -> delteById(standings.getId()));
+    }
+    public void delteById(Long id) {
+        standingsRepository.deleteById(id);
     }
 }

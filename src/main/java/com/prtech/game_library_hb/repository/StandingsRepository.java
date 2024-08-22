@@ -7,5 +7,5 @@ import java.util.List;
 public interface StandingsRepository {
     List<Standings> findAll();
     Standings save(Standings entity);
-    void deleteAll();
+    void deleteById(Long id);
 }
