@@ -15,23 +15,23 @@ public class StandingsController {
     public StandingsController(StandingsService standingsService) {
         this.standingsService = standingsService;
     }
-    @GetMapping("/standings")
+    @GetMapping("/handball/standings")
     public List<Standings> readAllStandings() {
         log.info("All the standings");
         return standingsService.findAllStandings();
     }
 
-    @PostMapping("/standings")
+    @PostMapping("/handball/standings")
     public List<Standings> createStandings() {
         log.info("Creating a new standings");
         return standingsService.saveStandings();
     }
-    @DeleteMapping("/standings")
+    @DeleteMapping("/handball/standings")
     public void deleteAllStandings() {
         log.info("Deleting all the standings");
         standingsService.deleteAllStandings();
     }
-    @DeleteMapping("/standings/{id}")
+    @DeleteMapping("/handball/standings/{id}")
     public void deteteStandingsById(@PathVariable Long id) {
         /*
         nie dziala usuwanie standings, przez drop table dziala

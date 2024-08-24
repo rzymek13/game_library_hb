@@ -93,6 +93,7 @@ public class StandingsService {
                     });
             break;
         default:
+            //ten wyjatek powninen być wyzej, w momencie dodawania meczu
             throw new IllegalArgumentException("Invalid result. Expected: 1 - home team won," +
                     " 2 - away team won -1, 3 - home team won after penalty 4, 4 - away team won after penalty");
     }

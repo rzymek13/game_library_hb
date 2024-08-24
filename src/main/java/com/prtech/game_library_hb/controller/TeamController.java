@@ -23,25 +23,25 @@ public class TeamController {
         this.teamService = teamService;
     }
 
-    @GetMapping(value = "/teams")
+    @GetMapping(value = "/handball/teams")
     List<Team> readAllTeams() {
         log.info("All the teams");
         return teamService.getAllTeams();
     }
 
-    @GetMapping("/teams/{id}")
+    @GetMapping("/handball/teams/{id}")
     Team readTeam(@PathVariable Long id) {
         log.info("Team with id: " + id);
         return teamService.getTeamById(id);
 
     }
 
-    @PostMapping("/teams")
+    @PostMapping("/handball/teams")
     Team createTeam(@RequestBody @Valid TeamNameDto string) {
         return teamService.saveTeam(mapDtoToTeam(string));
     }
 
-    @PutMapping("/teams/{id}")
+    @PutMapping("/handball/teams/{id}")
     public void updateTeamName(@PathVariable Long id, @RequestBody @Valid TeamNameDto string) {
         Team team = new Team();
         team.setId(id);
@@ -49,14 +49,14 @@ public class TeamController {
         teamService.saveTeam(team);
     }
 
-    @DeleteMapping("/teams/{id}")
+    @DeleteMapping("/handball/teams/{id}")
     ResponseEntity<?> deleteTeam(@PathVariable Long id) {
         log.info("Team with id: " + id + " deleted");
         teamService.deleteTeamById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/teams/deleteAll")
+    @DeleteMapping("/handball/teams/deleteAll")
     ResponseEntity<?> deleteAllTeams() {
         teamService.deleteAllTeams();
         return ResponseEntity.noContent().build();

@@ -24,20 +24,20 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    @GetMapping(value = "/players")
+    @GetMapping(value = "/handball/players")
     public List<PlayerDto> getAllPlayers() {
         return playerService.getAllPlayers().stream()
                 .map(PlayerMapper::mapPlayerToDto)
                 .toList();
     }
 
-    @GetMapping("/players/{id}")
+    @GetMapping("/handball/players/{id}")
     PlayerDto readPlayer(@PathVariable Long id) {
         log.info("Player with id: " + id);
         return mapPlayerToDto(playerService.getById(id));
     }
 
-    @GetMapping("/playersTeam/{id}")
+    @GetMapping("/handball/playersTeam/{id}")
     List<PlayerDto> readPlayersTeam(@PathVariable Long id) {
         log.info("Players in team with id: " + id);
         return playerService.getAllPlayers().stream()
@@ -46,24 +46,24 @@ public class PlayerController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/players")
+    @PostMapping("/handball/players")
     public Player createPlayer(@RequestBody PlayerDto playerDto) {
         return playerService.savePlayer(playerDto);
     }
 
-    @PostMapping("/players/addAll/{teamId}")
+    @PostMapping("/handball/players/addAll/{teamId}")
     public List<Player> addAllPlayers(@PathVariable Long teamId, @RequestBody List<PlayerDto> listOfPlayers) {
         return playerService.addAllPlayers(teamId, listOfPlayers);
     }
 
 
-    @DeleteMapping("/players/{id}")
+    @DeleteMapping("/handball/players/{id}")
     ResponseEntity<?> deletePlayer(@PathVariable Long id) {
         playerService.deletePlayerById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("players/deleteAll")
+    @DeleteMapping("/handballplayers/deleteAll")
     ResponseEntity<?> deleteAllPlayers() {
         playerService.deleteAllPlayers();
         return ResponseEntity.noContent().build();

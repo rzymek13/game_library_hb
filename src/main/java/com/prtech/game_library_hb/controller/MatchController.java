@@ -22,7 +22,7 @@ public class MatchController {
     }
 
 
-    @GetMapping("/matches")
+    @GetMapping("/handball/matches")
     List<MatchDto> readAllMatches() {
         return matchService.readAllMatches();
     }
@@ -32,20 +32,20 @@ public class MatchController {
     }
 
 
-//    @GetMapping("/matches/{id}")
+//    @GetMapping("/handball/matches/{id}")
 //    MatchDto readMatch(@PathVariable Long id) {
 //        log.info("Match with id: " + id);
 //        return mapMatchToDto(matchService.getMatchById(id));
 //    }
 
-    @PostMapping("/matches")
+    @PostMapping("/handball/matches")
     public MatchDto createMatch(@RequestBody MatchDto matchDTO) {
         return matchService.saveMatch(matchDTO);
     }
 
 
     //
-//    @PutMapping("/matches/{id}")
+//    @PutMapping("/handball/matches/{id}")
 //    ResponseEntity<?> updateMatch(@PathVariable Long id, @RequestBody Match match) {
 //        Match updateMatch = matchRepository.findById(id)
 //                .orElseThrow(() -> new RuntimeException("match not exist with id: " + id));
