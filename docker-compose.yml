@@ -1,0 +1,41 @@
+version: '3.7'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8090:8090
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/handball_test
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Rzymek13!
+    networks:
+      - springboot-mysql-network
+  mysqldb:
+    image: mysql:8.0.33
+    ports:
+      - 3307:3306
+    environment:
+      - DATABASE_USER=root
+
+      - MYSQL_DATABASE=handball_test
+      - MYSQL_ROOT_PASSWORD=Rzymek13!
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+          test: [ "CMD", "mysqladmin" ,"ping", "-h", "mysqldb" ]
+          retries: 10
+          interval: 3s
+          timeout: 30s
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - springboot-mysql-network
+volumes:
+  mysql-data:
+networks:
+  springboot-mysql-network:
+    name: springboot-mysql-network

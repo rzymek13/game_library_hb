@@ -15,9 +15,10 @@ import static com.prtech.game_library_hb.controller.dto.PlayerMapper.mapPlayerTo
 
 
 @Slf4j
+@CrossOrigin
 @RestController
 public class PlayerController {
-    private PlayerService playerService;
+    private final PlayerService playerService;
 
 
     public PlayerController(PlayerService playerService) {

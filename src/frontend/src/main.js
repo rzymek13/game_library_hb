@@ -1,4 +1,4 @@
 import { createApp } from 'vue'
-import TeamsTeams from './TeamsTeams.vue'
+import App from './App.vue'
 
-createApp(TeamsTeams).mount('#app')
+createApp(App).mount('#app')
