@@ -9,6 +9,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@CrossOrigin
 public class StandingsController {
     private StandingsService standingsService;
 
