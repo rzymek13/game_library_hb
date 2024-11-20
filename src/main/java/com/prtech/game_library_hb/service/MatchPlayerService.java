@@ -17,15 +17,32 @@ public class MatchPlayerService {
     public MatchPlayerService(MatchPlayerRepository matchPlayerRepository) {
         this.matchPlayerRepository = matchPlayerRepository;
     }
-    public List<MatchPlayer> findAll() {
-        return matchPlayerRepository.findAll();
+    public List<MatchPlayerDto> findAll() {
+        return MatchMapper.mapPlayersMatchToDtos(matchPlayerRepository.findAll());
     }
+
     public Set<MatchPlayerDto> findAllByMatchId(Long id) {
         return matchPlayerRepository.findAll().stream()
                .filter(matchPlayer -> matchPlayer.getMatch().getId().equals(id))
                .map(MatchMapper::mapPlayerMatchToDto)
                .collect(Collectors.toSet());
     }
+    public Set<MatchPlayerDto> findAllByPlayerId(Long id) {
+        return matchPlayerRepository.findAll().stream()
+                .filter(matchPlayer -> matchPlayer.getPlayer().getId().equals(id))
+                .map(MatchMapper::mapPlayerMatchToDto)
+                .collect(Collectors.toSet());
+    }
+
+
+    public Set<MatchPlayerDto> getAllScorers() {
+        return matchPlayerRepository.findAll().stream()
+                .collect(Collectors.groupingBy(MatchPlayer::getPlayer))
+                .entrySet().stream()
+                .map(entry -> new MatchPlayerDto(entry.getKey().getName(), entry.getValue().stream().mapToInt(MatchPlayer::getGoals).sum()))
+                .collect(Collectors.toSet());
+    }
+
     public MatchPlayer save(MatchPlayer matchPlayer) {
         return matchPlayerRepository.save(matchPlayer);
     }

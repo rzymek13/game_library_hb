@@ -5,10 +5,12 @@ import com.prtech.game_library_hb.model.Team;
 import com.prtech.game_library_hb.service.TeamService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import org.springframework.ui.Model;
 
 import static com.prtech.game_library_hb.controller.dto.TeamMapper.mapDtoToTeam;
 
@@ -18,11 +20,13 @@ import static com.prtech.game_library_hb.controller.dto.TeamMapper.mapDtoToTeam;
 @Transactional
 @CrossOrigin
 public class TeamController {
+    @Autowired
     private final TeamService teamService;
 
     public TeamController(final TeamService teamService) {
         this.teamService = teamService;
     }
+
 
     @GetMapping(value = "/handball/teams")
     List<Team> readAllTeams() {

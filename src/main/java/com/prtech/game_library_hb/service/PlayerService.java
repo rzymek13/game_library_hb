@@ -6,6 +6,7 @@ import com.prtech.game_library_hb.controller.dto.PlayerDto;
 import com.prtech.game_library_hb.repository.PlayerRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -25,15 +26,21 @@ public class PlayerService {
 
     public Player getById(Long id) {
         return playerRepository.findAll().stream()
-                .filter(player -> player.getId() == id)
+                .filter(player -> player.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("nie znaleziono takiego zawonika"));
+                .orElseThrow(() -> new RuntimeException("nie znaleziono takiego zawonika" + id));
+    }
+    public Set<Player> getByTeamId(Long teamId) {
+        return playerRepository.findAll().stream()
+                .filter(player -> player.getTeam().getId() == teamId)
+                .collect(Collectors.toSet());
+
     }
     public Player getPlayerByName(String name) {
         return playerRepository.findAll().stream()
                 .filter(player -> player.getName().equals(name))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("nie znaleziono takiego zawonika"));
+                .orElseThrow(() -> new RuntimeException("nie znaleziono takiego zawonika" + name));
     }
 
     public Player savePlayer(PlayerDto playerDto) {

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Teams</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+</head>
+<body>
+<a href="/home">
+    <button>
+        Cofnij
+    </button>
+</a>
+
+<h1 th:text="${team.name}"></h1>
+<table>
+    <thead>
+    <tr>
+        <th></th>
+        <th>imię i nazwisko</th>
+        <th>Akcje</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="player, iterStat : ${players}">
+        <td th:text="${iterStat.count}"></td>
+        <td th:text="${player.name}"></td>
+        <td>
+            <a th:href="@{/player/{id}/delete(id=${player.id})}" class="delete-link" style="display: none;">Usuń</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<form th:action="@{/team/{id}/addPlayer(id=${team.id})}" method="post" id="add-player-form" style="display: none;">
+    <input type="text" name="name" placeholder="Imię i nazwisko" required/>
+    <button type="submit">Dodaj zawodnika</button>
+</form>
+
+<button id="edit-button">Edytuj</button>
+
+<script>
+    document.getElementById('edit-button').addEventListener('click', function() {
+        var deleteLinks = document.querySelectorAll('.delete-link');
+        var addPlayerForm = document.getElementById('add-player-form');
+        deleteLinks.forEach(function(link) {
+            link.style.display = link.style.display === 'none' ? 'inline' : 'none';
+        });
+        addPlayerForm.style.display = addPlayerForm.style.display === 'none' ? 'block' : 'none';
+    });
+</script>
+
+</body>
+</html>

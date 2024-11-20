@@ -16,6 +16,7 @@ public class StandingsController {
     public StandingsController(StandingsService standingsService) {
         this.standingsService = standingsService;
     }
+
     @GetMapping("/handball/standings")
     public List<Standings> readAllStandings() {
         log.info("All the standings");
