@@ -1,20 +1,69 @@
 package com.prtech.game_library_hb.controller;
 
-import com.prtech.game_library_hb.repository.TeamRepository;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.prtech.game_library_hb.controller.dto.TeamNameDto;
+import com.prtech.game_library_hb.model.Team;
+import com.prtech.game_library_hb.service.TeamService;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import org.springframework.ui.Model;
+
+import static com.prtech.game_library_hb.controller.dto.TeamMapper.mapDtoToTeam;
 
 
 @RestController
-@RequestMapping("/teams")
+@Slf4j
+@Transactional
+@CrossOrigin
 public class TeamController {
-    private final TeamRepository teamRepository;
+    @Autowired
+    private final TeamService teamService;
 
-    public TeamController(TeamRepository teamRepository) {
-        this.teamRepository = teamRepository;
+    public TeamController(final TeamService teamService) {
+        this.teamService = teamService;
     }
 
-//    public List<Team> findAll() {
-//        return teamRepository.findAll();
-//    }
+
+    @GetMapping(value = "/handball/teams")
+    List<Team> readAllTeams() {
+        log.info("All the teams");
+        return teamService.getAllTeams();
+    }
+
+    @GetMapping("/handball/teams/{id}")
+    Team readTeam(@PathVariable Long id) {
+        log.info("Team with id: " + id);
+        return teamService.getTeamById(id);
+
+    }
+
+    @PostMapping("/handball/teams")
+    Team createTeam(@RequestBody @Valid TeamNameDto string) {
+        return teamService.saveTeam(mapDtoToTeam(string));
+    }
+
+    @PutMapping("/handball/teams/{id}")
+    public void updateTeamName(@PathVariable Long id, @RequestBody @Valid TeamNameDto string) {
+        Team team = new Team();
+        team.setId(id);
+        team.setName(string.name());
+        teamService.saveTeam(team);
+    }
+
+    @DeleteMapping("/handball/teams/{id}")
+    ResponseEntity<?> deleteTeam(@PathVariable Long id) {
+        log.info("Team with id: " + id + " deleted");
+        teamService.deleteTeamById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/handball/teams/deleteAll")
+    ResponseEntity<?> deleteAllTeams() {
+        teamService.deleteAllTeams();
+        return ResponseEntity.noContent().build();
+    }
 }

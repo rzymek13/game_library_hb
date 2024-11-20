@@ -2,11 +2,14 @@ package com.prtech.game_library_hb.repository;
 
 import com.prtech.game_library_hb.model.Team;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import java.util.List;
 
+public interface TeamRepository {
+    List<Team> findAll();
 
-@RepositoryRestResource
-public interface TeamRepository extends JpaRepository<Team, Integer> {
+    Team save(Team entity);
 
+    void deleteById(Long id);
+
+    void deleteAll();
 }
