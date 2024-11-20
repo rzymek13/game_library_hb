@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Teams</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+</head>
+<body>
+<h1>Drużyny</h1>
+<table>
+    <thead>
+    <tr>
+        <th></th>
+        <th>drużyna</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="team, iterStat : ${teams}">
+        <td th:text="${iterStat.count}"></td>
+        <td><a th:href="@{/team/{id}(id=${team.id})}" th:text="${team.name}"></a></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
