@@ -6,21 +6,29 @@
 </head>
 <body>
 <div th:include="header"></div>
-<h1>Drużyny</h1>
+<h1>Klasyfikacja strzelców</h1>
+
+<h1 Klasyfikacja strzelców></h1>
 <table>
     <thead>
     <tr>
         <th></th>
-        <th>drużyna</th>
+        <th>imię i nazwisko</th>
+        <th>klub</th>
+        <th>Liczba bramek</th>
     </tr>
-    </thead>
+
     <tbody>
-    <tr th:each="team, iterStat : ${teams}">
+    <tr th:each="scorers, iterStat : ${scorers}">
         <td th:text="${iterStat.count}"></td>
-        <td><a th:href="@{/team/{id}(id=${team.id})}" th:text="${team.name}"></a></td>
+        <td th:text="${scorers.playerName}"></td>
+        <td th:text="${scorers.team}"></td>
+        <td th:text="${scorers.goals}"></td>
     </tr>
     </tbody>
 </table>
+
+
 
 </body>
 </html>

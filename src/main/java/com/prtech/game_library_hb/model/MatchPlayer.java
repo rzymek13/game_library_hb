@@ -14,6 +14,9 @@ public class MatchPlayer {
     @ManyToOne(fetch = FetchType.LAZY)
     private Player player;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Team team;
+
     private Integer goals;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

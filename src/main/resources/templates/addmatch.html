@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup z formularzem</title>
+    <style>
+        /* Styl dla tła popup */
+        .popup {
+            display: none; /* Ukryj domyślnie */
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        /* Styl dla samego formularza */
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <script>
+        function togglePopup() {
+            const popup = document.getElementById('popup');
+            popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+        }
+    </script>
+</head>
+<body>
+
+<button onclick="togglePopup()">Otwórz formularz</button>
+
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <h2>Formularz</h2>
+        <form action="#" th:action="@{/submit}" method="post">
+            <label for="name">Imię:</label>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+            <button type="submit">Wyślij</button>
+            <button type="button" onclick="togglePopup()">Zamknij</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

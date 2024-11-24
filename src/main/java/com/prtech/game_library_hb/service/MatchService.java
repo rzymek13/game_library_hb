@@ -7,6 +7,7 @@ import com.prtech.game_library_hb.model.Match;
 import com.prtech.game_library_hb.model.MatchPlayer;
 import com.prtech.game_library_hb.model.Player;
 import com.prtech.game_library_hb.model.Team;
+import com.prtech.game_library_hb.repository.MatchPlayerRepository;
 import com.prtech.game_library_hb.repository.MatchRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,13 +25,15 @@ public class MatchService {
     private final TeamService teamService;
     private final MatchPlayerService matchPlayerService;
     private final PlayerService playerService;
+    private final MatchPlayerRepository matchPlayerRepository;
 
 
-    public MatchService(MatchRepository matchRepository, TeamService teamService, MatchPlayerService matchPlayerService, PlayerService playerService) {
+    public MatchService(MatchRepository matchRepository, TeamService teamService, MatchPlayerService matchPlayerService, PlayerService playerService, MatchPlayerRepository matchPlayerRepository) {
         this.matchRepository = matchRepository;
         this.teamService = teamService;
         this.matchPlayerService = matchPlayerService;
         this.playerService = playerService;
+        this.matchPlayerRepository = matchPlayerRepository;
     }
 
     public List<MatchDto> getAllMatches() {
@@ -83,5 +86,12 @@ public class MatchService {
         match.setMatchPlayerSet(matchPlayers);
 
         return MatchMapper.mapMatchToDto(match);
+    }
+    public void deleteMatchById(Long id) {
+        matchPlayerRepository.findAll().stream()
+                .filter(matchPlayer -> matchPlayer.getMatch().getId().equals(id))
+                .forEach(matchPlayer -> matchPlayerService.deleteMatchPlayer(matchPlayer.getId()));
+        matchRepository.deleteById(id);
+        log.info("Match with id: {} deleted", id);
     }
 }

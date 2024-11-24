@@ -8,4 +8,5 @@ import java.util.List;
 public interface MatchPlayerRepository {
     List<MatchPlayer> findAll();
     MatchPlayer save(MatchPlayer entity);
+    void deleteById(Long matchId);
 }

@@ -36,23 +36,19 @@ public class MatchController {
     }
 
     @GetMapping("handball/scorers")
-    public Set<MatchPlayerDto> getScorers() {
+    public List<MatchPlayerDto> getScorers() {
         return matchPlayerService.getAllScorers();
     }
-
-
-//    @GetMapping("/handball/matches/{id}")
-//    MatchDto readMatch(@PathVariable Long id) {
-//        log.info("Match with id: " + id);
-//        return mapMatchToDto(matchService.getMatchById(id));
-//    }
-
 
     @PostMapping("/handball/matches")
     public MatchDto createMatch(@RequestBody MatchDto matchDTO) {
         return matchService.saveMatch(matchDTO);
     }
 
+    @DeleteMapping("/handball/matches/{id}")
+    public void deleteMatch(@PathVariable Long id) {
+        matchService.deleteMatchById(id);
+    }
 
     //
 //    @PutMapping("/handball/matches/{id}")

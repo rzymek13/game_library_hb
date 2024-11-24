@@ -71,3 +71,20 @@ table tbody tr:last-of-type {
     position: absolute;
     right: 0;
 }
+
+
+nav {
+            background-color: #343a40;
+            color: white; /* White text */
+            padding: 15px; /* Spacing inside the nav */
+        }
+        nav a {
+            color: white; /* White text for links */
+            padding: 14px 20px; /* Spacing for links */
+            text-decoration: none; /* Removing underline from links */
+            display: inline-block; /* Aligning links in a row */
+        }
+        nav a:hover {
+            background-color: #787878 /* Darker green on hover */
+        }
+

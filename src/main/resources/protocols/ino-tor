@@ -1,0 +1,199 @@
+ {
+        "homeTeam": {
+            "name": "EKOSERWIS DAMY RADE INOWROCLAW"
+        },
+        "awayTeam": {
+            "name": "DAP SENIOR"
+        },
+        "homeTeamGoals": 34,
+        "awayTeamGoals": 27,
+        "result": 1,
+        "homeTeamPenaltyGoals": 0,
+        "awayTeamPenaltyGoals": 0,
+        "matchPlayers": [
+            {
+                "playerName": "BECELA Kacper",
+                "goals": 0
+            },
+            {
+                "playerName": "BILENDA Krzysztof",
+                "goals": 0
+            },
+            {
+                "playerName": "BRYLL Aleksander",
+                "goals": 0
+            },
+            {
+                 "playerName": "CHROŚNIAK Mateusz",
+                 "goals": 0
+            },
+            {
+                 "playerName": "FAJOK Arkadiusz",
+                 "goals": 0
+            },
+            {
+                "playerName": "HEŁMINIAK Nikodem",
+                "goals": 1
+            },
+            {
+                "playerName": "KACZALSKI Kamil",
+                "goals": 0
+            },
+            {
+                "playerName": "KOŚCIKIEWICZ Radosław",
+                "goals": 4
+            },
+            {
+                "playerName": "LEWANDOWSKI Artur",
+                "goals": 9
+            },
+            {
+                "playerName": "ŁOŻYKOWSKI Cezary",
+                "goals": 4
+            },
+            {
+                "playerName": "NAWROCKI Antoni",
+                "goals": 2
+            },
+            {
+                "playerName": "NIEWIADOMSKI Hubert",
+                "goals": 2
+            },
+            {
+                "playerName": "OPERACZ Zbigniew",
+                "goals": 1
+            },
+            {
+                "playerName": "POLEWSKI Jan",
+                "goals": 0
+            },
+            {
+                "playerName": "SZTANDUR Piotr",
+                "goals": 0
+            },
+            {
+                "playerName": "WITOŃ Karol",
+                "goals": 10
+            },
+            {
+                "playerName": "WUDAREK Jan",
+                "goals": 1
+            },
+            {
+                "playerName": "ZBIJEWSKI Paweł",
+                "goals": 0
+            },
+            {
+                "playerName": "ZELMANOWSKI Adrian",
+                "goals": 0
+            },
+            {
+                "playerName": "BRANICKI Mikołaj",
+                "goals": 3
+            },
+            {
+                "playerName": "CHEŁKOWSKI Oliwier",
+                "goals": 4
+            },
+            {
+                "playerName": "GOŚCIAK Łukasz",
+                "goals": 1
+            },
+            {
+                 "playerName": "JANISZEWSKI Paweł",
+                 "goals": 0
+                                    },
+            {
+                 "playerName": "JANOWSKI Kacper",
+                 "goals": 0
+            },
+            {
+                "playerName": "JASTRZĘBSKI Paweł",
+                "goals": 0
+            },
+            {
+                "playerName": "JUSZCZYŃSKI Dominik",
+                "goals": 0
+            },
+            {
+                "playerName": "KOGOWSKI Jan",
+                "goals": 0
+            },
+            {
+                "playerName": "KOWALSKI Filip",
+                "goals": 0
+            },
+            {
+                "playerName": "KOWALSKI Kamil",
+                "goals": 2
+            },
+            {
+                "playerName": "KOZŁOWSKI Maciej",
+                "goals": 0
+            },
+            {
+                "playerName": "KRĘŻEL Karol",
+                "goals": 0
+            },
+            {
+                "playerName": "KUBIK Kacper",
+                "goals": 4
+            },
+            {
+                "playerName": "MAKSYMIUK Kacper",
+                "goals": 0
+            },
+            {
+                "playerName": "MILOCH Piotr",
+                "goals": 0
+            },
+            {
+                "playerName": "PARADOWSKI Adrian",
+                "goals": 1
+            },
+            {
+                "playerName": "PEYCELON Timothee",
+                "goals": 0
+            },
+            {
+                "playerName": "RAK Nikodem",
+                "goals": 0
+            },
+            {
+                "playerName": "ROGOWSKI Radosław",
+                "goals": 0
+            },
+            {
+                "playerName": "RZYMKOWSKI Przemysław",
+                "goals": 5
+            },
+            {
+                "playerName": "SIEDLECKI Wiktor",
+                "goals": 0
+            },
+            {
+                "playerName": "SOLECKI Daniel",
+                "goals": 0
+            },
+            {
+                "playerName": "SZABŁOWSKI Patryk",
+                "goals": 0
+            },
+            {
+                "playerName": "TACZKOWSKI Marcel",
+                "goals": 0
+            },
+            {
+                "playerName": "TRZMIELEWSKI Igor",
+                "goals": 0
+            },
+            {
+                "playerName": "WIŚNIEWSKI Jakub",
+                "goals": 0
+            },
+            {
+                "playerName": "ZUBOWICZ Łukasz",
+                "goals": 1
+            }
+        ]
+    }

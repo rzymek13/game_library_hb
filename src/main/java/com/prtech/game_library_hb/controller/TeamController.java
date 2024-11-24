@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import org.springframework.ui.Model;
 
 import static com.prtech.game_library_hb.controller.dto.TeamMapper.mapDtoToTeam;
 

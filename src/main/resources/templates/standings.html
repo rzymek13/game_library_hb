@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Teams</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div th:include="header"></div>
+<h1>Tabela</h1>
+<table>
+    <thead>
+    <tr>
+        <th>miejsce</th>
+        <th>drużyna</th>
+        <th>rozegrane mecze</th>
+        <th>punkty</th>
+        <th>bilans</th>
+        <th>wygrane</th>
+        <th>wygrane po k</th>
+        <th>przegrane</th>
+        <th>przegrane po k</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="standings, iterStat : ${standings}">
+        <td th:text="${iterStat.count}"></td>
+        <td th:text="${standings.team.name}"></td>
+        <td th:text="${standings.matchesPlayed}"></td>
+        <td th:text="${standings.points}"></td>
+        <td th:text="${standings.goalsScored} + ':' + ${standings.goalsConceded}"></td>
+        <td th:text="${standings.wins}"></td>
+        <td th:text="${standings.winsAfterPenalty}"></td>
+        <td th:text="${standings.loses}"></td>
+        <td th:text="${standings.losesAfterPenalty}"></td>
+    </tr>
+    </tbody>
+</table>
+<style>
+    /* Styl dla tła popup */
+    .popup {
+        display: none; /* Ukryj domyślnie */
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+    /* Styl dla samego formularza */
+    .popup-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+<script>
+    function togglePopup() {
+        const popup = document.getElementById('popup');
+        popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+    }
+</script>
+
+<button onclick="togglePopup()">dodaj spotkanie</button>
+
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <h2>Formularz</h2>
+        <form action="#" th:action="@{/submit}" method="post">
+            <label for="team">Drużyna gospodarzy</label>
+            <select id="team" name="team">
+                <option value="">Wybierz drużynę</option>
+                <option value="Drużyna A">Drużyna A</option>
+                <option value="Drużyna B">Drużyna B</option>
+                <option value="Drużyna C">Drużyna C</option>
+                <!-- dodaj więcej opcji -->
+            </select>
+            <br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+            <button type="submit">Wyślij</button>
+            <button type="button" onclick="togglePopup()">Zamknij</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

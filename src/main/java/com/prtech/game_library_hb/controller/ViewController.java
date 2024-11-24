@@ -1,6 +1,5 @@
 package com.prtech.game_library_hb.controller;
 
-import com.prtech.game_library_hb.controller.dto.MatchPlayerDto;
 import com.prtech.game_library_hb.controller.dto.PlayerDto;
 import com.prtech.game_library_hb.service.*;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
 
 @Controller
 @Slf4j
@@ -56,5 +54,14 @@ public class ViewController {
         return String.format("redirect:/team/%d", teamId);
     }
 
-//    public Set<MatchPlayerDto>
+    @GetMapping("/scorers")
+    public String scorersView(Model model) {
+        model.addAttribute("scorers", matchPlayerService.getAllScorers());
+        return "scorers";
+    }
+    @GetMapping("/standings")
+    public String standingsView(Model model) {
+        model.addAttribute("standings", standingsService.findAllStandings());
+        return "standings";
+    }
 }
