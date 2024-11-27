@@ -62,6 +62,31 @@
         popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
     }
 </script>
+<script>
+    function showPlayers() {
+        var teamId = document.getElementById('team').value;
+        var playersDiv = document.getElementById('players');
+        playersDiv.style.display = 'block';
+
+        // Make an AJAX request to retrieve the list of players for the selected team
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/players/' + teamId, true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var players = JSON.parse(xhr.responseText);
+                var playersList = document.getElementById('players-list');
+                playersList.innerHTML = '';
+
+                players.forEach(function(player) {
+                    var playerListItem = document.createElement('li');
+                    playerListItem.innerHTML = '<span>' + player.name + '</span><input type="number" value="' + player.goals + '" placeholder="Liczba bramek">';
+                    playersList.appendChild(playerListItem);
+                });
+            }
+        };
+        xhr.send();
+    }
+</script>
 
 <button onclick="togglePopup()">dodaj spotkanie</button>
 
@@ -69,17 +94,46 @@
     <div class="popup-content">
         <h2>Formularz</h2>
         <form action="#" th:action="@{/submit}" method="post">
-            <label for="team">Drużyna gospodarzy</label>
-            <select id="team" name="team">
+            <label for="homeTeam">Drużyna gospodarzy</label>
+            <select id="homeTeam" name="team" th:change="showPlayers()>
                 <option value="">Wybierz drużynę</option>
-                <option value="Drużyna A">Drużyna A</option>
-                <option value="Drużyna B">Drużyna B</option>
-                <option value="Drużyna C">Drużyna C</option>
-                <!-- dodaj więcej opcji -->
+                <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}">Team</option>
             </select>
             <br>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
+            <label for="awayTeam">Drużyna gości</label>
+            <select id="awayTeam" name="team" th:change="showPlayers()>
+                <option value="">Wybierz drużynę</option>
+                <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}">Team</option>
+            </select>
+            <br>
+
+            <label for="l bramek gospo">liczba bramek gospodarze</label>
+            <input id="l bramek gospo"><br>
+
+            <label for="l bramek goscie">liczba bramek gości</label>
+            <input id="l bramek goscie"><br>
+
+            <label >wybierz wynik</label>
+            <select>
+                <option value="">Wybierz rezultat</option>
+
+                <option value="1">wygrana gospodarzy</option>
+                <option value="2">wygrana gości</option>
+                <option value="3">wygrana gospodarzy po karnych</option>
+                <option value="4">wygrana gości po karnych</option>
+            </select>
+            <br>
+            <label >dodaj strzelców bramek</label>
+            <br>
+            <div id="players" style="display: none;">
+                <h2>Zawodnicy:</h2>
+                <ul>
+                    <li th:each="player : ${players}">
+                        <span th:text="${player.name}"></span>
+                        <input type="number" th:value="${player.goals}" th:placeholder="Liczba bramek">
+                    </li>
+                </ul>
+            </div>
             <button type="submit">Wyślij</button>
             <button type="button" onclick="togglePopup()">Zamknij</button>
         </form>
