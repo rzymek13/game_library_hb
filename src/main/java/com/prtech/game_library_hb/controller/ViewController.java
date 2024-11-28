@@ -63,13 +63,13 @@ public class ViewController {
     public String standingsView(Model model) {
         model.addAttribute("standings", standingsService.findAllStandings());
         model.addAttribute("teams", teamService.getAllTeams());
-        model.addAttribute("MKS BRODNICA", playerService.getByTeamId(1L));
-        model.addAttribute("DAP SENIOR", playerService.getByTeamId(2L));
-        model.addAttribute("EKOSERWIS DAMY RADE INOWROCLAW", playerService.getByTeamId(3L));
-        model.addAttribute("AZS WLOCLAWEK", playerService.getByTeamId(4L));
-        model.addAttribute("UKS ALFA 99 STRZELNO", playerService.getByTeamId(5L));
-        model.addAttribute("MKS GRUDZIADZ II", playerService.getByTeamId(6L));
-        model.addAttribute("UKW II BYDGOSZCZ", playerService.getByTeamId(7L));
+        model.addAttribute("teambr", playerService.getByTeamId(1L));
+//        model.addAttribute("DAP SENIOR", playerService.getByTeamId(2L));
+//        model.addAttribute("EKOSERWIS DAMY RADE INOWROCLAW", playerService.getByTeamId(3L));
+//        model.addAttribute("AZS WLOCLAWEK", playerService.getByTeamId(4L));
+//        model.addAttribute("UKS ALFA 99 STRZELNO", playerService.getByTeamId(5L));
+//        model.addAttribute("MKS GRUDZIADZ II", playerService.getByTeamId(6L));
+//        model.addAttribute("UKW II BYDGOSZCZ", playerService.getByTeamId(7L));
         return "standings";
     }
 }

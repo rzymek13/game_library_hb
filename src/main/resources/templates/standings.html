@@ -36,9 +36,8 @@
     </tbody>
 </table>
 <style>
-    /* Styl dla tła popup */
     .popup {
-        display: none; /* Ukryj domyślnie */
+        display: none;
         position: fixed;
         left: 0;
         top: 0;
@@ -48,7 +47,6 @@
         justify-content: center;
         align-items: center;
     }
-    /* Styl dla samego formularza */
     .popup-content {
         background-color: white;
         padding: 20px;
@@ -63,17 +61,19 @@
     }
 </script>
 <script>
-    function showPlayers() {
-        var teamId = document.getElementById('team').value;
+    function showPlayers(teamType) {
+        var teamId = document.getElementById(teamType).value;
         var playersDiv = document.getElementById('players');
         playersDiv.style.display = 'block';
 
-        // Make an AJAX request to retrieve the list of players for the selected team
+        console.log('Selected team ID:', teamId);
+
         var xhr = new XMLHttpRequest();
         xhr.open('GET', '/players/' + teamId, true);
         xhr.onload = function() {
             if (xhr.status === 200) {
                 var players = JSON.parse(xhr.responseText);
+                console.log('Fetched players:', players);
                 var playersList = document.getElementById('players-list');
                 playersList.innerHTML = '';
 
@@ -82,7 +82,12 @@
                     playerListItem.innerHTML = '<span>' + player.name + '</span><input type="number" value="' + player.goals + '" placeholder="Liczba bramek">';
                     playersList.appendChild(playerListItem);
                 });
+            } else {
+                console.error('Failed to fetch players:', xhr.status, xhr.statusText);
             }
+        };
+        xhr.onerror = function() {
+            console.error('Request error');
         };
         xhr.send();
     }
@@ -95,14 +100,14 @@
         <h2>Formularz</h2>
         <form action="#" th:action="@{/submit}" method="post">
             <label for="homeTeam">Drużyna gospodarzy</label>
-            <select id="homeTeam" name="team" th:change="showPlayers()>
-                <option value="">Wybierz drużynę</option>
+            <select id="homeTeam" name="team1" onchange="showPlayers('homeTeam')">
+                <option value="team1">Wybierz drużynę</option>
                 <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}">Team</option>
             </select>
             <br>
             <label for="awayTeam">Drużyna gości</label>
-            <select id="awayTeam" name="team" th:change="showPlayers()>
-                <option value="">Wybierz drużynę</option>
+            <select id="awayTeam" name="team2" onchange="showPlayers('awayTeam')">
+                <option value="team2">Wybierz drużynę</option>
                 <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}">Team</option>
             </select>
             <br>
@@ -113,24 +118,23 @@
             <label for="l bramek goscie">liczba bramek gości</label>
             <input id="l bramek goscie"><br>
 
-            <label >wybierz wynik</label>
+            <label>wybierz wynik</label>
             <select>
                 <option value="">Wybierz rezultat</option>
-
                 <option value="1">wygrana gospodarzy</option>
                 <option value="2">wygrana gości</option>
                 <option value="3">wygrana gospodarzy po karnych</option>
                 <option value="4">wygrana gości po karnych</option>
             </select>
             <br>
-            <label >dodaj strzelców bramek</label>
+            <label>dodaj strzelców bramek</label>
             <br>
             <div id="players" style="display: none;">
                 <h2>Zawodnicy:</h2>
-                <ul>
-                    <li th:each="player : ${players}">
+                <ul id="players-list">
+                    <li th:each="player : ${teambr}">
                         <span th:text="${player.name}"></span>
-                        <input type="number" th:value="${player.goals}" th:placeholder="Liczba bramek">
+                        <input type="number" >
                     </li>
                 </ul>
             </div>
