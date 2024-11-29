@@ -30,10 +30,10 @@ public class PlayerService {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("nie znaleziono takiego zawonika" + id));
     }
-    public Set<Player> getByTeamId(Long teamId) {
+    public List<Player> getByTeamId(Long teamId) {
         return playerRepository.findAll().stream()
                 .filter(player -> player.getTeam().getId() == teamId)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
 
     }
     public Player getPlayerByName(String name) {

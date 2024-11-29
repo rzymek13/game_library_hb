@@ -62,35 +62,38 @@
 </script>
 <script>
     function showPlayers(teamType) {
-        var teamId = document.getElementById(teamType).value;
-        var playersDiv = document.getElementById('players');
-        playersDiv.style.display = 'block';
+    var teamId = document.getElementById(teamType).value;
+    var playersDiv = document.getElementById('players');
+    var playersList = document.getElementById('players-list');
 
-        console.log('Selected team ID:', teamId);
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/players/' + teamId, true);
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                var players = JSON.parse(xhr.responseText);
-                console.log('Fetched players:', players);
-                var playersList = document.getElementById('players-list');
-                playersList.innerHTML = '';
-
-                players.forEach(function(player) {
-                    var playerListItem = document.createElement('li');
-                    playerListItem.innerHTML = '<span>' + player.name + '</span><input type="number" value="' + player.goals + '" placeholder="Liczba bramek">';
-                    playersList.appendChild(playerListItem);
-                });
-            } else {
-                console.error('Failed to fetch players:', xhr.status, xhr.statusText);
-            }
-        };
-        xhr.onerror = function() {
-            console.error('Request error');
-        };
-        xhr.send();
+    if (!teamId) {
+        playersDiv.style.display = 'none';
+        return;
     }
+
+    playersDiv.style.display = 'block';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/handball/playersTeam/' + teamId, true);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            var players = JSON.parse(xhr.responseText);
+            playersList.innerHTML = '';
+
+            players.forEach(function(player) {
+                var playerListItem = document.createElement('li');
+                playerListItem.innerHTML = '<span>' + player.name + '</span><input type="number" value="' + player.goals + '" placeholder="Liczba bramek">';
+                playersList.appendChild(playerListItem);
+            });
+        } else {
+            console.error('Failed to fetch players:', xhr.status, xhr.statusText);
+        }
+    };
+    xhr.onerror = function() {
+        console.error('Request error');
+    };
+    xhr.send();
+}
 </script>
 
 <button onclick="togglePopup()">dodaj spotkanie</button>
@@ -101,16 +104,29 @@
         <form action="#" th:action="@{/submit}" method="post">
             <label for="homeTeam">Drużyna gospodarzy</label>
             <select id="homeTeam" name="team1" onchange="showPlayers('homeTeam')">
-                <option value="team1">Wybierz drużynę</option>
+                <option value="">Wybierz drużynę</option>
                 <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}">Team</option>
             </select>
             <br>
+            <div id="players" style="display: none;">
+                <h2>Zawodnicy:</h2>
+                <ul id="players-list">
+                    <!-- Players will be dynamically inserted here -->
+                </ul>
+            </div>
+
             <label for="awayTeam">Drużyna gości</label>
             <select id="awayTeam" name="team2" onchange="showPlayers('awayTeam')">
                 <option value="team2">Wybierz drużynę</option>
                 <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}">Team</option>
             </select>
             <br>
+            <div id="awayPlayers" style="display: none;">
+                <h2>Zawodnicy gości:</h2>
+                <ul id="away-players-list">
+                    <!-- Away team players will be dynamically inserted here -->
+                </ul>
+            </div>
 
             <label for="l bramek gospo">liczba bramek gospodarze</label>
             <input id="l bramek gospo"><br>
@@ -129,15 +145,7 @@
             <br>
             <label>dodaj strzelców bramek</label>
             <br>
-            <div id="players" style="display: none;">
-                <h2>Zawodnicy:</h2>
-                <ul id="players-list">
-                    <li th:each="player : ${teambr}">
-                        <span th:text="${player.name}"></span>
-                        <input type="number" >
-                    </li>
-                </ul>
-            </div>
+
             <button type="submit">Wyślij</button>
             <button type="button" onclick="togglePopup()">Zamknij</button>
         </form>

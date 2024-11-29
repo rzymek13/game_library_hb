@@ -37,9 +37,9 @@ public class PlayerController {
         log.info("Player with id: " + id);
         return mapPlayerToDto(playerService.getById(id));
     }
-
+    //TODO : refactor
     @GetMapping("/handball/playersTeam/{id}")
-    List<PlayerDto> readPlayersTeam(@PathVariable Long id) {
+    List<PlayerDto> getPlayersByTeamId(@PathVariable Long id) {
         log.info("Players in team with id: " + id);
         return playerService.getAllPlayers().stream()
                 .filter(player -> player.getTeam().getId().equals(id))
