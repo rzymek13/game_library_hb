@@ -61,39 +61,73 @@
     }
 </script>
 <script>
-    function showPlayers(teamType) {
-    var teamId = document.getElementById(teamType).value;
-    var playersDiv = document.getElementById('players');
-    var playersList = document.getElementById('players-list');
+    function showPlayersHome(teamType) {
+        var teamId = document.getElementById(teamType).value;
+        var playersDiv = document.getElementById('homePlayers');
+        var playersList = document.getElementById('home-players-list');
 
-    if (!teamId) {
-        playersDiv.style.display = 'none';
-        return;
+        if (!teamId) {
+            playersDiv.style.display = 'none';
+            return;
+        }
+
+        playersDiv.style.display = 'block';
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/handball/playersTeam/' + teamId, true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var players = JSON.parse(xhr.responseText);
+                playersList.innerHTML = '';
+
+                players.forEach(function(player) {
+                    var playerListItem = document.createElement('li');
+                    playerListItem.innerHTML = '<span>' + player.name + '</span><input type="number" value="' + player.goals + '" placeholder="Liczba bramek">';
+                    playersList.appendChild(playerListItem);
+                });
+            } else {
+                console.error('Failed to fetch players:', xhr.status, xhr.statusText);
+            }
+        };
+        xhr.onerror = function() {
+            console.error('Request error');
+        };
+        xhr.send();
     }
 
-    playersDiv.style.display = 'block';
+    function showPlayersAway(teamType) {
+        var teamId = document.getElementById(teamType).value;
+        var playersDiv = document.getElementById('awayPlayers');
+        var playersList = document.getElementById('away-players-list');
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/handball/playersTeam/' + teamId, true);
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            var players = JSON.parse(xhr.responseText);
-            playersList.innerHTML = '';
-
-            players.forEach(function(player) {
-                var playerListItem = document.createElement('li');
-                playerListItem.innerHTML = '<span>' + player.name + '</span><input type="number" value="' + player.goals + '" placeholder="Liczba bramek">';
-                playersList.appendChild(playerListItem);
-            });
-        } else {
-            console.error('Failed to fetch players:', xhr.status, xhr.statusText);
+        if (!teamId) {
+            playersDiv.style.display = 'none';
+            return;
         }
-    };
-    xhr.onerror = function() {
-        console.error('Request error');
-    };
-    xhr.send();
-}
+
+        playersDiv.style.display = 'block';
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/handball/playersTeam/' + teamId, true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var players = JSON.parse(xhr.responseText);
+                playersList.innerHTML = '';
+
+                players.forEach(function(player) {
+                    var playerListItem = document.createElement('li');
+                    playerListItem.innerHTML = '<span>' + player.name + '</span><input type="number" value="' + player.goals + '" placeholder="Liczba bramek">';
+                    playersList.appendChild(playerListItem);
+                });
+            } else {
+                console.error('Failed to fetch players:', xhr.status, xhr.statusText);
+            }
+        };
+        xhr.onerror = function() {
+            console.error('Request error');
+        };
+        xhr.send();
+    }
 </script>
 
 <button onclick="togglePopup()">dodaj spotkanie</button>
@@ -103,21 +137,21 @@
         <h2>Formularz</h2>
         <form action="#" th:action="@{/submit}" method="post">
             <label for="homeTeam">Drużyna gospodarzy</label>
-            <select id="homeTeam" name="team1" onchange="showPlayers('homeTeam')">
+            <select id="homeTeam" name="team1" onchange="showPlayersHome('homeTeam')">
                 <option value="">Wybierz drużynę</option>
                 <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}">Team</option>
             </select>
             <br>
-            <div id="players" style="display: none;">
-                <h2>Zawodnicy:</h2>
-                <ul id="players-list">
-                    <!-- Players will be dynamically inserted here -->
+            <div id="homePlayers" style="display: none;">
+                <h2>Zawodnicy gospodarzy:</h2>
+                <ul id="home-players-list">
+                    <!-- Home team players will be dynamically inserted here -->
                 </ul>
             </div>
 
             <label for="awayTeam">Drużyna gości</label>
-            <select id="awayTeam" name="team2" onchange="showPlayers('awayTeam')">
-                <option value="team2">Wybierz drużynę</option>
+            <select id="awayTeam" name="team2" onchange="showPlayersAway('awayTeam')">
+                <option value="">Wybierz drużynę</option>
                 <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}">Team</option>
             </select>
             <br>
