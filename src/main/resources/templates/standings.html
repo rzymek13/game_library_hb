@@ -83,7 +83,7 @@
 
                 players.forEach(function(player) {
                     var playerListItem = document.createElement('li');
-                    playerListItem.innerHTML = '<span>' + player.name + '</span><input type="number" value="' + player.goals + '" placeholder="Liczba bramek">';
+                    playerListItem.innerHTML = '<span>' + player.name + '</span><input type="number" value="0" placeholder="Liczba bramek">';
                     playersList.appendChild(playerListItem);
                 });
             } else {
@@ -117,7 +117,7 @@
 
                 players.forEach(function(player) {
                     var playerListItem = document.createElement('li');
-                    playerListItem.innerHTML = '<span>' + player.name + '</span><input type="number" value="' + player.goals + '" placeholder="Liczba bramek">';
+                    playerListItem.innerHTML = '<span>' + player.name + '</span><input type="number" value="0" placeholder="Liczba bramek">';
                     playersList.appendChild(playerListItem);
                 });
             } else {
@@ -171,6 +171,25 @@
     function toggleJsonPopup() {
         const jsonPopup = document.getElementById('jsonPopup');
         jsonPopup.style.display = jsonPopup.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function sendPostRequest() {
+        const jsonString = document.getElementById('jsonOutput').innerText;
+        fetch('/handball/matches', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: jsonString
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            toggleJsonPopup();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     }
 </script>
 
@@ -234,6 +253,7 @@
     <div class="popup-content">
         <h2>JSON Output</h2>
         <pre id="jsonOutput"></pre>
+        <button type="button" onclick="sendPostRequest()">Wyślij POST</button>
         <button type="button" onclick="toggleJsonPopup()">Zamknij</button>
     </div>
 </div>
