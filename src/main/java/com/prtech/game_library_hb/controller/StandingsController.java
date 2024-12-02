@@ -20,13 +20,18 @@ public class StandingsController {
     @GetMapping("/handball/standings")
     public List<Standings> readAllStandings() {
         log.info("All the standings");
-        return standingsService.findAllStandings();
+        return standingsService.createStandings();
+    }
+    @PostMapping("/handball/standings/generate")
+    public List<Standings> generateStandings() {
+        log.info("Generating a new standings");
+        return standingsService.generateStandings();
     }
 
-    @PostMapping("/handball/standings")
-    public List<Standings> createStandings() {
+    @PatchMapping("/handball/standings/reset")
+    public List<Standings> resetStandings() {
         log.info("Creating a new standings");
-        return standingsService.saveStandings();
+        return standingsService.clearStandings();
     }
     @DeleteMapping("/handball/standings")
     public void deleteAllStandings() {

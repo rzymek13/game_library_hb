@@ -4,6 +4,7 @@ import com.prtech.game_library_hb.model.Standings;
 import com.prtech.game_library_hb.repository.StandingsRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,94 +20,17 @@ public class StandingsService {
         this.standingsRepository = standingsRepository;
     }
 
-    public List<Standings> findAllStandings() {
-        resetStandings();
+    public List<Standings> createStandings() {
+        clearStandings();
         matchService.readAllMatches()
-                .forEach(match -> resultsCreator(match.result()));
+                .forEach(match -> resultsCreator(match.result(), match.homeTeam().name(), match.awayTeam().name()));
         return standingsRepository.findAll();
     }
-
-
-    public List<Standings> saveStandings() {
-        return teamService.getAllTeams().stream()
-                .map(team -> standingsRepository.save(new Standings(
-                        null,
-                        team,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0)))
-                .toList();
-    }
-    private void resultsCreator(Integer result){
-    switch (result) {
-        case 1:
-            matchService.getAllMatches().stream()
-                    .filter(match -> match.result() == 1)
-                    .forEach(match -> {
-                        Standings homeTeamStandings = getStandingsByName(match.homeTeam().name());
-                        homeTeamStandings.setWins(homeTeamStandings.getWins()+1);
-                        standingsRepository.save(homeTeamStandings);
-                        Standings awayTeamStandings = getStandingsByName(match.awayTeam().name());
-                        awayTeamStandings.setLoses(awayTeamStandings.getLoses()+1);
-                        standingsRepository.save(awayTeamStandings);
-                    });
-            break;
-        case 2:
-            matchService.getAllMatches().stream()
-                    .filter(match -> match.result() == 2)
-                    .forEach(match -> {
-                        Standings awayTeamStandings = getStandingsByName(match.awayTeam().name());
-                        awayTeamStandings.setWins(awayTeamStandings.getWins()+1);
-                        standingsRepository.save(awayTeamStandings);
-                        Standings homeTeamStandings = getStandingsByName(match.homeTeam().name());
-                        homeTeamStandings.setLoses(homeTeamStandings.getWins()+1);
-                        standingsRepository.save(homeTeamStandings);
-                    });
-            break;
-        case 3:
-            matchService.getAllMatches().stream()
-                    .filter(match -> match.result() == 3)
-                    .forEach(match -> {
-                        Standings homeTeamStandings = getStandingsByName(match.homeTeam().name());
-                        homeTeamStandings.setWinsAfterPenalty(homeTeamStandings.getWinsAfterPenalty()+1);
-                        Standings awayTeamStandings = getStandingsByName(match.awayTeam().name());
-                        awayTeamStandings.setLosesAfterPenalty(awayTeamStandings.getLosesAfterPenalty()+1);
-                        standingsRepository.save(homeTeamStandings);
-                        standingsRepository.save(awayTeamStandings);
-                    });
-            break;
-        case 4:
-            matchService.getAllMatches().stream()
-                    .filter(match -> match.result() == 4)
-                    .forEach(match -> {
-                        Standings homeTeamStandings = getStandingsByName(match.homeTeam().name());
-                        homeTeamStandings.setLosesAfterPenalty(homeTeamStandings.getLosesAfterPenalty()+1);
-                        Standings awayTeamStandings = getStandingsByName(match.awayTeam().name());
-                        awayTeamStandings.setWinsAfterPenalty(awayTeamStandings.getWinsAfterPenalty()+1);
-                        standingsRepository.save(homeTeamStandings);
-                        standingsRepository.save(awayTeamStandings);
-                    });
-            break;
-        default:
-            //ten wyjatek powninen być wyzej, w momencie dodawania meczu
-            throw new IllegalArgumentException("Invalid result. Expected: 1 - home team won," +
-                    " 2 - away team won -1, 3 - home team won after penalty 4, 4 - away team won after penalty");
-    }
-}
-
-    private Standings getStandingsByName(String match) {
-        return standingsRepository.findAll().stream()
-                .filter(team -> team.getTeam().getName().equals(match))
-                .findFirst()
-                .get();
-    }
-    private void resetStandings() {
-        standingsRepository.findAll().forEach(standings -> {
+    public List<Standings> generateStandings() {
+        ArrayList<Standings> standingsList = new ArrayList<>();
+        teamService.getAllTeams().forEach(team -> {
+            Standings standings = new Standings();
+            standings.setTeam(team);
             standings.setPoints(0);
             standings.setMatchesPlayed(0);
             standings.setGoalsScored(0);
@@ -115,9 +39,76 @@ public class StandingsService {
             standings.setLoses(0);
             standings.setWinsAfterPenalty(0);
             standings.setLosesAfterPenalty(0);
-                }
-        );
+            standingsList.add(standings);
+            standingsRepository.save(standings);
+        });
+        return standingsList;
     }
+
+
+    public List<Standings> clearStandings() {
+        List<Standings> standingsList = standingsRepository.findAll();
+        standingsList.forEach(standings -> {
+            standings.setPoints(0);
+            standings.setMatchesPlayed(0);
+            standings.setGoalsScored(0);
+            standings.setGoalsConceded(0);
+            standings.setWins(0);
+            standings.setLoses(0);
+            standings.setWinsAfterPenalty(0);
+            standings.setLosesAfterPenalty(0);
+            standingsRepository.save(standings);
+        });
+        return standingsList;
+    }
+    private void resultsCreator(Integer result, String homeTeamName, String awayTeamName) {
+        Standings homeTeamStandings = getStandingsByName(homeTeamName);
+        Standings awayTeamStandings = getStandingsByName(awayTeamName);
+
+        switch (result) {
+            case 1:
+                homeTeamStandings.setWins(homeTeamStandings.getWins() + 1);
+                homeTeamStandings.setPoints(homeTeamStandings.getPoints() + 3);
+                homeTeamStandings.setMatchesPlayed(homeTeamStandings.getMatchesPlayed() + 1);
+                awayTeamStandings.setLoses(awayTeamStandings.getLoses() + 1);
+                awayTeamStandings.setMatchesPlayed(awayTeamStandings.getMatchesPlayed() + 1);
+                break;
+            case 2:
+                awayTeamStandings.setWins(awayTeamStandings.getWins() + 1);
+                awayTeamStandings.setPoints(awayTeamStandings.getPoints() + 3);
+                awayTeamStandings.setMatchesPlayed(awayTeamStandings.getMatchesPlayed() + 1);
+                homeTeamStandings.setLoses(homeTeamStandings.getLoses() + 1);
+                homeTeamStandings.setMatchesPlayed(homeTeamStandings.getMatchesPlayed() + 1);
+                break;
+            case 3:
+                homeTeamStandings.setWinsAfterPenalty(homeTeamStandings.getWinsAfterPenalty() + 1);
+                homeTeamStandings.setPoints(homeTeamStandings.getPoints() + 2);
+                homeTeamStandings.setMatchesPlayed(homeTeamStandings.getMatchesPlayed() + 1);
+                awayTeamStandings.setLosesAfterPenalty(awayTeamStandings.getLosesAfterPenalty() + 1);
+                awayTeamStandings.setMatchesPlayed(awayTeamStandings.getMatchesPlayed() + 1);
+                break;
+            case 4:
+                awayTeamStandings.setWinsAfterPenalty(awayTeamStandings.getWinsAfterPenalty() + 1);
+                awayTeamStandings.setPoints(awayTeamStandings.getPoints() + 2);
+                awayTeamStandings.setMatchesPlayed(awayTeamStandings.getMatchesPlayed() + 1);
+                homeTeamStandings.setLosesAfterPenalty(homeTeamStandings.getLosesAfterPenalty() + 1);
+                homeTeamStandings.setMatchesPlayed(homeTeamStandings.getMatchesPlayed() + 1);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid result. Expected: 1 - home team won, 2 - away team won, 3 - home team won after penalty, 4 - away team won after penalty");
+        }
+
+        standingsRepository.save(homeTeamStandings);
+        standingsRepository.save(awayTeamStandings);
+    }
+
+    private Standings getStandingsByName(String match) {
+        return standingsRepository.findAll().stream()
+                .filter(team -> team.getTeam().getName().equals(match))
+                .findFirst()
+                .get();
+    }
+
 
     public void deleteAllStandings() {
         standingsRepository.findAll().forEach(standings -> delteById(standings.getId()));

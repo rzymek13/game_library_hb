@@ -61,7 +61,7 @@ public class ViewController {
     }
     @GetMapping("/standings")
     public String standingsView(Model model) {
-        model.addAttribute("standings", standingsService.findAllStandings());
+        model.addAttribute("standings", standingsService.createStandings());
         model.addAttribute("teams", teamService.getAllTeams());
         model.addAttribute("teambr", playerService.getByTeamId(1L));
 //        model.addAttribute("DAP SENIOR", playerService.getByTeamId(2L));
