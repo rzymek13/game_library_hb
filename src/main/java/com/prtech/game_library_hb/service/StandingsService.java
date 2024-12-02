@@ -72,6 +72,7 @@ public class StandingsService {
                 homeTeamStandings.setMatchesPlayed(homeTeamStandings.getMatchesPlayed() + 1);
                 awayTeamStandings.setLoses(awayTeamStandings.getLoses() + 1);
                 awayTeamStandings.setMatchesPlayed(awayTeamStandings.getMatchesPlayed() + 1);
+
                 break;
             case 2:
                 awayTeamStandings.setWins(awayTeamStandings.getWins() + 1);

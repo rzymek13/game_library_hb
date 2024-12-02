@@ -47,22 +47,21 @@
         justify-content: center;
         align-items: center;
     }
-.popup-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    max-height: 80vh; /* Set maximum height */
-    overflow-y: auto; /* Enable vertical scrolling */
-}
+    .popup-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        max-height: 80vh; /* Set maximum height */
+        overflow-y: auto; /* Enable vertical scrolling */
+    }
 </style>
 <script>
     function togglePopup() {
         const popup = document.getElementById('popup');
         popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
     }
-</script>
-<script>
+
     function showPlayersHome(teamType) {
         var teamId = document.getElementById(teamType).value;
         var playersDiv = document.getElementById('homePlayers');
@@ -130,6 +129,49 @@
         };
         xhr.send();
     }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+
+        const homeTeam = document.getElementById('homeTeam').selectedOptions[0].text;
+        const awayTeam = document.getElementById('awayTeam').selectedOptions[0].text;
+        const homeGoals = document.getElementById('homeGoals').value;
+        const awayGoals = document.getElementById('awayGoals').value;
+        const result = document.getElementById('result').value;
+
+        const matchPlayers = [];
+        document.querySelectorAll('#home-players-list li').forEach(li => {
+            const playerName = li.querySelector('span').innerText;
+            const goals = li.querySelector('input').value || 0;
+            matchPlayers.push({ playerName, goals });
+        });
+        document.querySelectorAll('#away-players-list li').forEach(li => {
+            const playerName = li.querySelector('span').innerText;
+            const goals = li.querySelector('input').value || 0;
+            matchPlayers.push({ playerName, goals });
+        });
+
+        const matchData = {
+            homeTeam: { name: homeTeam },
+            awayTeam: { name: awayTeam },
+            homeTeamGoals: parseInt(homeGoals),
+            awayTeamGoals: parseInt(awayGoals),
+            result: parseInt(result),
+            homeTeamPenaltyGoals: 0,
+            awayTeamPenaltyGoals: 0,
+            matchPlayers: matchPlayers
+        };
+
+        const jsonString = JSON.stringify(matchData, null, 4);
+        document.getElementById('jsonOutput').innerText = jsonString;
+        togglePopup();
+        toggleJsonPopup();
+    }
+
+    function toggleJsonPopup() {
+        const jsonPopup = document.getElementById('jsonPopup');
+        jsonPopup.style.display = jsonPopup.style.display === 'flex' ? 'none' : 'flex';
+    }
 </script>
 
 <button onclick="togglePopup()">dodaj spotkanie</button>
@@ -137,9 +179,9 @@
 <div id="popup" class="popup">
     <div class="popup-content">
         <h2>Formularz</h2>
-        <form action="#" th:action="@{/submit}" method="post">
+        <form onsubmit="handleSubmit(event)">
             <label for="homeTeam">Drużyna gospodarzy</label>
-            <select id="homeTeam" name="team1" onchange="showPlayersHome('homeTeam')">
+            <select id="homeTeam" name="homeTeam" onchange="showPlayersHome('homeTeam')">
                 <option value="">Wybierz drużynę</option>
                 <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}">Team</option>
             </select>
@@ -152,7 +194,7 @@
             </div>
 
             <label for="awayTeam">Drużyna gości</label>
-            <select id="awayTeam" name="team2" onchange="showPlayersAway('awayTeam')">
+            <select id="awayTeam" name="awayTeam" onchange="showPlayersAway('awayTeam')">
                 <option value="">Wybierz drużynę</option>
                 <option th:each="t : ${teams}" th:value="${t.id}" th:text="${t.name}">Team</option>
             </select>
@@ -164,27 +206,35 @@
                 </ul>
             </div>
 
-            <label for="l bramek gospo">liczba bramek gospodarze</label>
-            <input id="l bramek gospo"><br>
+            <label for="homeGoals">Liczba bramek gospodarze</label>
+            <input id="homeGoals" name="homeGoals" type="number"><br>
 
-            <label for="l bramek goscie">liczba bramek gości</label>
-            <input id="l bramek goscie"><br>
+            <label for="awayGoals">Liczba bramek gości</label>
+            <input id="awayGoals" name="awayGoals" type="number"><br>
 
-            <label>wybierz wynik</label>
-            <select>
+            <label for="result">Wybierz wynik</label>
+            <select id="result" name="result">
                 <option value="">Wybierz rezultat</option>
-                <option value="1">wygrana gospodarzy</option>
-                <option value="2">wygrana gości</option>
-                <option value="3">wygrana gospodarzy po karnych</option>
-                <option value="4">wygrana gości po karnych</option>
+                <option value="1">Wygrana gospodarzy</option>
+                <option value="2">Wygrana gości</option>
+                <option value="3">Wygrana gospodarzy po karnych</option>
+                <option value="4">Wygrana gości po karnych</option>
             </select>
             <br>
-            <label>dodaj strzelców bramek</label>
+            <label>Dodaj strzelców bramek</label>
             <br>
 
             <button type="submit">Wyślij</button>
             <button type="button" onclick="togglePopup()">Zamknij</button>
         </form>
+    </div>
+</div>
+
+<div id="jsonPopup" class="popup">
+    <div class="popup-content">
+        <h2>JSON Output</h2>
+        <pre id="jsonOutput"></pre>
+        <button type="button" onclick="toggleJsonPopup()">Zamknij</button>
     </div>
 </div>
 
