@@ -1,11 +1,12 @@
-package com.prtech.game_library_hb.teamTests.rest_assured;
+package com.prtech.game_library_hb.handballTest.rest_assured;
 
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
-class TeamTest extends ApiTestBase {
+public class GetTeamsTest extends ApiTestBase {
+
 
     @Test
     void getAllteamsTest() {
@@ -19,8 +20,7 @@ class TeamTest extends ApiTestBase {
                 .statusCode(200)
                 .body("[0].name", equalTo("MKS BRODNICA"))
                 .body("[2].name", equalTo("EKOSERWIS DAMY RADE INOWROCLAW"))
-                .body("size()", is(7))
+                .body("size()", equalTo(7))
                 .log().all();
     }
-
 }
