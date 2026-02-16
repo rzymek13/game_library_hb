@@ -23,7 +23,7 @@ public class StandingsService {
     public List<Standings> createStandings() {
         clearStandings();
         matchService.readAllMatches()
-                .forEach(match -> resultsCreator(match.result(), match.homeTeam().name(), match.awayTeam().name()));
+                .forEach(match -> resultsCreator(match.result(), match.homeTeam().name(), match.awayTeam().name(), match.homeTeamGoals(), match.awayTeamGoals()));
         return standingsRepository.findAll();
     }
     public List<Standings> generateStandings() {
@@ -61,9 +61,16 @@ public class StandingsService {
         });
         return standingsList;
     }
-    private void resultsCreator(Integer result, String homeTeamName, String awayTeamName) {
+    private void resultsCreator(Integer result, String homeTeamName, String awayTeamName, Integer homeGoals, Integer awayGoals) {
         Standings homeTeamStandings = getStandingsByName(homeTeamName);
         Standings awayTeamStandings = getStandingsByName(awayTeamName);
+
+        // Update goals
+        homeTeamStandings.setGoalsScored(homeTeamStandings.getGoalsScored() + homeGoals);
+        homeTeamStandings.setGoalsConceded(homeTeamStandings.getGoalsConceded() + awayGoals);
+        
+        awayTeamStandings.setGoalsScored(awayTeamStandings.getGoalsScored() + awayGoals);
+        awayTeamStandings.setGoalsConceded(awayTeamStandings.getGoalsConceded() + homeGoals);
 
         switch (result) {
             case 1:
@@ -108,6 +115,13 @@ public class StandingsService {
                 .filter(team -> team.getTeam().getName().equals(match))
                 .findFirst()
                 .get();
+    }
+
+    public Standings getStandingsByTeamId(Long teamId) {
+        return standingsRepository.findAll().stream()
+                .filter(s -> s.getTeam().getId().equals(teamId))
+                .findFirst()
+                .orElse(null);
     }
 
 

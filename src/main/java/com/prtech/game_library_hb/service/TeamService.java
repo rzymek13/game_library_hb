@@ -19,7 +19,10 @@ private final TeamRepository teamRepository;
         return teamRepository.findAll();
     }
     public Team getTeamById(Long id) {
-        return teamRepository.findAll().stream().filter(team -> team.getId().equals(id)).findFirst().get();
+        return teamRepository.findAll().stream()
+                .filter(team -> team.getId().equals(id))
+                .findFirst()
+                .get();
     }
     public Team getTeamByName(String name) {
         return teamRepository.findAll().stream()

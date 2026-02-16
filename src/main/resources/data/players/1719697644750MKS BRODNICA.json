@@ -1,1 +1,71 @@
-[ {"name": "BIDZIŃSKI Mariusz"}, {"name": "BOJANOWSKI Wojciech"}, {"name": "BUKOWSKI Aleksander"}, {"name": "GARDECKI Fabian"}, {"name": "JANKOWSKI Paweł"}, {"name": "JĘDRASIAK Wiktor"}, {"name": "KAMIŃSKI Hubert"}, {"name": "KAMIŃSKI Łukasz"}, {"name": "KANIECKI Arkadiusz"}, {"name": "MAGALSKI Mateusz"}, {"name": "MICHALSKI Jakub"}, {"name": "MROCZEK GOERKE Hubert"}, {"name": "OLSZEWSKI Łukasz"}, {"name": "PANEK Bartosz"}, {"name": "PRZYBYLSKI Miłosz"}, {"name": "ROMANOWSKI Jakub"}, {"name": "SARNOWSKI Mateusz"}, {"name": "SZMIDT Miłosz"}, {"name": "SZWEDO Stanisław"}, {"name": "ULANOWSKI Karol"}, {"name": "WAJC Sebastian"}, {"name": "WIŚNIEWSKI Wiktor"}, {"name": "ZAKRZEWSKI Jakub"}]
+[
+  {
+    "name": "BIDZIŃSKI Mariusz"
+  },
+  {
+    "name": "BOJANOWSKI Wojciech"
+  },
+  {
+    "name": "BUKOWSKI Aleksander"
+  },
+  {
+    "name": "GARDECKI Fabian"
+  },
+  {
+    "name": "JANKOWSKI Paweł"
+  },
+  {
+    "name": "JĘDRASIAK Wiktor"
+  },
+  {
+    "name": "KAMIŃSKI Hubert"
+  },
+  {
+    "name": "KAMIŃSKI Łukasz"
+  },
+  {
+    "name": "KANIECKI Arkadiusz"
+  },
+  {
+    "name": "MAGALSKI Mateusz"
+  },
+  {
+    "name": "MICHALSKI Jakub"
+  },
+  {
+    "name": "MROCZEK GOERKE Hubert"
+  },
+  {
+    "name": "OLSZEWSKI Łukasz"
+  },
+  {
+    "name": "PANEK Bartosz"
+  },
+  {
+    "name": "PRZYBYLSKI Miłosz"
+  },
+  {
+    "name": "ROMANOWSKI Jakub"
+  },
+  {
+    "name": "SARNOWSKI Mateusz"
+  },
+  {
+    "name": "SZMIDT Miłosz"
+  },
+  {
+    "name": "SZWEDO Stanisław"
+  },
+  {
+    "name": "ULANOWSKI Karol"
+  },
+  {
+    "name": "WAJC Sebastian"
+  },
+  {
+    "name": "WIŚNIEWSKI Wiktor"
+  },
+  {
+    "name": "ZAKRZEWSKI Jakub"
+  }
+]

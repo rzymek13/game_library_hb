@@ -16,7 +16,6 @@ import static com.prtech.game_library_hb.controller.dto.TeamMapper.mapDtoToTeam;
 
 @RestController
 @Slf4j
-@Transactional
 @CrossOrigin
 public class TeamController {
     @Autowired

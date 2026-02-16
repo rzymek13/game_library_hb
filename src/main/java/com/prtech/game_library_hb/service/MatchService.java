@@ -58,6 +58,25 @@ public class MatchService {
 
 
     public MatchDto saveMatch(MatchDto matchDto) {
+        // Validation: Check if player goals sum up to team goals
+        int homePlayerGoalsSum = matchDto.matchPlayers().stream()
+                .filter(mp -> mp.team().equals(matchDto.homeTeam().name()))
+                .mapToInt(mp -> mp.goals())
+                .sum();
+
+        if (homePlayerGoalsSum != matchDto.homeTeamGoals()) {
+            throw new IllegalArgumentException("Home team player goals sum (" + homePlayerGoalsSum + ") does not match match score (" + matchDto.homeTeamGoals() + ")");
+        }
+
+        int awayPlayerGoalsSum = matchDto.matchPlayers().stream()
+                .filter(mp -> mp.team().equals(matchDto.awayTeam().name()))
+                .mapToInt(mp -> mp.goals())
+                .sum();
+
+        if (awayPlayerGoalsSum != matchDto.awayTeamGoals()) {
+            throw new IllegalArgumentException("Away team player goals sum (" + awayPlayerGoalsSum + ") does not match match score (" + matchDto.awayTeamGoals() + ")");
+        }
+
         Team homeTeam = teamService.getTeamByName(matchDto.homeTeam().name());
         Team awayTeam = teamService.getTeamByName(matchDto.awayTeam().name());
 

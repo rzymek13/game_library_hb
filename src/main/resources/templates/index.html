@@ -1,26 +1,56 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Teams</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{header :: head}"></head>
 <body>
-<div th:include="header"></div>
-<h1>Drużyny</h1>
-<table>
-    <thead>
-    <tr>
-        <th></th>
-        <th>drużyna</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="team, iterStat : ${teams}">
-        <td th:text="${iterStat.count}"></td>
-        <td><a th:href="@{/team/{id}(id=${team.id})}" th:text="${team.name}"></a></td>
-    </tr>
-    </tbody>
-</table>
 
+<div th:replace="~{header :: navbar}"></div>
+
+<div class="container" style="margin-top: 100px;">
+    <div class="row justify-content-center text-center mb-5">
+        <div class="col-lg-8">
+            <h1 class="display-3 fw-bold text-white mb-3">Welcome to <span style="color: var(--secondary-color);">HB League</span></h1>
+            <p class="lead text-light">The ultimate platform for managing your handball league. Track scores, standings, and player statistics in real-time.</p>
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <a href="/standings" class="btn btn-primary btn-lg"><i class="bi bi-trophy-fill"></i> View Standings</a>
+                <a href="/addmatch" class="btn btn-outline-info btn-lg"><i class="bi bi-plus-lg"></i> Add Match</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 p-4 text-center">
+                <div class="card-body">
+                    <i class="bi bi-trophy text-warning display-4 mb-3"></i>
+                    <h3 class="card-title text-white">League Standings</h3>
+                    <p class="card-text text-light">Check the current league table, points, and team performance.</p>
+                    <a href="/standings" class="btn btn-sm btn-outline-light mt-2">Go to Standings</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 p-4 text-center">
+                <div class="card-body">
+                    <i class="bi bi-people text-info display-4 mb-3"></i>
+                    <h3 class="card-title text-white">Top Scorers</h3>
+                    <p class="card-text text-light">See who is leading the charts with the most goals this season.</p>
+                    <a href="/scorers" class="btn btn-sm btn-outline-light mt-2">View Scorers</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 p-4 text-center">
+                <div class="card-body">
+                    <i class="bi bi-controller text-success display-4 mb-3"></i>
+                    <h3 class="card-title text-white">Manage Matches</h3>
+                    <p class="card-text text-light">Record new match results and update the league history.</p>
+                    <a href="/addmatch" class="btn btn-sm btn-outline-light mt-2">Add Match</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{header :: scripts}"></div>
 </body>
 </html>

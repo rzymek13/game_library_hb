@@ -1,49 +1,89 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Teams</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{header :: head}"></head>
 <body>
-<div th:include="header"></div>
 
-<h1 th:text="${team.name}"></h1>
-<table>
-    <thead>
-    <tr>
-        <th></th>
-        <th>imię i nazwisko</th>
-        <th>Akcje</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="player, iterStat : ${players}">
-        <td th:text="${iterStat.count}"></td>
-        <td th:text="${player.name}"></td>
-        <td>
-            <a th:href="@{/player/{id}/delete(id=${player.id})}" class="delete-link" style="display: none;">Usuń</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div th:replace="~{header :: navbar}"></div>
 
-<form th:action="@{/team/{id}/addPlayer(id=${team.id})}" method="post" id="add-player-form" style="display: none;">
-    <input type="text" name="name" placeholder="Imię i nazwisko" required/>
-    <button type="submit">Dodaj zawodnika</button>
-</form>
+<div class="container" style="margin-top: 100px;">
 
-<button id="edit-button">Edytuj</button>
+    <div class="row mb-4 align-items-center">
+        <div class="col">
+            <h1 class="display-4 fw-bold text-white">
+                <i class="bi bi-shield-shaded text-primary me-3"></i>
+                <span th:text="${team.name}">Team Name</span>
+            </h1>
+        </div>
+        <div class="col-auto">
+            <a href="/standings" class="btn btn-outline-light"><i class="bi bi-arrow-left"></i> Back to Standings</a>
+        </div>
+    </div>
 
-<script>
-    document.getElementById('edit-button').addEventListener('click', function() {
-        var deleteLinks = document.querySelectorAll('.delete-link');
-        var addPlayerForm = document.getElementById('add-player-form');
-        deleteLinks.forEach(function(link) {
-            link.style.display = link.style.display === 'none' ? 'inline' : 'none';
-        });
-        addPlayerForm.style.display = addPlayerForm.style.display === 'none' ? 'block' : 'none';
-    });
-</script>
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="card p-3 text-center bg-dark border-primary">
+                <div class="card-body">
+                    <h6 class="text-uppercase text-muted mb-2">Points</h6>
+                    <h2 class="display-5 fw-bold text-primary" th:text="${standings.points}">0</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3 text-center">
+                <div class="card-body">
+                    <h6 class="text-uppercase text-muted mb-2">Goals Scored</h6>
+                    <h2 class="display-5 fw-bold text-success" th:text="${standings.goalsScored}">0</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3 text-center">
+                <div class="card-body">
+                    <h6 class="text-uppercase text-muted mb-2">Goals Lost</h6>
+                    <h2 class="display-5 fw-bold text-danger" th:text="${standings.goalsConceded}">0</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3 text-center">
+                <div class="card-body">
+                    <h6 class="text-uppercase text-muted mb-2">Difference</h6>
+                    <h2 class="display-5 fw-bold"
+                        th:classappend="${(standings.goalsScored - standings.goalsConceded) >= 0 ? 'text-info' : 'text-warning'}"
+                        th:text="${standings.goalsScored - standings.goalsConceded}">0</h2>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <h3 class="page-title mb-4">Team Roster</h3>
+    <div class="card p-4">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Player Name</th>
+                    <th scope="col" class="text-center">Goals</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="player, iterStat : ${players}">
+                    <td th:text="${iterStat.count}" class="fw-bold text-muted">1</td>
+                    <td class="fw-bold text-white" th:text="${player.name}">Player Name</td>
+                    <td class="text-center">
+                        <span class="badge bg-secondary rounded-pill" th:text="${player.goals}">0</span>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(players)}">
+                    <td colspan="3" class="text-center text-muted py-4">No players found for this team.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{header :: scripts}"></div>
 </body>
 </html>

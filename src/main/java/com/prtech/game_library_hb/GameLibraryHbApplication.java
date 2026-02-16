@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class GameLibraryHbApplication {
 
 
-
 	public static void main(String[] args) {
 		SpringApplication.run(GameLibraryHbApplication.class, args);
 	}
