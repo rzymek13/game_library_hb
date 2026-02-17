@@ -2,14 +2,12 @@ package com.prtech.game_library_hb.controller;
 
 import com.prtech.game_library_hb.controller.dto.MatchDto;
 import com.prtech.game_library_hb.controller.dto.MatchPlayerDto;
-import com.prtech.game_library_hb.model.MatchPlayer;
 import com.prtech.game_library_hb.service.MatchPlayerService;
 import com.prtech.game_library_hb.service.MatchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @Slf4j
@@ -36,23 +34,19 @@ public class MatchController {
     }
 
     @GetMapping("handball/scorers")
-    public Set<MatchPlayerDto> getScorers() {
+    public List<MatchPlayerDto> getScorers() {
         return matchPlayerService.getAllScorers();
     }
-
-
-//    @GetMapping("/handball/matches/{id}")
-//    MatchDto readMatch(@PathVariable Long id) {
-//        log.info("Match with id: " + id);
-//        return mapMatchToDto(matchService.getMatchById(id));
-//    }
-
 
     @PostMapping("/handball/matches")
     public MatchDto createMatch(@RequestBody MatchDto matchDTO) {
         return matchService.saveMatch(matchDTO);
     }
 
+    @DeleteMapping("/handball/matches/{id}")
+    public void deleteMatch(@PathVariable Long id) {
+        matchService.deleteMatchById(id);
+    }
 
     //
 //    @PutMapping("/handball/matches/{id}")

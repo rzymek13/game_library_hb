@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{header :: head}"></head>
+<body>
+
+<div th:replace="~{header :: navbar}"></div>
+
+<div class="container" style="margin-top: 100px;">
+    <h2 class="page-title">League Standings</h2>
+
+    <div class="card p-4">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle text-center">
+                <thead>
+                <tr>
+                    <th scope="col" class="text-start">#</th>
+                    <th scope="col" class="text-start">Team</th>
+                    <th scope="col" title="Matches Played">MP</th>
+                    <th scope="col" title="Wins" class="text-success">W</th>
+                    <th scope="col" title="Wins After Penalty" class="text-info">W(P)</th>
+                    <th scope="col" title="Loses After Penalty" class="text-warning">L(P)</th>
+                    <th scope="col" title="Loses" class="text-danger">L</th>
+                    <th scope="col" title="Goals Scored">GF</th>
+                    <th scope="col" title="Goals Conceded">GA</th>
+                    <th scope="col" title="Goal Difference">Diff</th>
+                    <th scope="col" title="Points">PTS</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="standing, iterStat : ${standings}">
+                    <td th:text="${iterStat.count}" class="fw-bold text-muted text-start">1</td>
+                    <td class="text-start">
+                        <a th:href="@{/team/{id}(id=${standing.team.id})}" class="text-decoration-none text-white fw-bold">
+                            <i class="bi bi-shield-shaded me-2 text-primary"></i>
+                            <span th:text="${standing.team.name}">Team Name</span>
+                        </a>
+                    </td>
+                    <td th:text="${standing.matchesPlayed}">0</td>
+                    <td th:text="${standing.wins}">0</td>
+                    <td th:text="${standing.winsAfterPenalty}">0</td>
+                    <td th:text="${standing.losesAfterPenalty}">0</td>
+                    <td th:text="${standing.loses}">0</td>
+                    <td th:text="${standing.goalsScored}">0</td>
+                    <td th:text="${standing.goalsConceded}">0</td>
+                    <td th:text="${standing.goalsScored - standing.goalsConceded}" class="fw-bold"
+                        th:classappend="${(standing.goalsScored - standing.goalsConceded) >= 0 ? 'text-success' : 'text-danger'}">0</td>
+                    <td th:text="${standing.points}" class="fw-bold text-primary fs-5">0</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{header :: scripts}"></div>
+</body>
+</html>

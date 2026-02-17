@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{header :: head}"></head>
+<body>
+
+<div th:replace="~{header :: navbar}"></div>
+
+<div class="container" style="margin-top: 100px;">
+    <h2 class="page-title">Top Scorers</h2>
+
+    <div class="card p-4">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Player</th>
+                    <th scope="col">Team</th>
+                    <th scope="col" class="text-center">Goals</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="player, iterStat : ${scorers}">
+                    <td th:text="${iterStat.count}" class="fw-bold text-muted">1</td>
+                    <td class="fw-bold text-white">
+                        <i class="bi bi-person-circle me-2 text-secondary"></i>
+                        <span th:text="${player.playerName}">Player Name</span>
+                    </td>
+                    <td th:text="${player.team}" class="text-muted">Team Name</td>
+                    <td class="text-center">
+                        <span class="badge bg-primary rounded-pill fs-6" th:text="${player.goals}">0</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{header :: scripts}"></div>
+</body>
+</html>

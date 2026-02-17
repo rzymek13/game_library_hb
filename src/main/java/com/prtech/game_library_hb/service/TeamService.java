@@ -2,7 +2,6 @@ package com.prtech.game_library_hb.service;
 
 import com.prtech.game_library_hb.model.Team;
 import com.prtech.game_library_hb.repository.TeamRepository;
-import org.openqa.selenium.json.Json;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.List;
 @Service
 public class TeamService {
 
-private TeamRepository teamRepository;
+private final TeamRepository teamRepository;
 
     public TeamService(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
@@ -20,7 +19,10 @@ private TeamRepository teamRepository;
         return teamRepository.findAll();
     }
     public Team getTeamById(Long id) {
-        return teamRepository.findAll().stream().filter(team -> team.getId().equals(id)).findFirst().get();
+        return teamRepository.findAll().stream()
+                .filter(team -> team.getId().equals(id))
+                .findFirst()
+                .get();
     }
     public Team getTeamByName(String name) {
         return teamRepository.findAll().stream()
@@ -38,8 +40,5 @@ private TeamRepository teamRepository;
         teamRepository.deleteAll();
     }
 
-    public static void main(String[] args) {
-        // This is just a test method. You can add your own test cases here.
-        Json json = new Json();
-    }
+
 }

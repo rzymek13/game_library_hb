@@ -1,14 +1,17 @@
 package com.prtech.game_library_hb.controller;
 
-import com.prtech.game_library_hb.controller.dto.MatchPlayerDto;
 import com.prtech.game_library_hb.controller.dto.PlayerDto;
+import com.prtech.game_library_hb.model.Player;
+import com.prtech.game_library_hb.model.Standings;
 import com.prtech.game_library_hb.service.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
+
 
 @Controller
 @Slf4j
@@ -28,10 +31,8 @@ public class ViewController {
         this.standingsService = standingsService;
     }
 
-    @GetMapping("/home")
-    public String teamsView(Model model) {
-        model.addAttribute("teams", teamService.getAllTeams());
-        model.addAttribute("players", playerService.getAllPlayers());
+    @GetMapping({"/", "/home"})
+    public String indexView(Model model) {
         return "index";
     }
 
@@ -39,6 +40,20 @@ public class ViewController {
     public String teamView(@PathVariable Long id, Model model) {
         model.addAttribute("team", teamService.getTeamById(id));
         model.addAttribute("players", playerService.getByTeamId(id));
+        
+        // Ensure standings are up to date before fetching
+        standingsService.createStandings(); 
+        Standings standings = standingsService.getStandingsByTeamId(id);
+        
+        // If standings not found (e.g. team has no standings entry yet), create a dummy one with 0 stats
+        if (standings == null) {
+            standings = new Standings();
+            standings.setPoints(0);
+            standings.setGoalsScored(0);
+            standings.setGoalsConceded(0);
+        }
+        model.addAttribute("standings", standings);
+
         return "team";
     }
 
@@ -56,5 +71,41 @@ public class ViewController {
         return String.format("redirect:/team/%d", teamId);
     }
 
-//    public Set<MatchPlayerDto>
+    @GetMapping("/scorers")
+    public String scorersView(Model model) {
+        model.addAttribute("scorers", matchPlayerService.getAllScorers());
+        return "scorers";
+    }
+    @GetMapping("/standings")
+    public String standingsView(Model model) {
+        model.addAttribute("standings", standingsService.createStandings());
+        model.addAttribute("teams", teamService.getAllTeams());
+        model.addAttribute("teambr", playerService.getByTeamId(1L));
+//        model.addAttribute("DAP SENIOR", playerService.getByTeamId(2L));
+//        model.addAttribute("EKOSERWIS DAMY RADE INOWROCLAW", playerService.getByTeamId(3L));
+//        model.addAttribute("AZS WLOCLAWEK", playerService.getByTeamId(4L));
+//        model.addAttribute("UKS ALFA 99 STRZELNO", playerService.getByTeamId(5L));
+//        model.addAttribute("MKS GRUDZIADZ II", playerService.getByTeamId(6L));
+//        model.addAttribute("UKW II BYDGOSZCZ", playerService.getByTeamId(7L));
+        return "standings";
+    }
+
+    @GetMapping("/addmatch")
+    public String addMatchView(Model model) {
+        model.addAttribute("teams", teamService.getAllTeams());
+        return "addmatch";
+    }
+
+    @GetMapping("/results")
+    public String resultsView(Model model) {
+        model.addAttribute("matches", matchService.readAllMatches());
+        return "results";
+    }
+
+    @GetMapping("/api/team/{id}/players")
+    @ResponseBody
+    public ResponseEntity<List<Player>> getTeamPlayers(@PathVariable Long id) {
+        List<Player> players = playerService.getByTeamId(id);
+        return ResponseEntity.ok(players);
+    }
 }

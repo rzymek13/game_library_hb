@@ -1,0 +1,203 @@
+ {
+        "homeTeam": {
+            "name": "AZS WLOCLAWEK"
+        },
+        "awayTeam": {
+            "name": "DAP SENIOR"
+        },
+        "homeTeamGoals": 32,
+        "awayTeamGoals": 31,
+        "result": 1,
+        "homeTeamPenaltyGoals": 0,
+        "awayTeamPenaltyGoals": 0,
+        "matchPlayers": [
+            {
+                "playerName": "ANTCZAK Kajetan",
+                "goals": 0
+            },
+            {
+                "playerName": "AUGUSIAK Filip",
+                "goals": 0
+            },
+            {
+                "playerName": "BERGER Gabriel",
+                "goals": 0
+            },
+            {
+                 "playerName": "BIAŁKOWSKI Michał",
+                 "goals": 0
+            },
+            {
+                 "playerName": "BORDYN Michał",
+                 "goals": 0
+            },
+            {
+                "playerName": "CHYBIŃSKI Patryk",
+                "goals": 1
+            },
+            {
+                "playerName": "GAWROŃSKI Dariusz",
+                "goals": 0
+            },
+            {
+                "playerName": "GÓZIOR Damian",
+                "goals": 4
+            },
+            {
+                "playerName": "GRUSZCZYŃSKI Wiktor",
+                "goals": 9
+            },
+            {
+                "playerName": "KACZMAREK Andrzej",
+                "goals": 4
+            },
+            {
+                "playerName": "KNEREK Hubert",
+                "goals": 2
+            },
+            {
+                "playerName": "KORONA Jakub",
+                "goals": 2
+            },
+            {
+                "playerName": "KORZENIEWSKI Michał",
+                "goals": 1
+            },
+            {
+                "playerName": "MATUSZEWSKI Maciej",
+                "goals": 0
+            },
+            {
+                "playerName": "MODERSKI Mikołaj",
+                "goals": 0
+            },
+            {
+                "playerName": "MOSZCZYŃSKI Kacper",
+                "goals": 10
+            },
+            {
+                "playerName": "RELIGA Olaf",
+                "goals": 1
+            },
+            {
+                "playerName": "SOSNOWSKI Piotr",
+                "goals": 0
+            },
+            {
+                "playerName": "TRZEBUCHOWSKI Bartosz",
+                "goals": 0
+            },
+            {
+                "playerName": "ZIÓŁKOWSKI Tomasz",
+                "goals": 0
+            },
+            {
+                "playerName": "BRANICKI Mikołaj",
+                "goals": 3
+            },
+            {
+                "playerName": "CHEŁKOWSKI Oliwier",
+                "goals": 4
+            },
+            {
+                "playerName": "GOŚCIAK Łukasz",
+                "goals": 1
+            },
+            {
+                 "playerName": "JANISZEWSKI Paweł",
+                 "goals": 0
+            },
+            {
+                 "playerName": "JANOWSKI Kacper",
+                 "goals": 0
+            },
+            {
+                "playerName": "JASTRZĘBSKI Paweł",
+                "goals": 0
+            },
+            {
+                "playerName": "JUSZCZYŃSKI Dominik",
+                "goals": 0
+            },
+            {
+                "playerName": "KOGOWSKI Jan",
+                "goals": 0
+            },
+            {
+                "playerName": "KOWALSKI Filip",
+                "goals": 0
+            },
+            {
+                "playerName": "KOWALSKI Kamil",
+                "goals": 2
+            },
+            {
+                "playerName": "KOZŁOWSKI Maciej",
+                "goals": 0
+            },
+            {
+                "playerName": "KRĘŻEL Karol",
+                "goals": 0
+            },
+            {
+                "playerName": "KUBIK Kacper",
+                "goals": 4
+            },
+            {
+                "playerName": "MAKSYMIUK Kacper",
+                "goals": 0
+            },
+            {
+                "playerName": "MILOCH Piotr",
+                "goals": 0
+            },
+            {
+                "playerName": "PARADOWSKI Adrian",
+                "goals": 1
+            },
+            {
+                "playerName": "PEYCELON Timothee",
+                "goals": 0
+            },
+            {
+                "playerName": "RAK Nikodem",
+                "goals": 0
+            },
+            {
+                "playerName": "ROGOWSKI Radosław",
+                "goals": 0
+            },
+            {
+                "playerName": "RZYMKOWSKI Przemysław",
+                "goals": 5
+            },
+            {
+                "playerName": "SIEDLECKI Wiktor",
+                "goals": 0
+            },
+            {
+                "playerName": "SOLECKI Daniel",
+                "goals": 0
+            },
+            {
+                "playerName": "SZABŁOWSKI Patryk",
+                "goals": 0
+            },
+            {
+                "playerName": "TACZKOWSKI Marcel",
+                "goals": 0
+            },
+            {
+                "playerName": "TRZMIELEWSKI Igor",
+                "goals": 0
+            },
+            {
+                "playerName": "WIŚNIEWSKI Jakub",
+                "goals": 0
+            },
+            {
+                "playerName": "ZUBOWICZ Łukasz",
+                "goals": 1
+            }
+        ]
+    }

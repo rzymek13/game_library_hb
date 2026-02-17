@@ -35,16 +35,21 @@ public class MatchPlayerService {
     }
 
 
-    public Set<MatchPlayerDto> getAllScorers() {
+    public List<MatchPlayerDto> getAllScorers() {
         return matchPlayerRepository.findAll().stream()
                 .collect(Collectors.groupingBy(MatchPlayer::getPlayer))
                 .entrySet().stream()
-                .map(entry -> new MatchPlayerDto(entry.getKey().getName(), entry.getValue().stream().mapToInt(MatchPlayer::getGoals).sum()))
-                .collect(Collectors.toSet());
+                .map(entry -> new MatchPlayerDto(entry.getKey().getName(), entry.getValue().stream().mapToInt(MatchPlayer::getGoals).sum(), entry.getKey().getTeam().getName()))
+                .sorted((MatchPlayerDto o1, MatchPlayerDto o2) -> o2.goals() - o1.goals())
+                .collect(Collectors.toList());
     }
 
     public MatchPlayer save(MatchPlayer matchPlayer) {
         return matchPlayerRepository.save(matchPlayer);
+    }
+
+    public void deleteMatchPlayer(Long matchId) {
+        matchPlayerRepository.deleteById(matchId);
     }
 
 

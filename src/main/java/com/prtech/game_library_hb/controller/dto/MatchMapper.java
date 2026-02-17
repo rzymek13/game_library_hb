@@ -13,7 +13,8 @@ public class MatchMapper {
     public static MatchPlayerDto mapPlayerMatchToDto(MatchPlayer matchPlayer) {
         return new MatchPlayerDto(
                 matchPlayer.getPlayer().getName(),
-                matchPlayer.getGoals());
+                matchPlayer.getGoals(),
+                matchPlayer.getPlayer().getTeam().getName());
     }
     public static List<MatchPlayerDto> mapPlayersMatchToDtos(List<MatchPlayer> matchPlayers) {
         return matchPlayers.stream()
