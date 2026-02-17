@@ -69,22 +69,3 @@ To run only the Cucumber scenarios:
 mvn test -Dtest=CucumberTestRunner
 ```
 
-### Custom Test Suites
-
-You can run specific test suites using the custom runner:
-```bash
-mvn test -Dtest=CustomTestRunSuite
-```
-
-## Project Structure
-
-*   `src/main/java`: Source code for Controllers, Services, Models, and Repositories.
-*   `src/test/java`: Test code including:
-    *   `framework/api`: Base test configuration and helpers.
-    *   `tests/api`: Integration tests for Controllers.
-    *   `cucumber`: Cucumber configuration, steps, and runners.
-*   `src/test/resources/features`: Gherkin feature files for BDD.
-
-## License
-
-This project is licensed under the MIT License.
