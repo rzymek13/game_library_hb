@@ -20,7 +20,6 @@ public class MatchStepDefinitions {
     @Autowired
     private TestContext testContext;
 
-    // "A player named {string} exists in team {string}" is now in PlayerStepDefinitions
 
     @When("I create a match between {string} and {string} with score {int}-{int}")
     public void i_create_a_match_between_and_with_score(String homeTeam, String awayTeam, int homeGoals, int awayGoals) {
@@ -30,10 +29,10 @@ public class MatchStepDefinitions {
                 new TeamNameDto(awayTeam),
                 homeGoals,
                 awayGoals,
-                1, // Result (1 = Home Win)
+                1,
                 0,
                 0,
-                Set.of() // No scorers yet
+                Set.of()
         );
         testContext.setPayload(matchDto);
     }
@@ -121,7 +120,7 @@ public class MatchStepDefinitions {
                 .post("/handball/matches");
         
         int matchId = response.then().extract().path("id");
-        testContext.setPayload(matchId); // Store matchId
+        testContext.setPayload(matchId);
     }
 
     @When("I delete the match")

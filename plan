@@ -1,0 +1,21 @@
+Team:
+1.get all teams
+2.create team
+3.update team
+4.delete team
+
+popraw te testy
+
+Player:
+1.get all players
+2.create player
+3.update player
+4.delete player
+
+Matches:
+1.get all matches
+2.create match
+4.delete match
+
+logowanie w serwisie.
+przy tworzeniu obiektow zapisywac do pola zeby mozna bylo id wyciganac w serwisie

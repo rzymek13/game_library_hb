@@ -7,6 +7,9 @@ import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+import java.util.Map;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -29,7 +32,7 @@ public class PlayerStepDefinitions {
         
         testContext.setResponse(response);
         
-        // If successful, store ID
+        // Store ID only if successful
         if (response.statusCode() == 200) {
             int playerId = response.then().extract().path("id");
             testContext.setPayload(playerId);
@@ -51,7 +54,19 @@ public class PlayerStepDefinitions {
 
     @When("I request all players for team {string}")
     public void i_request_all_players_for_team(String teamName) {
-        int teamId = (int) testContext.getPayload();
+        // Instead of relying on payload, find team ID by name
+        Response teamsResponse = given()
+                .spec(testContext.getRequestSpec())
+        .when()
+                .get("/handball/teams");
+        
+        List<Map<String, Object>> teams = teamsResponse.jsonPath().getList("$");
+        Integer teamId = teams.stream()
+                .filter(t -> teamName.equals(t.get("name")))
+                .map(t -> (Integer) t.get("id"))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Team not found: " + teamName));
+
         Response response = given()
                 .spec(testContext.getRequestSpec())
                 .pathParam("id", teamId)
