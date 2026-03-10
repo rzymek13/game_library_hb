@@ -57,7 +57,7 @@ public class TeamStepDefinitions {
 
     @Then("The team {string} should exist in the system")
     public void the_team_should_exist_in_the_system(String teamName) {
-        testContext.getResponse().then().statusCode(200);
+        testContext.getResponse().then().statusCode(201);
         
         int teamId = testContext.getResponse().then().extract().path("id");
         
