@@ -1,5 +1,6 @@
 package com.prtech.game_library_hb.cucumber;
 
+import com.prtech.game_library_hb.framework.config.Configuration;
 import io.cucumber.java.Before;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -15,6 +16,10 @@ public class CucumberHooks {
     @Autowired
     private TestContext testContext;
 
+    private static final String USERNAME = Configuration.getApiUsername();
+    private static final String PASSWORD = Configuration.getApiPassword();
+
+
     @Before
     public void setup() {
         RestAssured.baseURI = "http://localhost";
@@ -23,8 +28,7 @@ public class CucumberHooks {
         testContext.setRequestSpec(new RequestSpecBuilder()
                 .setBaseUri("http://localhost")
                 .setPort(port)
-                .setAuth(RestAssured.basic("user", "password"))
-                .log(LogDetail.ALL)
+                .setAuth(RestAssured.basic(USERNAME, PASSWORD))
                 .build());
     }
 }

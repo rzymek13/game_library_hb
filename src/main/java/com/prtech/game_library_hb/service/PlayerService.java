@@ -6,7 +6,6 @@ import com.prtech.game_library_hb.controller.dto.PlayerDto;
 import com.prtech.game_library_hb.repository.PlayerRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -71,3 +70,5 @@ public class PlayerService {
         playerRepository.deleteAll();
     }
 }
+//todo napraw testy
+//todo raport i cicd

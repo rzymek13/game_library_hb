@@ -1,8 +1,8 @@
 Feature: Handball League Match Management
 
   Scenario: Create a match and verify result
-    Given A team named "Home Team" exists
-    And A team named "Away Team" exists
+    Given Create test team with name "Home Team"
+    And Create test team with name "Away Team"
     And A player named "Scorer One" exists in team "Home Team"
     When I create a match between "Home Team" and "Away Team" with score 5-0
     And Player "Scorer One" scores 5 goals
@@ -11,8 +11,8 @@ Feature: Handball League Match Management
     And The away team should have 0 goals
 
   Scenario: Verify top scorers
-    Given A team named "Scorer Team" exists
-    And A team named "Opponent Team" exists
+    Given Create test team with name "Scorer Team"
+    And Create test team with name "Opponent Team"
     And A player named "Top Scorer" exists in team "Scorer Team"
     When I create a match between "Scorer Team" and "Opponent Team" with score 10-0
     And Player "Top Scorer" scores 10 goals
