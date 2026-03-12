@@ -1,16 +1,9 @@
 trigger:
   - master
 
-# Używamy agenta hostowanego przez Microsoft. Działa to, ponieważ projekt jest teraz prywatny.
 pool:
   name: Default
 steps:
-- script: |
-    java -version
-    mvn -version
-  displayName: 'Sprawdź wersje Java i Maven (debug)'
-
-
 - task: Maven@4
   displayName: 'Build and Run Cucumber Tests'
   inputs:
@@ -43,11 +36,11 @@ steps:
 
   # Publikowanie jako artefakt nie jest już konieczne, gdy używasz PublishAllureReport@2,
   # ponieważ to zadanie samo integruje raport z interfejsem Azure DevOps.
-  # Możesz odkomentować, jeśli nadal chcesz mieć pliki raportu jako artefakt do pobrania.
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Allure Report Artifact'
-  condition: succeededOrFailed()
-  inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)' # Ścieżka może wymagać dostosowania
-    artifactName: 'AllureReport'
-    publishLocation: 'Container'
+#   # Możesz odkomentować, jeśli nadal chcesz mieć pliki raportu jako artefakt do pobrania.
+# - task: PublishBuildArtifacts@1
+#   displayName: 'Publish Allure Report Artifact'
+#   condition: succeededOrFailed()
+#   inputs:
+#     pathToPublish: '$(Build.ArtifactStagingDirectory)' # Ścieżka może wymagać dostosowania
+#     artifactName: 'AllureReport'
+#     publishLocation: 'Container'
