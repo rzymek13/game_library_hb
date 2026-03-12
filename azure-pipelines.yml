@@ -33,7 +33,7 @@ steps:
   # Upewnij się, że masz zainstalowane rozszerzenie Allure Report w Azure DevOps.
   # Jeśli nadal występuje błąd "Task not found", sprawdź dokładną nazwę zadania w Marketplace.
   # Często używane nazwy to: 'AllureGenerate@1', 'AllureReport@1'.
-  - task: AllureGenerate@1
+  - task: PublishAllureReport@2
     displayName: 'Generate Allure Report'
     condition: succeededOrFailed()
     inputs:

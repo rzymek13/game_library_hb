@@ -9,7 +9,8 @@ A Spring Boot application for managing a handball league, including teams, playe
 *   **Match Recording**: Record match results and player statistics.
 *   **Standings**: Automatically calculated league standings based on match results.
 *   **REST API**: Full RESTful API for integration.
-*   **Testing**: Comprehensive test suite including Unit Tests, Integration Tests (RestAssured), and BDD scenarios (Cucumber).
+*   **Testing**: Comprehensive test suite including Unit Tests, Integration Tests (RestAssured), and BDD scenarios (Cucumber). (in progress)
+*   **CICD with raporting(in progress)
 
 ## Tech Stack
 
