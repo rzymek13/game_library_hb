@@ -3,7 +3,7 @@ trigger:
 
 # Używamy agenta hostowanego przez Microsoft. Działa to, ponieważ projekt jest teraz prywatny.
 pool:
-  vmImage: 'ubuntu-latest'
+  name: Default
 
 steps:
   - task: JavaToolInstaller@0
