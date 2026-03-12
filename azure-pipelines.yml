@@ -12,7 +12,7 @@ steps:
     options: '-Dmaven.test.failure.ignore=true'
 
 - script: 
-    mvn allure generate --single-file allure-results
+    allure generate target/allure-results --clean --single-file -o target/allure-single.html
 
 
 
