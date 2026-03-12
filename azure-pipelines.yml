@@ -42,6 +42,6 @@ steps:
   displayName: 'Publish Allure Report Artifact'
   condition: succeededOrFailed()
   inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)/allure-report' # Ścieżka może wymagać dostosowania
+    pathToPublish: '$(Build.ArtifactStagingDirectory)' # Ścieżka może wymagać dostosowania
     artifactName: 'AllureReport'
     publishLocation: 'Container'
