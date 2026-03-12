@@ -1,5 +1,5 @@
 trigger:
-  - main
+  - master
 
 pool:
   name: 'Default' # Zmieniono na 'Default' dla self-hosted agenta.
