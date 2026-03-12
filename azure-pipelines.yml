@@ -10,14 +10,6 @@ steps:
     mvn -version
   displayName: 'Sprawdź wersje Java i Maven (debug)'
 
-# steps:
-# - task: JavaToolInstaller@0
-#   displayName: 'Install Java 21'
-#   inputs:
-#     versionSpec: '21'
-#     jdkArchitectureOption: 'x64'
-#         # 'PreInstalled' jest właściwą opcją dla agentów hostowanych przez Microsoft
-#     jdkSourceOption: 'PreInstalled'
 
 - task: Maven@4
   displayName: 'Build and Run Cucumber Tests'
@@ -46,10 +38,10 @@ steps:
   # Publikowanie jako artefakt nie jest już konieczne, gdy używasz PublishAllureReport@2,
   # ponieważ to zadanie samo integruje raport z interfejsem Azure DevOps.
   # Możesz odkomentować, jeśli nadal chcesz mieć pliki raportu jako artefakt do pobrania.
-  # - task: PublishBuildArtifacts@1
-  #   displayName: 'Publish Allure Report Artifact'
-  #   condition: succeededOrFailed()
-  #   inputs:
-  #     pathToPublish: '$(Build.ArtifactStagingDirectory)/allure-report' # Ścieżka może wymagać dostosowania
-  #     artifactName: 'AllureReport'
-  #     publishLocation: 'Container'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Allure Report Artifact'
+  condition: succeededOrFailed()
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)/allure-report' # Ścieżka może wymagać dostosowania
+    artifactName: 'AllureReport'
+    publishLocation: 'Container'
