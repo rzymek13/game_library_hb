@@ -4,37 +4,42 @@ trigger:
 # Używamy agenta hostowanego przez Microsoft. Działa to, ponieważ projekt jest teraz prywatny.
 pool:
   name: Default
-
 steps:
-  - task: JavaToolInstaller@0
-    displayName: 'Install Java 21'
-    inputs:
-      versionSpec: '21'
-      jdkArchitectureOption: 'x64'
-      # 'PreInstalled' jest właściwą opcją dla agentów hostowanych przez Microsoft
-      jdkSourceOption: 'PreInstalled'
+- script: |
+    java -version
+    mvn -version
+  displayName: 'Sprawdź wersje Java i Maven (debug)'
 
-  - task: Maven@4
-    displayName: 'Build and Run Cucumber Tests'
-    inputs:
-      mavenPomFile: 'pom.xml'
-      goals: 'clean verify -Dtest=CucumberTestRunner'
-      options: '-Dmaven.test.failure.ignore=true'
+# steps:
+#   - task: JavaToolInstaller@0
+#     displayName: 'Install Java 21'
+#     inputs:
+#       versionSpec: '21'
+#       jdkArchitectureOption: 'x64'
+#       # 'PreInstalled' jest właściwą opcją dla agentów hostowanych przez Microsoft
+#       jdkSourceOption: 'PreInstalled'
 
-  - task: PublishTestResults@2
-    displayName: 'Publish JUnit Test Results'
-    condition: succeededOrFailed()
-    inputs:
-      testResultsFormat: 'JUnit'
-      testResultsFiles: '**/surefire-reports/TEST-*.xml'
-      mergeTestResults: true
-      failTaskOnFailedTests: false
+  # - task: Maven@4
+  #   displayName: 'Build and Run Cucumber Tests'
+  #   inputs:
+  #     mavenPomFile: 'pom.xml'
+  #     goals: 'clean verify -Dtest=CucumberTestRunner'
+  #     options: '-Dmaven.test.failure.ignore=true'
 
-  - task: PublishAllureReport@2
-    displayName: 'Publish Allure Report'
-    condition: succeededOrFailed()
-    inputs:
-      allureResults: '$(System.DefaultWorkingDirectory)/target/allure-results'
+  # - task: PublishTestResults@2
+  #   displayName: 'Publish JUnit Test Results'
+  #   condition: succeededOrFailed()
+  #   inputs:
+  #     testResultsFormat: 'JUnit'
+  #     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+  #     mergeTestResults: true
+  #     failTaskOnFailedTests: false
+
+  # - task: PublishAllureReport@2
+  #   displayName: 'Publish Allure Report'
+  #   condition: succeededOrFailed()
+  #   inputs:
+  #     allureResults: '$(System.DefaultWorkingDirectory)/target/allure-results'
       # Nie ma potrzeby definiowania targetDir, zadanie samo zarządza raportem
       # i publikuje go w zakładce 'Allure Report' w potoku.
 
