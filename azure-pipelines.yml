@@ -1,8 +1,10 @@
 trigger:
-  - master 
+  - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: 'Default' # Zmieniono na 'Default' dla self-hosted agenta.
+  # Jeśli otrzymasz grant od Microsoftu, przywróć:
+  # vmImage: 'ubuntu-latest'
 
 steps:
   - task: JavaToolInstaller@0
@@ -17,30 +19,27 @@ steps:
       mavenPomFile: 'pom.xml'
       goals: 'clean verify -Dtest=CucumberTestRunner'
       options: '-Dmaven.test.failure.ignore=true'
-    # To zadanie uruchomi testy i wygeneruje surowe wyniki Allure w `target/allure-results`
 
   - task: PublishTestResults@2
     displayName: 'Publish JUnit Test Results'
-    condition: succeededOrFailed() # Uruchom nawet jeśli poprzednie zadanie zawiedzie
+    condition: succeededOrFailed()
     inputs:
       testResultsFormat: 'JUnit'
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       mergeTestResults: true
       failTaskOnFailedTests: false
 
-  # --- Weryfikacja zadania Allure ---
-  # Błąd "task not found" mimo zainstalowanego rozszerzenia często oznacza,
-  # że zainstalowano inne rozszerzenie Allure, które używa innej nazwy zadania.
-  # Najczęstszą alternatywą dla 'AllureReport@1' jest 'AllureGenerate@1'.
-  # Spróbuj użyć poniższego zadania. Jeśli to również zawiedzie,
-  # sprawdź nazwę zadania w ustawieniach organizacji Azure DevOps -> Extensions -> [Twoje rozszerzenie Allure].
+  # --- Generowanie Raportu Allure ---
+  # Upewnij się, że masz zainstalowane rozszerzenie Allure Report w Azure DevOps.
+  # Jeśli nadal występuje błąd "Task not found", sprawdź dokładną nazwę zadania w Marketplace.
+  # Często używane nazwy to: 'AllureGenerate@1', 'AllureReport@1'.
   - task: PublishAllureReport@2
     displayName: 'Generate Allure Report'
-    condition: succeededOrFailed() # Uruchom to zadanie, aby zawsze generować raport
+    condition: succeededOrFailed()
     inputs:
       resultsDir: '$(System.DefaultWorkingDirectory)/target/allure-results'
-      reportDir: '$(Build.ArtifactStagingDirectory)/allure-report'
-      cleanReportDir: true
+      targetDir: '$(Build.ArtifactStagingDirectory)/allure-report' # Poprawiono 'reportDir' na 'targetDir' (typowe dla AllureGenerate)
+      cleanTargetDir: true # Poprawiono 'cleanReportDir' na 'cleanTargetDir'
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Allure Report Artifact'
