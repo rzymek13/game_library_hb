@@ -1,17 +1,19 @@
 trigger:
-  - main
+  - master
 
 pool:
-  name: 'Default' # Zmieniono na 'Default' dla self-hosted agenta.
-  # Jeśli otrzymasz grant od Microsoftu, przywróć:
-  # vmImage: 'ubuntu-latest'
+  name: 'Default'
 
 steps:
   - task: JavaToolInstaller@0
     inputs:
       versionSpec: '21'
       jdkArchitectureOption: 'x64'
-      jdkSourceOption: 'PreInstalled'
+      jdkSourceOption: 'FromURL' # Zmieniono na FromURL, aby pobrać Javę 21
+      # Możesz dodać również:
+      # jdkUrl: 'https://download.oracle.com/java/21/latest/jdk-21_windows-x64_bin.zip' # Przykładowy URL dla Windows, dostosuj do OS agenta
+      # destinationDirectory: '$(Agent.ToolsDirectory)/jdk21' # Opcjonalnie: gdzie zainstalować
+    displayName: 'Install Java 21'
 
   - task: Maven@4
     displayName: 'Build and Run Cucumber Tests'
@@ -29,17 +31,13 @@ steps:
       mergeTestResults: true
       failTaskOnFailedTests: false
 
-  # --- Generowanie Raportu Allure ---
-  # Upewnij się, że masz zainstalowane rozszerzenie Allure Report w Azure DevOps.
-  # Jeśli nadal występuje błąd "Task not found", sprawdź dokładną nazwę zadania w Marketplace.
-  # Często używane nazwy to: 'AllureGenerate@1', 'AllureReport@1'.
   - task: PublishAllureReport@2
     displayName: 'Generate Allure Report'
     condition: succeededOrFailed()
     inputs:
       resultsDir: '$(System.DefaultWorkingDirectory)/target/allure-results'
-      targetDir: '$(Build.ArtifactStagingDirectory)/allure-report' # Poprawiono 'reportDir' na 'targetDir' (typowe dla AllureGenerate)
-      cleanTargetDir: true # Poprawiono 'cleanReportDir' na 'cleanTargetDir'
+      targetDir: '$(Build.ArtifactStagingDirectory)/allure-report'
+      cleanTargetDir: true
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Allure Report Artifact'
