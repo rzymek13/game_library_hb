@@ -18,20 +18,20 @@ steps:
     goals: 'clean verify -Dtest=CucumberTestRunner'
     options: '-Dmaven.test.failure.ignore=true'
 
-- task: PublishTestResults@2
-  displayName: 'Publish JUnit Test Results'
-  condition: succeededOrFailed()
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    mergeTestResults: true
-    failTaskOnFailedTests: false
+# - task: PublishTestResults@2
+#   displayName: 'Publish JUnit Test Results'
+#   condition: succeededOrFailed()
+#   inputs:
+#     testResultsFormat: 'JUnit'
+#     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+#     mergeTestResults: true
+#     failTaskOnFailedTests: false
 
-- task: PublishAllureReport@2
-  displayName: 'Publish Allure Report'
-  condition: succeededOrFailed()
-  inputs:
-    allureResults: '$(System.DefaultWorkingDirectory)/target/allure-results'
+# - task: PublishAllureReport@2
+#   displayName: 'Publish Allure Report'
+#   condition: succeededOrFailed()
+#   inputs:
+#     allureResults: '$(System.DefaultWorkingDirectory)/target/allure-results'
     # Nie ma potrzeby definiowania targetDir, zadanie samo zarządza raportem
     # i publikuje go w zakładce 'Allure Report' w potoku.
 
