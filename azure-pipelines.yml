@@ -11,13 +11,13 @@ steps:
   displayName: 'Sprawdź wersje Java i Maven (debug)'
 
 # steps:
-- task: JavaToolInstaller@0
-  displayName: 'Install Java 21'
-  inputs:
-    versionSpec: '21'
-    jdkArchitectureOption: 'x64'
-        # 'PreInstalled' jest właściwą opcją dla agentów hostowanych przez Microsoft
-    jdkSourceOption: 'PreInstalled'
+# - task: JavaToolInstaller@0
+#   displayName: 'Install Java 21'
+#   inputs:
+#     versionSpec: '21'
+#     jdkArchitectureOption: 'x64'
+#         # 'PreInstalled' jest właściwą opcją dla agentów hostowanych przez Microsoft
+#     jdkSourceOption: 'PreInstalled'
 
 - task: Maven@4
   displayName: 'Build and Run Cucumber Tests'
