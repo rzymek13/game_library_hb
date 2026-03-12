@@ -1,19 +1,18 @@
 trigger:
-  - master
+  - master # Przywrócono gałąź master
 
 pool:
   name: 'Default'
 
 steps:
   - task: JavaToolInstaller@0
+    displayName: 'Install Java 21'
     inputs:
       versionSpec: '21'
       jdkArchitectureOption: 'x64'
-      jdkSourceOption: 'FromURL' # Zmieniono na FromURL, aby pobrać Javę 21
-      # Możesz dodać również:
-      # jdkUrl: 'https://download.oracle.com/java/21/latest/jdk-21_windows-x64_bin.zip' # Przykładowy URL dla Windows, dostosuj do OS agenta
-      # destinationDirectory: '$(Agent.ToolsDirectory)/jdk21' # Opcjonalnie: gdzie zainstalować
-    displayName: 'Install Java 21'
+      jdkSourceOption: 'FromURL'
+      jdkURL: 'https://download.oracle.com/java/21/latest/jdk-21_windows-x64_bin.zip'
+    condition: succeededOrFailed()
 
   - task: Maven@4
     displayName: 'Build and Run Cucumber Tests'
@@ -21,28 +20,29 @@ steps:
       mavenPomFile: 'pom.xml'
       goals: 'clean verify -Dtest=CucumberTestRunner'
       options: '-Dmaven.test.failure.ignore=true'
+    condition: succeededOrFailed()
 
   - task: PublishTestResults@2
     displayName: 'Publish JUnit Test Results'
-    condition: succeededOrFailed()
     inputs:
       testResultsFormat: 'JUnit'
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       mergeTestResults: true
       failTaskOnFailedTests: false
-
-  - task: PublishAllureReport@2
-    displayName: 'Generate Allure Report'
     condition: succeededOrFailed()
+
+  - task: PublishAllureReport@2 # Używam PublishAllureReport@2
+    displayName: 'Publish Allure Report'
     inputs:
-      resultsDir: '$(System.DefaultWorkingDirectory)/target/allure-results'
+      allureResults: '$(System.DefaultWorkingDirectory)/target/allure-results'
       targetDir: '$(Build.ArtifactStagingDirectory)/allure-report'
       cleanTargetDir: true
+    condition: succeededOrFailed()
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Allure Report Artifact'
-    condition: succeededOrFailed()
     inputs:
       pathToPublish: '$(Build.ArtifactStagingDirectory)/allure-report'
       artifactName: 'AllureReport'
       publishLocation: 'Container'
+    condition: succeededOrFailed() # Dodano warunek, aby zawsze publikować, nawet jeśli testy zawiodą
