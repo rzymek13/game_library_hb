@@ -18,6 +18,12 @@ steps:
     goals: 'clean verify -Dtest=CucumberTestRunner'
     options: '-Dmaven.test.failure.ignore=true'
 
+- script: 
+    mvn allure:report
+
+
+
+
 # - task: PublishTestResults@2
 #   displayName: 'Publish JUnit Test Results'
 #   condition: succeededOrFailed()
