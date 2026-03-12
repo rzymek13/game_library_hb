@@ -1,0 +1,57 @@
+trigger:
+  - master 
+
+pool:
+  vmImage: 'ubuntu-latest' 
+
+steps:
+  - task: JavaToolInstaller@0
+    inputs:
+      versionSpec: '21' 
+      jdkArchitectureOption: 'x64'
+      jdkSourceOption: 'PreInstalled'
+
+  - task: Maven@4
+    displayName: 'Build and Run Cucumber Tests'
+    inputs:
+      mavenPomFile: 'pom.xml'
+      goals: 'clean verify -Dtest=CucumberTestRunner' 
+      options: '-Dmaven.test.failure.ignore=true' 
+
+  - task: PublishTestResults@2
+    displayName: 'Publish JUnit Test Results'
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/surefire-reports/TEST-*.xml' 
+      mergeTestResults: true
+      failTaskOnFailedTests: false 
+
+  - task: AllureReport@1
+    displayName: 'Generate Allure Report'
+    inputs:
+      allureResults: '$(System.DefaultWorkingDirectory)/target/allure-results'
+      allureVersion: '2.27.0' 
+      allureReport: '$(System.DefaultWorkingDirectory)/target/site/allure-maven-plugin'
+      allureHistory: '$(System.DefaultWorkingDirectory)/allure-history' 
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Allure Report Artifact'
+    inputs:
+      pathToPublish: '$(System.DefaultWorkingDirectory)/target/site/allure-maven-plugin'
+      artifactName: 'AllureReport'
+      publishLocation: 'Container'
+
+# Opcja 2: Manualne generowanie raportu Allure za pomocą Mavena (alternatywa, jeśli nie chcesz rozszerzenia)
+# - task: Maven@4
+#   displayName: 'Generate Allure Report (Maven)'
+#   inputs:
+#     mavenPomFile: 'pom.xml'
+#     goals: 'allure:report'
+#     options: '-Dallure.results.directory=$(System.DefaultWorkingDirectory)/target/allure-results -Dallure.report.directory=$(System.DefaultWorkingDirectory)/target/site/allure-maven-plugin'
+
+# - task: PublishBuildArtifacts@1
+#   displayName: 'Publish Allure Report Artifact'
+#   inputs:
+#     pathToPublish: '$(System.DefaultWorkingDirectory)/target/site/allure-maven-plugin'
+#     artifactName: 'AllureReport'
+#     publishLocation: 'Container'
