@@ -1,8 +1,9 @@
 trigger:
-  - master # Przywrócono gałąź master
+  - master
 
+# Używamy agenta hostowanego przez Microsoft. Działa to, ponieważ projekt jest teraz prywatny.
 pool:
-  name: 'Default'
+  vmImage: 'ubuntu-latest'
 
 steps:
   - task: JavaToolInstaller@0
@@ -10,9 +11,8 @@ steps:
     inputs:
       versionSpec: '21'
       jdkArchitectureOption: 'x64'
-      jdkSourceOption: 'FromURL'
-      jdkURL: 'https://download.oracle.com/java/21/latest/jdk-21_windows-x64_bin.zip'
-    condition: succeededOrFailed()
+      # 'PreInstalled' jest właściwą opcją dla agentów hostowanych przez Microsoft
+      jdkSourceOption: 'PreInstalled'
 
   - task: Maven@4
     displayName: 'Build and Run Cucumber Tests'
@@ -20,29 +20,31 @@ steps:
       mavenPomFile: 'pom.xml'
       goals: 'clean verify -Dtest=CucumberTestRunner'
       options: '-Dmaven.test.failure.ignore=true'
-    condition: succeededOrFailed()
 
   - task: PublishTestResults@2
     displayName: 'Publish JUnit Test Results'
+    condition: succeededOrFailed()
     inputs:
       testResultsFormat: 'JUnit'
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       mergeTestResults: true
       failTaskOnFailedTests: false
-    condition: succeededOrFailed()
 
-  - task: PublishAllureReport@2 # Używam PublishAllureReport@2
+  - task: PublishAllureReport@2
     displayName: 'Publish Allure Report'
+    condition: succeededOrFailed()
     inputs:
       allureResults: '$(System.DefaultWorkingDirectory)/target/allure-results'
-      targetDir: '$(Build.ArtifactStagingDirectory)/allure-report'
-      cleanTargetDir: true
-    condition: succeededOrFailed()
+      # Nie ma potrzeby definiowania targetDir, zadanie samo zarządza raportem
+      # i publikuje go w zakładce 'Allure Report' w potoku.
 
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Allure Report Artifact'
-    inputs:
-      pathToPublish: '$(Build.ArtifactStagingDirectory)/allure-report'
-      artifactName: 'AllureReport'
-      publishLocation: 'Container'
-    condition: succeededOrFailed() # Dodano warunek, aby zawsze publikować, nawet jeśli testy zawiodą
+  # Publikowanie jako artefakt nie jest już konieczne, gdy używasz PublishAllureReport@2,
+  # ponieważ to zadanie samo integruje raport z interfejsem Azure DevOps.
+  # Możesz odkomentować, jeśli nadal chcesz mieć pliki raportu jako artefakt do pobrania.
+  # - task: PublishBuildArtifacts@1
+  #   displayName: 'Publish Allure Report Artifact'
+  #   condition: succeededOrFailed()
+  #   inputs:
+  #     pathToPublish: '$(Build.ArtifactStagingDirectory)/allure-report' # Ścieżka może wymagać dostosowania
+  #     artifactName: 'AllureReport'
+  #     publishLocation: 'Container'
