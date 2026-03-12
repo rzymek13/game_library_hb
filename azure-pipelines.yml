@@ -2,12 +2,12 @@ trigger:
   - master 
 
 pool:
-  vmImage: 'ubuntu-latest' 
+  vmImage: 'ubuntu-latest'
 
 steps:
   - task: JavaToolInstaller@0
     inputs:
-      versionSpec: '21' 
+      versionSpec: '21'
       jdkArchitectureOption: 'x64'
       jdkSourceOption: 'PreInstalled'
 
@@ -15,43 +15,37 @@ steps:
     displayName: 'Build and Run Cucumber Tests'
     inputs:
       mavenPomFile: 'pom.xml'
-      goals: 'clean verify -Dtest=CucumberTestRunner' 
-      options: '-Dmaven.test.failure.ignore=true' 
+      goals: 'clean verify -Dtest=CucumberTestRunner'
+      options: '-Dmaven.test.failure.ignore=true'
+    # To zadanie uruchomi testy i wygeneruje surowe wyniki Allure w `target/allure-results`
 
   - task: PublishTestResults@2
     displayName: 'Publish JUnit Test Results'
+    condition: succeededOrFailed() # Uruchom nawet jeśli poprzednie zadanie zawiedzie
     inputs:
       testResultsFormat: 'JUnit'
-      testResultsFiles: '**/surefire-reports/TEST-*.xml' 
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
       mergeTestResults: true
-      failTaskOnFailedTests: false 
+      failTaskOnFailedTests: false
 
-  - task: AllureReport@1
+  # --- Weryfikacja zadania Allure ---
+  # Błąd "task not found" mimo zainstalowanego rozszerzenia często oznacza,
+  # że zainstalowano inne rozszerzenie Allure, które używa innej nazwy zadania.
+  # Najczęstszą alternatywą dla 'AllureReport@1' jest 'AllureGenerate@1'.
+  # Spróbuj użyć poniższego zadania. Jeśli to również zawiedzie,
+  # sprawdź nazwę zadania w ustawieniach organizacji Azure DevOps -> Extensions -> [Twoje rozszerzenie Allure].
+  - task: PublishAllureReport@2
     displayName: 'Generate Allure Report'
+    condition: succeededOrFailed() # Uruchom to zadanie, aby zawsze generować raport
     inputs:
-      allureResults: '$(System.DefaultWorkingDirectory)/target/allure-results'
-      allureVersion: '2.27.0' 
-      allureReport: '$(System.DefaultWorkingDirectory)/target/site/allure-maven-plugin'
-      allureHistory: '$(System.DefaultWorkingDirectory)/allure-history' 
+      resultsDir: '$(System.DefaultWorkingDirectory)/target/allure-results'
+      reportDir: '$(Build.ArtifactStagingDirectory)/allure-report'
+      cleanReportDir: true
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Allure Report Artifact'
+    condition: succeededOrFailed()
     inputs:
-      pathToPublish: '$(System.DefaultWorkingDirectory)/target/site/allure-maven-plugin'
+      pathToPublish: '$(Build.ArtifactStagingDirectory)/allure-report'
       artifactName: 'AllureReport'
       publishLocation: 'Container'
-
-# Opcja 2: Manualne generowanie raportu Allure za pomocą Mavena (alternatywa, jeśli nie chcesz rozszerzenia)
-# - task: Maven@4
-#   displayName: 'Generate Allure Report (Maven)'
-#   inputs:
-#     mavenPomFile: 'pom.xml'
-#     goals: 'allure:report'
-#     options: '-Dallure.results.directory=$(System.DefaultWorkingDirectory)/target/allure-results -Dallure.report.directory=$(System.DefaultWorkingDirectory)/target/site/allure-maven-plugin'
-
-# - task: PublishBuildArtifacts@1
-#   displayName: 'Publish Allure Report Artifact'
-#   inputs:
-#     pathToPublish: '$(System.DefaultWorkingDirectory)/target/site/allure-maven-plugin'
-#     artifactName: 'AllureReport'
-#     publishLocation: 'Container'
