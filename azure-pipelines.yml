@@ -10,6 +10,8 @@ steps:
     mavenPomFile: 'pom.xml'
     goals: 'clean verify -Dtest=CucumberTestRunner'
     options: '-Dmaven.test.failure.ignore=true'
+- task: PublishAllureReport@2
+  displayName: "publish allure report"
 
 - script: 
     allure generate target/allure-results --clean --single-file -o target/allure-single.html
